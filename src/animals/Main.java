@@ -22,10 +22,7 @@ public class Main {
         animals.add(fox);
         animals.add(rabbit);
         Rabbit rabbit1 = new Rabbit();
-        for (Animal animal : animals) {
-            animal.eat(rabbit1);
-            System.out.println("---------");
-        }
+
     }
 
 }
