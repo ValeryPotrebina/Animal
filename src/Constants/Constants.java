@@ -62,7 +62,7 @@ public class Constants {
             public static final int FOX_WEIGHT = 8;
             public static final int BEAR_WEIGHT = 500;
             public static final int EAGLE_WEIGHT = 6;
-            public static final int RABBIT_WEIGHT = 2;
+            public static final float RABBIT_WEIGHT = 2.0f;
             public static final int HORSE_WEIGHT = 400;
             public static final float MOUSE_WEIGHT = 0.05f;
             public static final int GOAT_WEIGHT = 60;

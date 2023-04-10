@@ -1,19 +1,19 @@
 package animals;
 
 public class StateAnimal {
-    private final int weight;
+    private final float weight;
     private final float saturationKilos;
     private final int speed;
     private final int maxCountOnTheSameCell;
 
-    public StateAnimal(int weight, float saturationKilos, int speed, int maxCountOnTheSameCell) {
+    public StateAnimal(float weight, float saturationKilos, int speed, int maxCountOnTheSameCell) {
         this.weight = weight;
         this.saturationKilos = saturationKilos;
         this.speed = speed;
         this.maxCountOnTheSameCell = maxCountOnTheSameCell;
     }
 
-    public int getWeight() {
+    public float getWeight() {
         return weight;
     }
 

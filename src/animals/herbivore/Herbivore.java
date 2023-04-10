@@ -7,12 +7,12 @@ public class Herbivore extends Animal {
 
 
     public Herbivore() {
+         //ИСПРАВИТЬ
         type = TypeOfAnimal.type.HERBIVORE;
     }
 
     @Override
     public void eat(Animal animal) {
-        super.eat(animal);
         System.out.println("hrum, hrum");
     }
 
