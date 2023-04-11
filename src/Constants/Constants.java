@@ -80,7 +80,7 @@ public class Constants {
             public static final int EAGLE_COUNT = 7;
             public static final int RABBIT_COUNT = 15;
             public static final int HORSE_COUNT = 3;
-            public static final float MOUSE_COUNT = 30;
+            public static final int MOUSE_COUNT = 30;
             public static final int GOAT_COUNT = 15;
             public static final int SHEEP_COUNT = 15;
             public static final int DUCK_COUNT = 25;
@@ -92,11 +92,11 @@ public class Constants {
             public static final int BEAR_SPEED = 2;
             public static final int EAGLE_SPEED = 3;
             public static final int RABBIT_SPEED = 2;
-            public static final int HORSE_COUNT = 4;
-            public static final int MOUSE_COUNT = 2;
-            public static final int GOAT_COUNT = 3;
-            public static final int SHEEP_COUNT = 3;
-            public static final int DUCK_COUNT = 4;
+            public static final int HORSE_SPEED = 4;
+            public static final int MOUSE_SPEED = 2;
+            public static final int GOAT_SPEED = 3;
+            public static final int SHEEP_SPEED = 3;
+            public static final int DUCK_SPEED = 4;
         }
 
         public static final class SaturationKilos{
@@ -105,11 +105,11 @@ public class Constants {
             public static final int BEAR_SATURATION = 80;
             public static final int EAGLE_SATURATION = 1;
             public static final float RABBIT_SATURATION = 0.45f;
-            public static final int HORSE_COUNT = 60;
-            public static final float MOUSE_COUNT = 0.01f;
-            public static final int GOAT_COUNT = 10;
-            public static final int SHEEP_COUNT = 15;
-            public static final float DUCK_COUNT = 0.15f;
+            public static final int HORSE_SATURATION = 60;
+            public static final float MOUSE_SATURATION = 0.01f;
+            public static final int GOAT_SATURATION = 10;
+            public static final int SHEEP_SATURATION = 15;
+            public static final float DUCK_SATURATION = 0.15f;
         }
     }
 

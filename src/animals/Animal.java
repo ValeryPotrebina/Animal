@@ -9,6 +9,8 @@ import animals.hunger.HungerModule;
 import animals.predator.predators.Fox;
 import animals.predator.predators.Wolf;
 
+import java.util.Random;
+
 
 public abstract class Animal {
     protected HungerModule hungerModule;
@@ -27,8 +29,13 @@ public abstract class Animal {
     protected abstract void eat(Animal animal);
     protected abstract void sleep(Animal animal);
     protected abstract void breed(Animal animal);
-    protected abstract void dead();
+
+    public void dead() {
+        System.out.println("class Animal");
+    }
+
     protected abstract void move();
+
 
     public void setHungry(boolean hungry) {
         isHungry = hungry;

@@ -6,7 +6,7 @@ public class TypeOfAnimal {
         PREDATOR, HERBIVORE, PLANT
     }
     public enum species{
-        WOLF, FOX, BEAR, EAGLE, RABBIT
+        WOLF, FOX, BEAR, EAGLE, RABBIT, MOUSE
     }
 
 

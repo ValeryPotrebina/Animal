@@ -1,4 +1,4 @@
-package animals.hunger.animalHungerModules;
+package animals.hunger.predatorHungerModules;
 
 import animals.Animal;
 import animals.hunger.HungerModule;

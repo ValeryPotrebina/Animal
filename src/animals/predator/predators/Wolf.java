@@ -3,10 +3,8 @@ package animals.predator.predators;
 
 import animals.*;
 import animals.characteristics.TypeOfAnimal;
-import animals.hunger.animalHungerModules.WolfHungerModule;
+import animals.hunger.predatorHungerModules.WolfHungerModule;
 import animals.predator.Predator;
-
-import java.util.Random;
 
 import static Constants.Constants.Animal.Speed.WOLF_SPEED;
 import static Constants.Constants.Animal.MaxCountOnTheSameCell.WOLF_COUNT;
@@ -44,6 +42,8 @@ public class Wolf extends Predator implements ProbabilityOfEating {
                 return 0;
             case RABBIT:
                 return 80;
+            case MOUSE:
+                return 80;
             case WOLF:
             default:
                 return -1;
@@ -53,13 +53,10 @@ public class Wolf extends Predator implements ProbabilityOfEating {
     @Override
     public void eat(Animal animal){
         if (this.isHungry()){
-            int a = new Random().nextInt(100);
-            int b = this.getProbabilityOfEating(animal);
-            System.out.println("random - " + a + " | " + "probability - " + b);
-            if (a<b){
-                System.out.println("wolf eaten rabbit" );
-                System.out.println(animal);
+            if (isEatable(animal)){
+                System.out.println("wolf eaten " + animal);
                 hungerModule.gettingLessHunger(animal);
+                animal.dead();
             } else {
                 System.out.println("OK");
             }
@@ -77,7 +74,7 @@ public class Wolf extends Predator implements ProbabilityOfEating {
     }
 
     @Override
-    protected void dead() {
+    public void dead() {
 
     }
 
@@ -85,4 +82,5 @@ public class Wolf extends Predator implements ProbabilityOfEating {
     protected void move() {
 
     }
+
 }

@@ -3,7 +3,7 @@ package animals.herbivore;
 import animals.Animal;
 import animals.characteristics.TypeOfAnimal;
 
-public class Herbivore extends Animal {
+public abstract class Herbivore extends Animal {
 
 
     public Herbivore() {
@@ -12,31 +12,14 @@ public class Herbivore extends Animal {
     }
 
     @Override
-    public void eat(Animal animal) {
-        System.out.println("hrum, hrum");
+    public String toString() {
+        return "Herbivore{" +
+                "hungerModule=" + hungerModule +
+                ", type=" + type +
+                ", species=" + species +
+                ", ageOfAnimal=" + ageOfAnimal +
+                ", stateAnimal=" + stateAnimal +
+                ", isHungry=" + isHungry +
+                '}';
     }
-
-    @Override
-    protected void sleep(Animal animal) {
-
-    }
-
-    @Override
-    protected void breed(Animal animal) {
-
-    }
-
-    @Override
-    protected void dead() {
-
-    }
-
-    @Override
-    protected void move() {
-
-    }
-
-
-
-
 }
