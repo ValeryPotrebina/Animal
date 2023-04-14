@@ -12,7 +12,16 @@ public class Constants {
         public final static int TILE_SIZE_DEFAULT = 32;
         public final static int GAME_WIDTH_DEFAULT = SIZE_DEFAULT * SIZE_WIDTH;
         public final static int GAME_HEIGHT_DEFAULT = SIZE_DEFAULT * SIZE_HEIGHT;
+        public final static int LEFT_BORDER = (int) (0.3 * GAME_WIDTH_DEFAULT);
+        public final static int RIGHT_BORDER = (int) (0.7 * GAME_WIDTH_DEFAULT);
+        public final static int TOP_BORDER = (int) (0.3 * GAME_HEIGHT_DEFAULT);
+        public final static int DOWN_BORDER = (int) (0.7 * GAME_HEIGHT_DEFAULT);
 
+    }
+
+    public static class GameConstants {
+        public static float GRAVITY = 0.035f; //NOT FINAL!!! Keep it this way pls.
+        public static float TEMP_GRAVITY = -1.0f;
     }
 
     public static class Buttons{
@@ -31,7 +40,7 @@ public class Constants {
         }
     }
 
-    public static final class TextureConstans {
+    public static final class TextureConstants {
 
 
 
@@ -49,6 +58,14 @@ public class Constants {
             public static final String LVL_BACKGROUND_PNG = "lvl_background.png";
 
         }
+
+
+        public static final class Wolf {
+            public static final String WOLF_LOCATION_TEXTURES = "wolf";
+            public static final String WOLF_SPRITES = "wolf_sprites.png";
+        }
+
+
 
     }
 

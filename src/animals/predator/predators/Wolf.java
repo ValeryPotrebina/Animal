@@ -3,8 +3,10 @@ package animals.predator.predators;
 
 import animals.*;
 import animals.characteristics.TypeOfAnimal;
-import animals.hunger.predatorHungerModules.WolfHungerModule;
+import animals.animalsModules.hunger.predatorHungerModules.WolfHungerModule;
 import animals.predator.Predator;
+
+import java.util.ArrayList;
 
 import static Constants.Constants.Animal.Speed.WOLF_SPEED;
 import static Constants.Constants.Animal.MaxCountOnTheSameCell.WOLF_COUNT;
@@ -19,6 +21,17 @@ public class Wolf extends Predator implements ProbabilityOfEating {
         species = TypeOfAnimal.species.WOLF;
     }
 
+    public static ArrayList<Wolf> createWolf(int n) throws Exception {
+        ArrayList<Wolf> wolves = new ArrayList<>();
+        if (n == 0) {
+            System.err.println("Нельзя создать 0 волков");
+            throw new Exception();
+        }
+        for (int i = 0; i < n; i++) {
+            wolves.add(new Wolf());
+        }
+        return wolves;
+    }
 
     @Override
     public String toString() {
@@ -41,7 +54,6 @@ public class Wolf extends Predator implements ProbabilityOfEating {
             case EAGLE:
                 return 0;
             case RABBIT:
-                return 80;
             case MOUSE:
                 return 80;
             case WOLF:

@@ -1,7 +1,7 @@
-package animals.hunger.predatorHungerModules;
+package animals.animalsModules.hunger.predatorHungerModules;
 
 import animals.Animal;
-import animals.hunger.HungerModule;
+import animals.animalsModules.hunger.HungerModule;
 import animals.predator.predators.Wolf;
 
 public class WolfHungerModule extends HungerModule {
@@ -22,7 +22,7 @@ public class WolfHungerModule extends HungerModule {
             wolf.setHungry(false);
             System.out.println("волк голоден? " + wolf.isHungry());
 
-        } else {
+        } else if (getCountKiloNeedToEat() > 0){
             setCountKiloNeedToEat(getCountKiloNeedToEat() - weight);
             setPriorityOfHunger(getPriorityOfHunger() - (weight/getSaturation()));
             System.out.println("волк не наелся и все еще голоден. Нужно еще сьесть - " + getCountKiloNeedToEat() + " приоритет голода - " + getPriorityOfHunger() * 100 + " %");

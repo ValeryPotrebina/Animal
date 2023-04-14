@@ -111,7 +111,7 @@ public class Playing implements GamePanelInterface, GamePanelListenerInterface {
     public void keyReleased(KeyEvent e, float scale) {
         switch (EnumPlayState.state) {
             case PLAYING:
-                playingGame.ketReleased(e);
+                playingGame.keyReleased(e);
                 break;
             case PAUSED:
                 //pauseOverlay.keyPressed(e, scale);
@@ -126,7 +126,17 @@ public class Playing implements GamePanelInterface, GamePanelListenerInterface {
                 break;
         }
     }
-//    public void resetAll() {
-//        playingGame.resetAll();
-//    }
+    public void resetHorBooleans() {
+        playingGame.resetHorBooleans();
+    }
+    public void resetVertBooleans() {
+        playingGame.resetVertBooleans();
+    }
+    public void resetAll() {
+        playingGame.resetAll();
+    }
+
+    public void setIsland() {
+        playingGame.setIsland();
+    }
 }

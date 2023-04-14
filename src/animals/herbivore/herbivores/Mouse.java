@@ -28,7 +28,8 @@ public class Mouse extends Herbivore {
 
     @Override
     public void dead() {
-        System.out.println("Mouse is eaten");
+        super.dead();
+        System.out.println("Mouse is dead");
     }
 
     @Override

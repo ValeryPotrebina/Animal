@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 
 import Constants.LoadSave;
 import static Constants.Constants.GameWindowConstants.*;
-import static Constants.Constants.TextureConstans.Menu.*;
+import static Constants.Constants.TextureConstants.Menu.*;
 import static Constants.Constants.Buttons.MenuButtons.COUNT_BUTTONS;
 import static Constants.Constants.Buttons.MenuButtons.PLAY;
 

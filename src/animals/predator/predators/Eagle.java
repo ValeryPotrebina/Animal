@@ -2,8 +2,11 @@ package animals.predator.predators;
 
 import animals.*;
 import animals.characteristics.TypeOfAnimal;
-import animals.hunger.predatorHungerModules.EagleHungerModule;
+import animals.animalsModules.hunger.predatorHungerModules.EagleHungerModule;
 import animals.predator.Predator;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 import static Constants.Constants.Animal.MaxCountOnTheSameCell.EAGLE_COUNT;
 import static Constants.Constants.Animal.SaturationKilos.EAGLE_SATURATION;
@@ -17,9 +20,33 @@ public class Eagle extends Predator implements ProbabilityOfEating {
         species = TypeOfAnimal.species.EAGLE;
     }
 
+    public static ArrayList<Eagle> createEagle(int n) throws Exception {
+        ArrayList<Eagle> eagles = new ArrayList<>();
+        if (n == 0) {
+            System.err.println("Нельзя создать 0 лис");
+            throw new Exception();
+        }
+        for (int i = 0; i < n; i++) {
+            eagles.add(new Eagle());
+        }
+        return eagles;
+    }
+
     @Override
     protected void eat(Animal animal) {
-
+        if (this.isHungry()){
+            int a = new Random().nextInt(100);
+            int b = this.getProbabilityOfEating(animal);
+            System.out.println("random - " + a + " | " + "probability - " + b);
+            if (a<b){
+                System.out.println("eagle eaten " + animal );
+                System.out.println(animal);
+                hungerModule.gettingLessHunger(animal);
+                animal.dead();
+            } else {
+                System.out.println("OK");
+            }
+        }
     }
 
     @Override

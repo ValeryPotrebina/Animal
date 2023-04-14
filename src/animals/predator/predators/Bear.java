@@ -2,7 +2,7 @@ package animals.predator.predators;
 
 import animals.*;
 import animals.characteristics.TypeOfAnimal;
-import animals.hunger.predatorHungerModules.BearHungerModule;
+import animals.animalsModules.hunger.predatorHungerModules.BearHungerModule;
 import animals.predator.Predator;
 
 import java.util.Random;

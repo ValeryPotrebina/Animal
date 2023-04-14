@@ -86,6 +86,6 @@ public class Game implements Runnable, MainGameInterface{
     }
 
     public void windowFocusLost() {
-//        gameDistribution.windowFocusLost();
+        gameDistribution.windowFocusLost();
     }
 }

@@ -2,14 +2,9 @@ package animals;
 
 import animals.characteristics.AgeOfAnimal;
 import animals.characteristics.TypeOfAnimal;
-import animals.herbivore.herbivores.Rabbit;
-import animals.hunger.HungerModule;
+import animals.animalsModules.hunger.HungerModule;
 //import animals.predator.predators.Bear;
 //import animals.predator.predators.Eagle;
-import animals.predator.predators.Fox;
-import animals.predator.predators.Wolf;
-
-import java.util.Random;
 
 
 public abstract class Animal {
@@ -31,7 +26,7 @@ public abstract class Animal {
     protected abstract void breed(Animal animal);
 
     public void dead() {
-        System.out.println("class Animal");
+        System.out.println("Animal dead");
     }
 
     protected abstract void move();

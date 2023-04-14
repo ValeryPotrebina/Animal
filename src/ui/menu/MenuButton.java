@@ -1,7 +1,7 @@
 package ui.menu;
 
 import Constants.LoadSave;
-import static Constants.Constants.TextureConstans.Menu.*;
+import static Constants.Constants.TextureConstants.Menu.*;
 import static Constants.Constants.Buttons.Button.*;
 
 import ui.Button;

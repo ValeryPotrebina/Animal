@@ -1,7 +1,7 @@
-package animals.hunger.predatorHungerModules;
+package animals.animalsModules.hunger.predatorHungerModules;
 
 import animals.Animal;
-import animals.hunger.HungerModule;
+import animals.animalsModules.hunger.HungerModule;
 import animals.predator.predators.Eagle;
 
 public class EagleHungerModule extends HungerModule {

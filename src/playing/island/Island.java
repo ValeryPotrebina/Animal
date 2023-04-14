@@ -1,13 +1,12 @@
 package playing.island;
 
-import static Constants.Constants.TextureConstans.Island.*;
+import static Constants.Constants.TextureConstants.Island.*;
 import static Constants.Constants.GameWindowConstants.*;
 import Constants.LoadSave;
 import playing.PlayingInterface;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 public class Island implements PlayingInterface {
     private final BufferedImage islandImg;

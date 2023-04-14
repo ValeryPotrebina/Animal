@@ -1,28 +1,36 @@
 package playing;
 
 import gamestates.GamePanelInterface;
+import playing.entities.animalsAnimation.WolfManager;
+import playing.entities.statics.EntityIslandManager;
 import playing.island.Island;
 import playing.island.IslandManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+
+import static Constants.Constants.GameWindowConstants.*;
 
 public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInterface, PlayingKeyListenerInterface {
     private IslandManager islandManager;
+    private WolfManager wolfManager;
+    EntityIslandManager entityIslandManager;
     private Island island;
     private int lvlOffsetX, lvlOffsetY;
     private int maxLvlOffsetX, maxLvlOffsetY;
     private float scale;
-    private Line2D.Double shotBox;
 
     public PlayingGame(){
         initClasses();
     }
     public void initClasses(){
+        entityIslandManager = new EntityIslandManager(this);
         islandManager = new IslandManager();
+        wolfManager = new WolfManager(entityIslandManager);
 
+        calcLvlOffset();
     }
     private void calcLvlOffset() {
         maxLvlOffsetX = islandManager.getLvlOffSetX();
@@ -30,16 +38,57 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
     }
 
 
-
     @Override
     public void update() {
         islandManager.update();
+        wolfManager.update();
+        checkCloseToBorder();
+    }
+
+    public void setIsland(){
+        wolfManager = new WolfManager(entityIslandManager);
+        wolfManager.setSpawnPlayer(100,  100);
+        calcLvlOffset();
+    }
+    private void checkCloseToBorder() {
+        int playerX = wolfManager.getPlayerWolfX();
+        int diffX = playerX - lvlOffsetX;
+
+        if (diffX > RIGHT_BORDER) {
+            lvlOffsetX += diffX - RIGHT_BORDER;
+        } else if (diffX < LEFT_BORDER) {
+            lvlOffsetX += diffX - LEFT_BORDER;
+        }
+
+        if (lvlOffsetX > maxLvlOffsetX) {
+            lvlOffsetX = maxLvlOffsetX;
+        } else if( lvlOffsetX < 0) {
+            lvlOffsetX = 0;
+        }
+
+
+        int playerY = wolfManager.getPlayerWolfY();
+        int diffY = playerY - lvlOffsetY;
+
+        if (diffY > DOWN_BORDER) {
+            lvlOffsetY += diffY - DOWN_BORDER;
+        } else if (diffY < TOP_BORDER) {
+            lvlOffsetY += diffY - TOP_BORDER;
+        }
+
+        if (lvlOffsetY > maxLvlOffsetY) {
+            lvlOffsetY = maxLvlOffsetY;
+        } else if( lvlOffsetY < 0) {
+            lvlOffsetY = 0;
+        }
+
     }
 
     @Override
     public void draw(Graphics g, float scale) {
         this.scale = scale;
         islandManager.draw(g, scale, lvlOffsetX, lvlOffsetY);
+        wolfManager.draw(g, scale, lvlOffsetX, lvlOffsetY);
     }
 
     public IslandManager getLevelManager() {
@@ -48,16 +97,31 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        wolfManager.keyPressed(e);
     }
 
     @Override
-    public void ketReleased(KeyEvent e) {
-
+    public void keyReleased(KeyEvent e) {
+        wolfManager.keyReleased(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        wolfManager.mouseClicked(e);
     }
+    public Rectangle2D.Double getPlayerHitBox() {
+        return wolfManager.getPlayerHitBox();
+    }
+
+    public void resetAll() {
+        wolfManager.resetAll();
+    }
+
+    public void resetHorBooleans() {
+        wolfManager.resetHorBooleans();
+    }
+    public void resetVertBooleans() {
+        wolfManager.resetVertBooleans();
+    }
+
 }
