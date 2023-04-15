@@ -16,7 +16,7 @@ public class PlayerWolf extends Entity implements PlayingInterface, PlayingMouse
     private WolfManager wolfManager;
     private WolfModuleManager wolfModuleManager;
     public PlayerWolf(WolfManager wolfManager, int x, int y) {
-        super(x, y, 20, 27);
+        super(x, y, 45, 42);
         this.wolfManager = wolfManager;
         initClasses();
     }

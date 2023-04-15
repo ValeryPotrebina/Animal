@@ -20,6 +20,8 @@ public class Constants {
     }
 
     public static class GameConstants {
+        public static final float ANI_SPEED_ENEMY = 15;
+
         public static float GRAVITY = 0.035f; //NOT FINAL!!! Keep it this way pls.
         public static float TEMP_GRAVITY = -1.0f;
     }

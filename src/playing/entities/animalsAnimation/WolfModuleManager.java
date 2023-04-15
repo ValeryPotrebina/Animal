@@ -38,6 +38,7 @@ public class WolfModuleManager implements PlayingInterface, PlayingKeyListenerIn
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
         playerWolf.drawHitBox(g, scale, x, y);
+        wolfAnimation.draw(g, scale, x, y);
 
     }
 
