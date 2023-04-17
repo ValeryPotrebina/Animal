@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY;
+import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_WOLF;
 import static Constants.Constants.TextureConstants.Wolf.*;
 import static playing.entities.animalsAnimation.WolfAnimation.AnimationState.*;
 
@@ -54,7 +54,6 @@ public class WolfAnimation extends WolfModule implements PlayingInterface {
         for (int j = 0; j < wolf.length; j++)//столбцы
             for (int i = 0; i < wolf[j].length; i++)//строки
                 wolf[j][i] = img.getSubimage(i * 83, j * 53, 83, 53);
-        System.out.println(wolf);
     }
 
     @Override
@@ -65,7 +64,7 @@ public class WolfAnimation extends WolfModule implements PlayingInterface {
 
     private void updateAnimationTick() {
         aniTick++;
-        if (aniTick >= ANI_SPEED_ENEMY) {
+        if (aniTick >= ANI_SPEED_ENEMY_WOLF) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= GetSpriteAmount()) {
@@ -99,10 +98,10 @@ public class WolfAnimation extends WolfModule implements PlayingInterface {
         Rectangle2D.Double hitBox = wolfModuleManager.getHitBox();
         BufferedImage bufferedImage = wolf[animationState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
-                (int) ((hitBox.x - 21 - x + flipX) * scale),
-                (int) ((hitBox.y - 4 - y) * scale),
-                (int) (bufferedImage.getWidth() * flipW * scale),
-                (int) (bufferedImage.getHeight() * scale),
+                (int) ((hitBox.x  - x + flipX) * scale) ,
+                (int) ((hitBox.y  - y) * scale ),
+                (int) (bufferedImage.getWidth() * flipW * scale * 1.25),
+                (int) (bufferedImage.getHeight() * scale * 1.25),
                 null);
     }
 

@@ -22,7 +22,8 @@ public class WolfManager implements PlayingInterface, PlayingKeyListenerInterfac
     }
 
     private void initClasses(){
-        playerWolf = new PlayerWolf(this, 100, 100);
+        //задаем начальное положение волка
+        playerWolf = new PlayerWolf(this, 100, 140);
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {

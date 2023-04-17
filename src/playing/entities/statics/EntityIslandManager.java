@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import static Constants.Constants.GameWindowConstants.*;
 public class EntityIslandManager {
     private PlayingGame playingGame;
-//todo разобраться с этим классом
+//todo разобраться с этим классом!!!!!!!!!!!!!!!!!!!!!!!!
     public EntityIslandManager(PlayingGame playingGame){
         this.playingGame = playingGame;
     }
@@ -34,6 +34,11 @@ public class EntityIslandManager {
         }
         return false;
     }
+    public boolean canMoveFloor(Rectangle2D.Double hitBox) {
+        int[][] lvlData = playingGame.getLevelManager().getIslandData();
+        return CanMoveHere(hitBox) && IsSolid(hitBox.x,
+                hitBox.y + hitBox.height + 1, lvlData);
+    }
 
     private boolean IsSolid(double x, double y, int[][] lvlData) {
         int maxWidth = lvlData[0].length * TILE_SIZE_DEFAULT;
@@ -53,5 +58,52 @@ public class EntityIslandManager {
         int value = lvlData[yTile][xTile];
 
         return value != 11;
+    }
+    public boolean canSeePlayer(Rectangle2D.Double hitBox, float range) {
+        int[][] lvlData = playingGame.getLevelManager().getIslandData();
+        Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
+        int playerTileY = (int) (playerHitBox.y / TILE_SIZE_DEFAULT);
+        int enemyTileY = (int) (hitBox.y / TILE_SIZE_DEFAULT);
+
+        if (playerTileY == enemyTileY) {
+            if (isPlayerInRange(hitBox, range)) {
+                if (IsSightClear(lvlData, hitBox, playerHitBox, enemyTileY))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+    public int wherePlayerX(Rectangle2D.Double hitBox) {
+        Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
+        return (int) (playerHitBox.x - hitBox.x);
+    }
+    public boolean isPlayerInRange(Rectangle2D.Double hitBox, float range) {
+        Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
+        int absValue = (int) Math.abs(playerHitBox.x - hitBox.x);
+        return absValue <= range;
+    }
+    private boolean IsSightClear(int[][] lvlData, Rectangle2D.Double firstHitbox, Rectangle2D.Double secondHitbox, int yTile) {
+        int firstXTile = (int) (firstHitbox.x / TILE_SIZE_DEFAULT);
+        int secondXTile = (int) (secondHitbox.x  / TILE_SIZE_DEFAULT);
+
+        if (firstXTile > secondXTile)
+            return IsAllTilesWalkable(secondXTile, firstXTile, yTile, lvlData);
+        else
+            return IsAllTilesWalkable(firstXTile, secondXTile, yTile, lvlData);
+    }
+    private boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
+        if (IsAllTilesClear(xStart, xEnd, y, lvlData))
+            for (int i = 0; i < xEnd - xStart; i++) {
+                if (!IsTileSolid(xStart + i, y + 1, lvlData))
+                    return false;
+            }
+        return true;
+    }
+    private boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) {
+        for (int i = 0; i < xEnd - xStart; i++)
+            if (IsTileSolid(xStart + i, y, lvlData))
+                return false;
+        return true;
     }
 }

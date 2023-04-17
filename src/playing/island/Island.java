@@ -1,12 +1,15 @@
 package playing.island;
 
+import static Constants.Constants.IslandConstants.Entity.Enemy.ENEMY_INDEX_RABBIT;
 import static Constants.Constants.TextureConstants.Island.*;
 import static Constants.Constants.GameWindowConstants.*;
 import Constants.LoadSave;
 import playing.PlayingInterface;
+import playing.entities.dynamics.rabbit.Rabbit;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Island implements PlayingInterface {
     private final BufferedImage islandImg;
@@ -87,6 +90,20 @@ public class Island implements PlayingInterface {
                         (int) (TILE_SIZE_DEFAULT * scale), (int) (TILE_SIZE_DEFAULT * scale), null);
             }
         }
+    }
+
+    public ArrayList<Rabbit> getRabbits(){
+        ArrayList<Rabbit> rabbits = new ArrayList<>();
+        for (int j = 0; j < islandImg.getHeight(); j++){
+            for (int i = 0; i < islandImg.getWidth(); i++) {
+                Color color = new Color(islandImg.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == ENEMY_INDEX_RABBIT){
+                    rabbits.add(new Rabbit(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
+                }
+            }
+        }
+        return rabbits;
     }
 
     public int[][] getIslandData() {

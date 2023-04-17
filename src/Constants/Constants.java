@@ -1,5 +1,9 @@
 package Constants;
 
+import playing.PlayingInterface;
+
+import static Constants.Constants.GameWindowConstants.TILE_SIZE_DEFAULT;
+
 public class Constants {
 
 
@@ -20,7 +24,9 @@ public class Constants {
     }
 
     public static class GameConstants {
-        public static final float ANI_SPEED_ENEMY = 15;
+        public static final float ANI_SPEED_ENEMY_RABBIT = 25;
+
+        public static final float ANI_SPEED_ENEMY_WOLF = 15;
 
         public static float GRAVITY = 0.035f; //NOT FINAL!!! Keep it this way pls.
         public static float TEMP_GRAVITY = -1.0f;
@@ -42,9 +48,15 @@ public class Constants {
         }
     }
 
+
+    public static final class IslandConstants{
+        public static final class Entity{
+            public static final class Enemy{
+                public static final int ENEMY_INDEX_RABBIT = 1;
+            }
+        }
+    }
     public static final class TextureConstants {
-
-
 
         public static final class Menu{
             public static final String MENU_LOCATION_TEXTURES = "menu";
@@ -67,6 +79,14 @@ public class Constants {
             public static final String WOLF_SPRITES = "wolf_sprites.png";
         }
 
+        public static final class Entity{
+            public static final String ENTITY_LOCATION_TEXTURES = "entity";
+            public static final String RABBIT_SPRITE_PNG = "rabbit_sprite.png";
+
+            public static final class RABBIT{
+                public static final int RABBIT_VIEW_RANGE = TILE_SIZE_DEFAULT * 5;
+            }
+        }
 
 
     }

@@ -38,4 +38,8 @@ public class IslandManager implements PlayingInterface {
     public int getLvlOffSetY(){
         return island.getMaxLvlOffsetY();
     }
+
+    public Island getIsland() {
+        return island;
+    }
 }
