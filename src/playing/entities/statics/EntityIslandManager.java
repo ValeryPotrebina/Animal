@@ -21,10 +21,10 @@ public class EntityIslandManager {
         return true;
     }
 
-    public boolean CanMoveHere(Rectangle2D.Double hitBox) {
+    public boolean CanMoveHere(Rectangle2D.Double hitBox) {//
         int[][] lvlData = playingGame.getLevelManager().getIslandData();
-        if (!IsSolid(hitBox.x, hitBox.y, lvlData)) {
-            if (!IsSolid(hitBox.x + hitBox.width, hitBox.y + hitBox.height, lvlData)) {
+        if (!IsSolid(hitBox.x, hitBox.y, lvlData)) { //если по x и y плитка не твердая
+            if (!IsSolid(hitBox.x + hitBox.width, hitBox.y + hitBox.height, lvlData)) { //
                 if (!IsSolid(hitBox.x + hitBox.width, hitBox.y, lvlData)) {
                     if (!IsSolid(hitBox.x, hitBox.y + hitBox.height, lvlData)) {
                         return true;
@@ -40,13 +40,13 @@ public class EntityIslandManager {
                 hitBox.y + hitBox.height + 1, lvlData);
     }
 
-    private boolean IsSolid(double x, double y, int[][] lvlData) {
+    private boolean IsSolid(double x, double y, int[][] lvlData) { //твердый ли блок (не проходимый)
         int maxWidth = lvlData[0].length * TILE_SIZE_DEFAULT;
         int maxHeight = lvlData.length * TILE_SIZE_DEFAULT;
 
-        if (x < 0 || x >= maxWidth)
+        if (x < 0 || x >= maxWidth) //выходим за границу
             return true;
-        if (y < 0 || y >= maxHeight)
+        if (y < 0 || y >= maxHeight) //выходим за границу
             return true;
 
         double xIndex = x / TILE_SIZE_DEFAULT;
@@ -54,9 +54,9 @@ public class EntityIslandManager {
 
         return IsTileSolid((int) xIndex, (int) yIndex, lvlData);
     }
-    private boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) {
+    private boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) { //заполненная чем-то плитка
         int value = lvlData[yTile][xTile];
-        return value != 11;
+        return value != 11; //11 - пустота
     }
     public boolean canSeePlayer(Rectangle2D.Double hitBox, float range) {
         int[][] lvlData = playingGame.getLevelManager().getIslandData();
@@ -73,16 +73,16 @@ public class EntityIslandManager {
 
         return false;
     }
-    public int wherePlayerX(Rectangle2D.Double hitBox) {
+    public int wherePlayerX(Rectangle2D.Double hitBox) {//передаем краба
         Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
         return (int) (playerHitBox.x - hitBox.x);
     }
-    public boolean isPlayerInRange(Rectangle2D.Double hitBox, float range) {
+    public boolean isPlayerInRange(Rectangle2D.Double hitBox, float range) { //зона видимости/реагирования игрока
         Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
         int absValue = (int) Math.abs(playerHitBox.x - hitBox.x);
         return absValue <= range;
     }
-    private boolean IsSightClear(int[][] lvlData, Rectangle2D.Double firstHitbox, Rectangle2D.Double secondHitbox, int yTile) {
+    private boolean IsSightClear(int[][] lvlData, Rectangle2D.Double firstHitbox, Rectangle2D.Double secondHitbox, int yTile) { //проверка может ли сущность 1 дойти дойти до сущности 2
         int firstXTile = (int) (firstHitbox.x / TILE_SIZE_DEFAULT);
         int secondXTile = (int) (secondHitbox.x  / TILE_SIZE_DEFAULT);
 
@@ -91,7 +91,7 @@ public class EntityIslandManager {
         else
             return IsAllTilesWalkable(firstXTile, secondXTile, yTile, lvlData);
     }
-    private boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {
+    private boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {// проверка, что между а и б пусто, а также что есть земля под ногами
         if (IsAllTilesClear(xStart, xEnd, y, lvlData))
             for (int i = 0; i < xEnd - xStart; i++) {
                 if (!IsTileSolid(xStart + i, y + 1, lvlData))
@@ -99,7 +99,7 @@ public class EntityIslandManager {
             }
         return true;
     }
-    private boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) {
+    private boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) { //проверка что между а и б пусто
         for (int i = 0; i < xEnd - xStart; i++)
             if (IsTileSolid(xStart + i, y, lvlData))
                 return false;

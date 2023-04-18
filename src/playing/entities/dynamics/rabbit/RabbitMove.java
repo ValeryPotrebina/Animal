@@ -23,7 +23,8 @@ public class RabbitMove extends RabbitModule implements PlayingInterface {
         updatePos();
     }
     @Override
-    public void draw(Graphics g, float scale, int x, int y) {}
+    public void draw(Graphics g, float scale, int x, int y) {
+    }
 
     private void updatePos(){
         if (left)

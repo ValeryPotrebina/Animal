@@ -50,10 +50,12 @@ public class RabbitAnimation extends RabbitModule implements PlayingInterface {
         BufferedImage bufferedImage = animations[AnimationState.animationState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
                 (int) ((rabbit.getHitBox().x - x + flipX) * scale),
-                (int) ((rabbit.getHitBox().y - y) * scale),
-                (int) (rabbit.getHitBox().width * flipW * scale),
+                (int) ((rabbit.getHitBox().y - y) * scale),          //сравнить с wolfAnimation
+                (int) (rabbit.getHitBox().width * flipW * scale), //не менять scale!!!
                 (int) (rabbit.getHitBox().height * scale),
                 null);
+        rabbit.drawHitBox(g, scale, x, y);
+
     }
 
     @Override
@@ -70,7 +72,7 @@ public class RabbitAnimation extends RabbitModule implements PlayingInterface {
             flipX = 0;
         } else if (right) {
             flipW = -1;
-            flipX = bufferedImage.getWidth();
+            flipX = bufferedImage.getWidth()  - 5;
         }
     }
     private void updateAnimationTick() {

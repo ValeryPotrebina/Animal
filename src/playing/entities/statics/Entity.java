@@ -14,7 +14,11 @@ public abstract class Entity {
         this.hitBox = new Rectangle2D.Double(x, y, width, height);
     }
     public void drawHitBox(Graphics g, float scale, int LvlOffsetX, int LvlOffsetY) {
-
+          g.setColor(Color.BLUE);
+          g.drawRect((int) ((hitBox.x - LvlOffsetX) * scale),
+                  (int) ((hitBox.y - LvlOffsetY) * scale),
+                  (int) (hitBox.width * scale),
+                  (int) (hitBox.height * scale));
     }
     protected void drawHitBoxTexture(Graphics g, float scale, int LvlOffsetX, int LvlOffsetY) {
 

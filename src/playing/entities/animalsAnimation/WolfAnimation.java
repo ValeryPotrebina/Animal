@@ -88,18 +88,18 @@ public class WolfAnimation extends WolfModule implements PlayingInterface {
             flipX = 0;
         } else if (left) {
             flipW = -1;
-            flipX = bufferedImage.getWidth();
+            flipX = bufferedImage.getWidth() + 30; //!!!
         }
     }
 
 //    ordinal() - возвращает порядковый номер
     @Override
-    public void draw(Graphics g, float scale, int x, int y) {
+    public void draw(Graphics g, float scale, int x, int y) { //todo при flip
         Rectangle2D.Double hitBox = wolfModuleManager.getHitBox();
         BufferedImage bufferedImage = wolf[animationState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
-                (int) ((hitBox.x  - x + flipX) * scale) ,
-                (int) ((hitBox.y  - y) * scale ),
+                (int) ((hitBox.x - 18  - x + flipX) * scale) , //меняем отрисовку отсносительно хитбокса
+                (int) ((hitBox.y - 10 - y) * scale ),
                 (int) (bufferedImage.getWidth() * flipW * scale * 1.25),
                 (int) (bufferedImage.getHeight() * scale * 1.25),
                 null);
