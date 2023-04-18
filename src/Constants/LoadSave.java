@@ -18,7 +18,7 @@ public class LoadSave {
     }
 
     public static BufferedImage GetIsland(){
-        File file = new File("src/resources/island/island3.png");
+        File file = new File("src/resources/island/island.png");
         BufferedImage image = null;
         try {
             image = ImageIO.read(file);

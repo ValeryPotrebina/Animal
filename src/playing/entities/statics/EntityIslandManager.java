@@ -56,7 +56,6 @@ public class EntityIslandManager {
     }
     private boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) {
         int value = lvlData[yTile][xTile];
-
         return value != 11;
     }
     public boolean canSeePlayer(Rectangle2D.Double hitBox, float range) {

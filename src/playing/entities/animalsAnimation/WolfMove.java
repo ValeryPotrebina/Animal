@@ -65,7 +65,6 @@ public class WolfMove extends WolfModule implements PlayingKeyListenerInterface,
                     wolfModuleManager.getWolfAnimation().setAnimationState(WolfAnimation.AnimationState.IDLE);
                 }
                 ySpeed += GRAVITY;
-                System.out.println("y - " + ySpeed);
             } else {
                 if (ySpeed > 0) {
                     onFloor = true;

@@ -123,9 +123,10 @@ public class WolfAnimation extends WolfModule implements PlayingInterface {
     private static int GetSpriteAmount() {
 
         switch (animationState) {
+            case IDLE:
+            return 4;
             case DEAD:
             case RUNNING:
-            case IDLE:
             case EAT:
             case JUMP:
             case SLEEP:

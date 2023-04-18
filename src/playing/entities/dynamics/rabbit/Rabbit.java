@@ -9,9 +9,7 @@ public class Rabbit extends DynamicEntity implements PlayingInterface {
     private RabbitMove rabbitMove;
     private RabbitAnimation rabbitAnimation;
     public Rabbit(double x, double y) {
-        super(x, y + 100, 22, 19);
-        /////          ?          ?
-        setHitBox(x, y, 49, 46); //70 yf 70 - размеры кролика
+        super(x, y - 50, 40, 40);
         initModules();
     }
 

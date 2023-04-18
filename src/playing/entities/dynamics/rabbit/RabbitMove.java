@@ -11,7 +11,7 @@ import static Constants.Constants.TextureConstants.Entity.RABBIT.RABBIT_VIEW_RAN
 public class RabbitMove extends RabbitModule implements PlayingInterface {
     private boolean left, right;
     private boolean onFloor;
-    private final float speedWalk = 0.35f;
+    private final float speedWalk = 0.15f;
     private float xSpeed = 0;
     private float ySpeed = 0;
     protected RabbitMove(Rabbit rabbit) {
@@ -65,7 +65,7 @@ public class RabbitMove extends RabbitModule implements PlayingInterface {
                 oldHitBox.x + xSpeed, oldHitBox.y,
                 oldHitBox.width, oldHitBox.height);
         //справлено!!!!!!!!!!!
-        if (rabbit.canMoveFloor(newHitBox)){
+        if (rabbit.canMoveHere(newHitBox)){
             updateXPos(xSpeed);
         } else {
             changeWalkDir();
