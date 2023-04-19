@@ -1,4 +1,4 @@
-package animals;
+package playing.entities.dynamics.animal;
 
 import java.util.Random;
 

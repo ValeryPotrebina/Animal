@@ -1,11 +1,17 @@
 package playing.island;
 
 import static Constants.Constants.IslandConstants.Entity.Enemy.ENEMY_INDEX_RABBIT;
+import static Constants.Constants.IslandConstants.Entity.Enemy.ENEMY_INDEX_WOLF;
 import static Constants.Constants.TextureConstants.Island.*;
 import static Constants.Constants.GameWindowConstants.*;
+
+import Constants.Constants;
 import Constants.LoadSave;
 import playing.PlayingInterface;
+import playing.entities.dynamics.animal.predator.predators.Wolf;
+import playing.entities.dynamics.animal.predator.predators.WolfEntity;
 import playing.entities.dynamics.rabbit.Rabbit;
+import playing.entities.dynamics.rabbit.RabbitEntity;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -99,12 +105,28 @@ public class Island implements PlayingInterface {
                 Color color = new Color(islandImg.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == ENEMY_INDEX_RABBIT){
-                    rabbits.add(new Rabbit(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
+                    rabbits.add(new Rabbit(new RabbitEntity(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT)));
                 }
             }
         }
+        System.out.println("rabbits - "  + rabbits);
         return rabbits;
     }
+    public ArrayList<Wolf> getWolves(){
+        ArrayList<Wolf> wolves = new ArrayList<>();
+        for (int j = 0; j < islandImg.getHeight(); j++){
+            for (int i = 0; i < islandImg.getWidth(); i++) {
+                Color color = new Color(islandImg.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == ENEMY_INDEX_WOLF){
+                    wolves.add(new Wolf(new WolfEntity(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT)));
+                }
+            }
+        }
+        System.out.println("wolves - "  + wolves);
+        return wolves;
+    }
+
 
     public int[][] getIslandData() {
         return islandData;

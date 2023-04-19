@@ -9,12 +9,12 @@ import java.awt.image.BufferedImage;
 import static Constants.Constants.GameConstants.*;
 import static Constants.Constants.TextureConstants.Entity.ENTITY_LOCATION_TEXTURES;
 import static Constants.Constants.TextureConstants.Entity.RABBIT_SPRITE_PNG;
-import static playing.entities.dynamics.rabbit.RabbitAnimation.AnimationState.*;
+import static playing.entities.dynamics.rabbit.RabbitAnimation.RabbitAnimationState.*;
 
-public class RabbitAnimation extends RabbitModule implements PlayingInterface {
+public class RabbitAnimation implements PlayingInterface {
     private BufferedImage[][] animations;
-
-    public enum AnimationState{
+    final Rabbit rabbit; //modificator!!!
+    public enum RabbitAnimationState {  //вынести в отдельный енум!!!
         IDLE,
         RUNNING,
         JUMP,
@@ -23,7 +23,7 @@ public class RabbitAnimation extends RabbitModule implements PlayingInterface {
         DEAD,
         SLEEP;
 
-        public static AnimationState animationState = IDLE;
+        public static RabbitAnimationState animationState = IDLE;
     }
     private int aniTick, aniIndex;
     private int flipW = 1;
@@ -31,7 +31,7 @@ public class RabbitAnimation extends RabbitModule implements PlayingInterface {
     private boolean dead;
 
     protected RabbitAnimation(Rabbit rabbit) {
-        super(rabbit);
+        this.rabbit = rabbit;
         loadImages();
     }
 
@@ -40,21 +40,21 @@ public class RabbitAnimation extends RabbitModule implements PlayingInterface {
         animations = new BufferedImage[7][4];
         for (int j = 0; j < animations.length; j++) {
             for (int i = 0; i < animations[j].length; i++) {
-                animations[j][i] = image.getSubimage(i * 49, j * 46, 49, 46);
+                animations[j][i] = image.getSubimage(i * 66, j * 66, 66, 66);
             }
         }
     }
 
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        BufferedImage bufferedImage = animations[AnimationState.animationState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[RabbitAnimationState.animationState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
-                (int) ((rabbit.getHitBox().x - x + flipX) * scale),
-                (int) ((rabbit.getHitBox().y - y) * scale),          //сравнить с wolfAnimation
-                (int) (rabbit.getHitBox().width * flipW * scale), //не менять scale!!!
-                (int) (rabbit.getHitBox().height * scale),
+                (int) ((rabbit.getRabbitEntity().getHitBox().x - x + flipX) * scale),
+                (int) ((rabbit.getRabbitEntity().getHitBox().y - y) * scale),          //сравнить с wolfAnimation
+                (int) (rabbit.getRabbitEntity().getHitBox().width * flipW * scale), //не менять scale!!!
+                (int) (rabbit.getRabbitEntity().getHitBox().height * scale),
                 null);
-        rabbit.drawHitBox(g, scale, x, y);
+        rabbit.getRabbitEntity().drawHitBox(g, scale, x, y);
 
     }
 
@@ -72,7 +72,7 @@ public class RabbitAnimation extends RabbitModule implements PlayingInterface {
             flipX = 0;
         } else if (right) {
             flipW = -1;
-            flipX = bufferedImage.getWidth()  - 5;
+            flipX = bufferedImage.getWidth()  - 25;
         }
     }
     private void updateAnimationTick() {
@@ -82,7 +82,7 @@ public class RabbitAnimation extends RabbitModule implements PlayingInterface {
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
                 if (animationState == DEAD) {
-                    rabbit.setActive(false);
+                    rabbit.getRabbitEntity().setActive(false);
                 }
 
                 animationState = IDLE;
@@ -90,7 +90,7 @@ public class RabbitAnimation extends RabbitModule implements PlayingInterface {
             }
         }
     }
-    public void setAnimationState(AnimationState state) {
+    public void setAnimationState(RabbitAnimationState state) {
         if (dead) {
             return;
         }
@@ -100,7 +100,7 @@ public class RabbitAnimation extends RabbitModule implements PlayingInterface {
         animationState = state;
         aniIndex = 0;
     }
-    public AnimationState getAnimationState() {
+    public RabbitAnimationState getAnimationState() {
         return animationState;
     }
     public int getAniIndex() {

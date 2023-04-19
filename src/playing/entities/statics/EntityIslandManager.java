@@ -7,6 +7,12 @@ import static Constants.Constants.GameWindowConstants.*;
 public class EntityIslandManager {
     private PlayingGame playingGame;
 //todo разобраться с этим классом!!!!!!!!!!!!!!!!!!!!!!!!
+    //TODO 1. Добавить озера
+    //TODO Животное может передвигаться не только по полу
+    //TODO Животное может прыгать
+    //TODO Животное может определять, что за другое животное перед ним и из этого действовать
+    //TODO
+    //
     public EntityIslandManager(PlayingGame playingGame){
         this.playingGame = playingGame;
     }
@@ -73,6 +79,7 @@ public class EntityIslandManager {
 
         return false;
     }
+
     public int wherePlayerX(Rectangle2D.Double hitBox) {//передаем краба
         Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
         return (int) (playerHitBox.x - hitBox.x);

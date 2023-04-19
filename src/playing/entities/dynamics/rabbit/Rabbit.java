@@ -5,11 +5,12 @@ import playing.entities.dynamics.DynamicEntity;
 
 import java.awt.*;
 
-public class Rabbit extends DynamicEntity implements PlayingInterface {
+public class Rabbit implements PlayingInterface {
     private RabbitMove rabbitMove;
     private RabbitAnimation rabbitAnimation;
-    public Rabbit(double x, double y) {
-        super(x, y - 50, 40, 40); // можно менять размеры животного
+    private final RabbitEntity rabbitEntity;
+    public Rabbit(RabbitEntity rabbitEntity) {
+        this.rabbitEntity = rabbitEntity;
         initModules();
     }
 
@@ -35,5 +36,9 @@ public class Rabbit extends DynamicEntity implements PlayingInterface {
 
     public RabbitAnimation getRabbitAnimation() {
         return rabbitAnimation;
+    }
+
+    public RabbitEntity getRabbitEntity() {
+        return rabbitEntity;
     }
 }

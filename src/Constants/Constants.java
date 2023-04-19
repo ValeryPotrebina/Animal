@@ -53,6 +53,7 @@ public class Constants {
         public static final class Entity{
             public static final class Enemy{
                 public static final int ENEMY_INDEX_RABBIT = 1;
+                public static final int ENEMY_INDEX_WOLF = 2;
             }
         }
     }
@@ -85,6 +86,10 @@ public class Constants {
 
             public static final class RABBIT{
                 public static final int RABBIT_VIEW_RANGE = TILE_SIZE_DEFAULT * 5;
+            }
+            public static final class WOLF{
+                public static final int WOLF_VIEW_RANGE = TILE_SIZE_DEFAULT * 10;
+
             }
         }
 

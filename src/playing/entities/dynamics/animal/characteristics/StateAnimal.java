@@ -1,4 +1,4 @@
-package animals;
+package playing.entities.dynamics.animal.characteristics;
 
 public class StateAnimal {
     private final float weight;

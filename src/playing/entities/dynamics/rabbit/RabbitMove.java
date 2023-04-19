@@ -8,14 +8,15 @@ import java.awt.geom.Rectangle2D;
 import static Constants.Constants.GameConstants.GRAVITY;
 import static Constants.Constants.TextureConstants.Entity.RABBIT.RABBIT_VIEW_RANGE;
 
-public class RabbitMove extends RabbitModule implements PlayingInterface {
+public class RabbitMove implements PlayingInterface{
+    final Rabbit rabbit;
     private boolean left, right;
     private boolean onFloor;
     private final float speedWalk = 0.15f;
     private float xSpeed = 0;
     private float ySpeed = 0;
-    protected RabbitMove(Rabbit rabbit) {
-        super(rabbit);
+    public RabbitMove(Rabbit rabbit) {
+        this.rabbit = rabbit;
     }
     @Override
     public void update() {
@@ -32,52 +33,52 @@ public class RabbitMove extends RabbitModule implements PlayingInterface {
         if (right)
             xSpeed += speedWalk;
         if (onFloor){
-            if (!rabbit.isPlayerOnFloor())
+            if (!rabbit.getRabbitEntity().isPlayerOnFloor())
                 onFloor = false;
         } else {
-            Rectangle2D.Double oldHitBox = rabbit.getHitBox();
+            Rectangle2D.Double oldHitBox = rabbit.getRabbitEntity().getHitBox();
             Rectangle2D.Double newHitBox = new Rectangle2D.Double(
                     oldHitBox.x,
                     oldHitBox.y + ySpeed,
                     oldHitBox.width,
                     oldHitBox.height
             );
-            if (rabbit.canMoveHere(newHitBox)){
+            if (rabbit.getRabbitEntity().canMoveHere(newHitBox)){
                   updateYPos(ySpeed);
                 if (ySpeed > 0) {
-                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.AnimationState.FALLING);
+                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.FALLING);
                 } else if (ySpeed < 0) {
-                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.AnimationState.JUMP);
+                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.JUMP);
                 } else {
-                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.AnimationState.IDLE);
+                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.IDLE);
                 }
                 ySpeed += GRAVITY;
             } else {
                 if (ySpeed > 0){
                     onFloor = true;
-                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.AnimationState.IDLE);
+                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.IDLE);
                 }
                 ySpeed = 0;
             }
         }
 
-        Rectangle2D.Double oldHitBox = rabbit.getHitBox();
+        Rectangle2D.Double oldHitBox = rabbit.getRabbitEntity().getHitBox();
         Rectangle2D.Double newHitBox = new Rectangle2D.Double(
                 oldHitBox.x + xSpeed, oldHitBox.y,
                 oldHitBox.width, oldHitBox.height);
         //справлено!!!!!!!!!!!
-        if (rabbit.canMoveHere(newHitBox)){
+        if (rabbit.getRabbitEntity().canMoveHere(newHitBox)){
             updateXPos(xSpeed);
         } else {
             changeWalkDir();
         }
         if (xSpeed == 0){
-            if (rabbit.getRabbitAnimation().getAnimationState() == RabbitAnimation.AnimationState.RUNNING) {
-                rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.AnimationState.IDLE);
+            if (rabbit.getRabbitAnimation().getAnimationState() == RabbitAnimation.RabbitAnimationState.RUNNING) {
+                rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.IDLE);
             }
         } else {
-            if (rabbit.getRabbitAnimation().getAnimationState() == RabbitAnimation.AnimationState.IDLE) {
-                rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.AnimationState.RUNNING);
+            if (rabbit.getRabbitAnimation().getAnimationState() == RabbitAnimation.RabbitAnimationState.IDLE) {
+                rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.RUNNING);
             }
         }
         xSpeed = 0;
@@ -96,7 +97,7 @@ public class RabbitMove extends RabbitModule implements PlayingInterface {
     }
 
     private void checkEnvironment() {
-        if (rabbit.canSeePlayer(RABBIT_VIEW_RANGE)) {
+        if (rabbit.getRabbitEntity().canSeePlayer(RABBIT_VIEW_RANGE)) {
             turnTowardsPlayer();
         } else if (!right && !left) {
             left = true;
@@ -106,19 +107,19 @@ public class RabbitMove extends RabbitModule implements PlayingInterface {
     private void turnTowardsPlayer() {
         right = false;
         left = false;
-        if (rabbit.wherePlayerX() > 0) {
+        if (rabbit.getRabbitEntity().wherePlayerX() > 0) {
             right = true;
-        } else if (rabbit.wherePlayerX() < 0) {
+        } else if (rabbit.getRabbitEntity().wherePlayerX() < 0) {
             left = true;
         }
     }
 
     private void updateXPos(double xSpeed) {
-        rabbit.setX(rabbit.getX() + xSpeed);
+        rabbit.getRabbitEntity().setX(rabbit.getRabbitEntity().getX() + xSpeed);
     }
 
     private void updateYPos(double ySpeed) {
-        rabbit.setY(rabbit.getY() + ySpeed);
+        rabbit.getRabbitEntity().setY(rabbit.getRabbitEntity().getY() + ySpeed);
     }
     public boolean isLeft() {
         return left;

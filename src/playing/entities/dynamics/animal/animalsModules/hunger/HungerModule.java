@@ -1,19 +1,18 @@
-package animals.animalsModules.hunger;
+package playing.entities.dynamics.animal.animalsModules.hunger;
 
-import animals.Animal;
+import playing.entities.dynamics.animal.Animal;
 
 public abstract class HungerModule {
     private float priorityOfHunger;
     private float countKiloNeedToEat;
     private final float saturation;
 
-    public HungerModule(float saturation, Animal animal) {
+    public HungerModule(float saturation, Animal animal){
         this.saturation = saturation;
         countKiloNeedToEat = saturation;
         priorityOfHunger = 1.0f;
         System.out.println("Инициализация конструктора HungerModule");
     }
-
     public abstract void gettingLessHunger(Animal animal);
 
     public float getPriorityOfHunger() {
