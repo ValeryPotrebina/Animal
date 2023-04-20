@@ -27,6 +27,8 @@ public class Constants {
         public static final float ANI_SPEED_ENEMY_RABBIT = 10;
 
         public static final float ANI_SPEED_ENEMY_WOLF = 15*2;
+        public static final float ANI_SPEED_ENEMY_HORSE = 23;
+
 
         public static float GRAVITY = 0.035f; //NOT FINAL!!! Keep it this way pls.
         public static float TEMP_GRAVITY = -1.0f;
@@ -54,6 +56,7 @@ public class Constants {
             public static final class Enemy{
                 public static final int ENEMY_INDEX_RABBIT = 1;
                 public static final int ENEMY_INDEX_WOLF = 2;
+                public static final int ENEMY_INDEX_HORSE = 3;
             }
         }
     }
@@ -83,6 +86,8 @@ public class Constants {
         public static final class Entity{
             public static final String ENTITY_LOCATION_TEXTURES = "entity";
             public static final String RABBIT_SPRITE_PNG = "rabbit_sprite.png";
+            public static final String HORSE_SPRITE_PNG = "horse_sprite.png";
+
 
             public static final class RABBIT{
                 public static final int RABBIT_VIEW_RANGE = TILE_SIZE_DEFAULT * 5;
@@ -128,6 +133,13 @@ public class Constants {
             public static final int GOAT_COUNT = 15;
             public static final int SHEEP_COUNT = 15;
             public static final int DUCK_COUNT = 25;
+        }
+        public static final class Range{
+            public static final int WOLF_RANGE = 10 * TILE_SIZE_DEFAULT;
+            public static final int RABBIT_RANGE = 10 * TILE_SIZE_DEFAULT;
+            public static final int HORSE_RANGE = 10 * TILE_SIZE_DEFAULT;
+
+
         }
 
         public static final class Speed{

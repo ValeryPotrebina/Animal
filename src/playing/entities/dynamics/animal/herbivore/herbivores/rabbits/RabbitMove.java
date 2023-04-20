@@ -1,4 +1,4 @@
-package playing.entities.dynamics.rabbit;
+package playing.entities.dynamics.animal.herbivore.herbivores.rabbits;
 
 import playing.PlayingInterface;
 
@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import static Constants.Constants.GameConstants.GRAVITY;
 import static Constants.Constants.TextureConstants.Entity.RABBIT.RABBIT_VIEW_RANGE;
 
-public class RabbitMove implements PlayingInterface{
+public class RabbitMove implements PlayingInterface {
     final Rabbit rabbit;
     private boolean left, right;
     private boolean onFloor;
@@ -33,18 +33,18 @@ public class RabbitMove implements PlayingInterface{
         if (right)
             xSpeed += speedWalk;
         if (onFloor){
-            if (!rabbit.getRabbitEntity().isPlayerOnFloor())
+            if (!rabbit.isPlayerOnFloor())
                 onFloor = false;
         } else {
-            Rectangle2D.Double oldHitBox = rabbit.getRabbitEntity().getHitBox();
+            Rectangle2D.Double oldHitBox = rabbit.getHitBox();
             Rectangle2D.Double newHitBox = new Rectangle2D.Double(
                     oldHitBox.x,
                     oldHitBox.y + ySpeed,
                     oldHitBox.width,
                     oldHitBox.height
             );
-            if (rabbit.getRabbitEntity().canMoveHere(newHitBox)){
-                  updateYPos(ySpeed);
+            if (rabbit.canMoveHere(newHitBox)){
+                updateYPos(ySpeed);
                 if (ySpeed > 0) {
                     rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.FALLING);
                 } else if (ySpeed < 0) {
@@ -62,12 +62,12 @@ public class RabbitMove implements PlayingInterface{
             }
         }
 
-        Rectangle2D.Double oldHitBox = rabbit.getRabbitEntity().getHitBox();
+        Rectangle2D.Double oldHitBox = rabbit.getHitBox();
         Rectangle2D.Double newHitBox = new Rectangle2D.Double(
                 oldHitBox.x + xSpeed, oldHitBox.y,
                 oldHitBox.width, oldHitBox.height);
         //справлено!!!!!!!!!!!
-        if (rabbit.getRabbitEntity().canMoveHere(newHitBox)){
+        if (rabbit.canMoveHere(newHitBox)){
             updateXPos(xSpeed);
         } else {
             changeWalkDir();
@@ -97,7 +97,7 @@ public class RabbitMove implements PlayingInterface{
     }
 
     private void checkEnvironment() {
-        if (rabbit.getRabbitEntity().canSeePlayer(RABBIT_VIEW_RANGE)) {
+        if (rabbit.canSeePlayer(rabbit)) {
             turnTowardsPlayer();
         } else if (!right && !left) {
             left = true;
@@ -107,19 +107,19 @@ public class RabbitMove implements PlayingInterface{
     private void turnTowardsPlayer() {
         right = false;
         left = false;
-        if (rabbit.getRabbitEntity().wherePlayerX() > 0) {
+        if (rabbit.wherePlayerX() > 0) {
             right = true;
-        } else if (rabbit.getRabbitEntity().wherePlayerX() < 0) {
+        } else if (rabbit.wherePlayerX() < 0) {
             left = true;
         }
     }
 
     private void updateXPos(double xSpeed) {
-        rabbit.getRabbitEntity().setX(rabbit.getRabbitEntity().getX() + xSpeed);
+        rabbit.setX(rabbit.getX() + xSpeed);
     }
 
     private void updateYPos(double ySpeed) {
-        rabbit.getRabbitEntity().setY(rabbit.getRabbitEntity().getY() + ySpeed);
+        rabbit.setY(rabbit.getY() + ySpeed);
     }
     public boolean isLeft() {
         return left;
@@ -128,5 +128,4 @@ public class RabbitMove implements PlayingInterface{
     public boolean isRight() {
         return right;
     }
-
 }

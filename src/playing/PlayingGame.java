@@ -96,6 +96,10 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
         enemyManager.draw(g, scale, lvlOffsetX, lvlOffsetY);
     }
 
+    public Island getIsland() {
+        return island;
+    }
+
     public IslandManager getLevelManager() {
         return islandManager;
     }

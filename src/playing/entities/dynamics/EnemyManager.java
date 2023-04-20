@@ -1,8 +1,10 @@
 package playing.entities.dynamics;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.predator.predators.Wolf;
-import playing.entities.dynamics.rabbit.Rabbit;
+import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.herbivore.herbivores.horses.Horse;
+import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.Rabbit;
+import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
 import playing.entities.statics.EntityIslandManager;
 import playing.island.Island;
 
@@ -12,8 +14,11 @@ import java.util.ArrayList;
 
 public class EnemyManager implements PlayingInterface {
     private EntityIslandManager entityIslandManager;
+
     private ArrayList<Rabbit> rabbits;
     private ArrayList<Wolf> wolves;
+    private ArrayList<Horse> horses;
+
 
     public EnemyManager(EntityIslandManager entityIslandManager, Island island) {
         this.entityIslandManager = entityIslandManager;
@@ -23,37 +28,50 @@ public class EnemyManager implements PlayingInterface {
     private void loadObjects(Island island) {
         rabbits = island.getRabbits();
         wolves = island.getWolves();
+        horses = island.getHorses();
         for (Rabbit rabbit : rabbits){
-            rabbit.getRabbitEntity().setEnemyManager(this);
+            rabbit.setEnemyManager(this);
         }
         for (Wolf wolf : wolves){
-            wolf.getWolfEntity().setEnemyManager(this);
+            wolf.setEnemyManager(this);
         }
-
+        for (Horse horse : horses){
+            horse.setEnemyManager(this);
+        }
     }
 
     private void updateObjects() {
         for (Rabbit rabbit : rabbits) {
-            if (rabbit.getRabbitEntity().isActive()) { //isActive ? What is that
+            if (rabbit.isActive()) { //isActive ? What is that
                 rabbit.update();
             }
         }
         for (Wolf wolf : wolves) {
-            if (wolf.getWolfEntity().isActive()) { //isActive ? What is that
+            if (wolf.isActive()) { //isActive ? What is that
                 wolf.update();
+            }
+        }
+        for (Horse horse : horses) {
+            if (horse.isActive()) { //isActive ? What is that
+                horse.update();
             }
         }
     }
 
     private void drawObjects(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
         for (Rabbit rabbit : rabbits) {
-            if (rabbit.getRabbitEntity().isActive()) {
+            if (rabbit.isActive()) {
                 rabbit.draw(g, scale, lvlOffsetX, lvlOffsetY);
             }
         }
         for (Wolf wolf : wolves) {
-            if (wolf.getWolfEntity().isActive()) {
+            if (wolf.isActive()) {
                 wolf.draw(g, scale, lvlOffsetX, lvlOffsetY);
+            }
+        }
+        for (Horse horse : horses) {
+            if (horse.isActive()) { //isActive ? What is that
+                horse.draw(g, scale, lvlOffsetX, lvlOffsetY);
             }
         }
     }
@@ -77,8 +95,8 @@ public class EnemyManager implements PlayingInterface {
     public boolean canMoveFloor(Rectangle2D.Double hitBox) {
         return entityIslandManager.canMoveFloor(hitBox);
     }
-    public boolean canSeePlayer(Rectangle2D.Double hitBox, float range) {
-        return entityIslandManager.canSeePlayer(hitBox, range);
+    public boolean canSeePlayer(Animal animal) {
+        return entityIslandManager.canSeePlayer(animal);
     }
     public int wherePlayerX(Rectangle2D.Double hitBox) {
         return entityIslandManager.wherePlayerX(hitBox);

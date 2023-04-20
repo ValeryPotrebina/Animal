@@ -1,12 +1,12 @@
-package playing.entities.dynamics.animal.predator.predators;
+package playing.entities.dynamics.animal.predator.predators.wolf;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.rabbit.RabbitAnimation;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import static Constants.Constants.GameConstants.GRAVITY;
+import static Constants.Constants.GameConstants.TEMP_GRAVITY;
 import static Constants.Constants.TextureConstants.Entity.WOLF.WOLF_VIEW_RANGE;
 
 public class WolfMove implements PlayingInterface {
@@ -32,22 +32,34 @@ public class WolfMove implements PlayingInterface {
     }
 
     private void updatePos(){
+        if (jump){
+            if (onFloor){
+                onFloor = false;
+                ySpeed = speedJump;
+            }
+            if (TEMP_GRAVITY == 0.0f)
+                GRAVITY = TEMP_GRAVITY;
+        }
         if (left)
             xSpeed += speedWalk; //ИСПРАВИТЬ
         if (right)
             xSpeed -= speedWalk; //ИСПРАВИТЬ
+        if (fall){
+            ySpeed = 1.5f;
+            GRAVITY = 0.035f;
+        }
         if (onFloor){
-            if (!wolf.getWolfEntity().isPlayerOnFloor())
+            if (!wolf.isPlayerOnFloor())
                 onFloor = false;
         } else {
-            Rectangle2D.Double oldHitBox = wolf.getWolfEntity().getHitBox();
+            Rectangle2D.Double oldHitBox = wolf.getHitBox();
             Rectangle2D.Double newHitBox = new Rectangle2D.Double(
                     oldHitBox.x,
                     oldHitBox.y + ySpeed,
                     oldHitBox.width,
                     oldHitBox.height
             );
-            if (wolf.getWolfEntity().canMoveHere(newHitBox)){
+            if (wolf.canMoveHere(newHitBox)){
                 updateYPos(ySpeed);
                 if (ySpeed > 0) {
                     wolf.getWolfAnimation().setAnimationState(WolfAnimation.WolfAnimationState.FALLING);
@@ -66,12 +78,12 @@ public class WolfMove implements PlayingInterface {
             }
         }
 
-        Rectangle2D.Double oldHitBox = wolf.getWolfEntity().getHitBox();
+        Rectangle2D.Double oldHitBox = wolf.getHitBox();
         Rectangle2D.Double newHitBox = new Rectangle2D.Double(
                 oldHitBox.x + xSpeed, oldHitBox.y,
                 oldHitBox.width, oldHitBox.height);
         //справлено!!!!!!!!!!!
-        if (wolf.getWolfEntity().canMoveHere(newHitBox)){
+        if (wolf.canMoveHere(newHitBox)){
             updateXPos(xSpeed);
         } else {
             changeWalkDir();
@@ -101,29 +113,34 @@ public class WolfMove implements PlayingInterface {
     }
 
     private void checkEnvironment() {
-        if (wolf.getWolfEntity().canSeePlayer(WOLF_VIEW_RANGE)) {
+        if (wolf.canSeePlayer(wolf)) {
+            setJump(true);
             turnTowardsPlayer();
         } else if (!right && !left) {
             left = true;
+        } else {
+            setJump(false);
         }
     }
+
+
 
     private void turnTowardsPlayer() {
         right = false;
         left = false;
-        if (wolf.getWolfEntity().wherePlayerX() > 0) {
+        if (wolf.wherePlayerX() > 0) {
             right = true;
-        } else if (wolf.getWolfEntity().wherePlayerX() < 0) {
+        } else if (wolf.wherePlayerX() < 0) {
             left = true;
         }
     }
 
     private void updateXPos(double xSpeed) {
-        wolf.getWolfEntity().setX(wolf.getWolfEntity().getX() + xSpeed);
+        wolf.setX(wolf.getX() + xSpeed);
     }
 
     private void updateYPos(double ySpeed) {
-        wolf.getWolfEntity().setY(wolf.getWolfEntity().getY() + ySpeed);
+        wolf.setY(wolf.getY() + ySpeed);
     }
     public boolean isLeft() {
         return left;
@@ -131,5 +148,21 @@ public class WolfMove implements PlayingInterface {
 
     public boolean isRight() {
         return right;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public void setJump(boolean jump) {
+        this.jump = jump;
+    }
+
+    public void setFall(boolean fall) {
+        this.fall = fall;
     }
 }

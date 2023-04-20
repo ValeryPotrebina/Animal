@@ -1,23 +1,25 @@
 package playing.island;
 
-import static Constants.Constants.IslandConstants.Entity.Enemy.ENEMY_INDEX_RABBIT;
-import static Constants.Constants.IslandConstants.Entity.Enemy.ENEMY_INDEX_WOLF;
-import static Constants.Constants.TextureConstants.Island.*;
-import static Constants.Constants.GameWindowConstants.*;
-
-import Constants.Constants;
 import Constants.LoadSave;
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.predator.predators.Wolf;
-import playing.entities.dynamics.animal.predator.predators.WolfEntity;
-import playing.entities.dynamics.rabbit.Rabbit;
-import playing.entities.dynamics.rabbit.RabbitEntity;
+import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.herbivore.herbivores.horses.Horse;
+import playing.entities.dynamics.animal.herbivore.herbivores.horses.HorseAnimation;
+import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.Rabbit;
+import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import static Constants.Constants.GameWindowConstants.*;
+import static Constants.Constants.IslandConstants.Entity.Enemy.*;
+import static Constants.Constants.TextureConstants.Island.*;
 
 public class Island implements PlayingInterface {
+    private Set<Animal> animals;
     private final BufferedImage islandImg;
     private BufferedImage[] levelSprite;
     private int[][] islandData;
@@ -26,6 +28,7 @@ public class Island implements PlayingInterface {
 
     public Island(BufferedImage island){
         this.islandImg = island;
+        animals = new HashSet<>();
         GetIslandData();
         loadBackGroundImages();
         calcLvlOffSet();
@@ -105,11 +108,16 @@ public class Island implements PlayingInterface {
                 Color color = new Color(islandImg.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == ENEMY_INDEX_RABBIT){
-                    rabbits.add(new Rabbit(new RabbitEntity(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT)));
+                    rabbits.add(new Rabbit(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
                 }
             }
         }
-        System.out.println("rabbits - "  + rabbits);
+        animals.addAll(rabbits);
+//        System.out.println("rabbits - "  + rabbits);
+//        for (Animal animal: animals) {
+//            System.out.println(animal + " HINBOX - " +animal.getHitBox());
+//        }
+
         return rabbits;
     }
     public ArrayList<Wolf> getWolves(){
@@ -119,14 +127,35 @@ public class Island implements PlayingInterface {
                 Color color = new Color(islandImg.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == ENEMY_INDEX_WOLF){
-                    wolves.add(new Wolf(new WolfEntity(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT)));
+                    wolves.add(new Wolf(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
                 }
             }
         }
-        System.out.println("wolves - "  + wolves);
+        animals.addAll(wolves);
+//        System.out.println("wolves - "  + wolves);
+//        for (Animal animal: animals) {
+//            System.out.println(animal + " HINBOX - " +animal.getHitBox());
+//        }
         return wolves;
     }
 
+    public ArrayList<Horse> getHorses(){
+        ArrayList<Horse> horses = new ArrayList<>();
+        for (int j = 0; j < islandImg.getHeight(); j++){
+            for (int i = 0; i < islandImg.getWidth(); i++) {
+                Color color = new Color(islandImg.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == ENEMY_INDEX_HORSE){
+                    horses.add(new Horse(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
+                }
+            }
+        }
+        animals.addAll(horses);
+        return horses;
+    }
+    public Set<Animal> getAnimals() {
+        return animals;
+    }
 
     public int[][] getIslandData() {
         return islandData;

@@ -1,5 +1,6 @@
 package playing.entities.dynamics;
 
+import playing.entities.dynamics.animal.Animal;
 import playing.entities.statics.Entity;
 
 import java.awt.geom.Rectangle2D;
@@ -9,9 +10,6 @@ public abstract class DynamicEntity extends Entity {
     private boolean isActive = true;
     public DynamicEntity(double x, double y, double width, double height) {
         super(x, y, width, height);
-    }
-    public DynamicEntity(double x, double y) {
-        super(x, y);
     }
 
     public void setEnemyManager(EnemyManager enemyManager) {
@@ -27,8 +25,8 @@ public abstract class DynamicEntity extends Entity {
     public boolean canMoveFloor(Rectangle2D.Double hitBox) {
         return enemyManager.canMoveFloor(hitBox);
     }
-    public boolean canSeePlayer(float range) {
-        return enemyManager.canSeePlayer(getHitBox(), range);
+    public boolean canSeePlayer(Animal animal) {
+        return enemyManager.canSeePlayer(animal);
     }
     public int wherePlayerX() {
         return enemyManager.wherePlayerX(getHitBox());

@@ -1,20 +1,22 @@
-package playing.entities.dynamics.animal.predator.predators;
+package playing.entities.dynamics.animal.herbivore.herbivores.horses;
 
 import Constants.LoadSave;
 import playing.PlayingInterface;
+import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
+import playing.entities.dynamics.animal.predator.predators.wolf.WolfAnimation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_WOLF;
-import static Constants.Constants.TextureConstants.Wolf.WOLF_LOCATION_TEXTURES;
-import static Constants.Constants.TextureConstants.Wolf.WOLF_SPRITES;
-import static playing.entities.dynamics.animal.predator.predators.WolfAnimation.WolfAnimationState.*;
+import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_HORSE;
+import static Constants.Constants.TextureConstants.Entity.*;
+import static playing.entities.dynamics.animal.herbivore.herbivores.horses.HorseAnimation.HorseAnimationState.*;
 
-public class WolfAnimation implements PlayingInterface {
+
+public class HorseAnimation implements PlayingInterface {
     private BufferedImage[][] animations;
-    final Wolf wolf;
-    public enum WolfAnimationState {  //вынести в отдельный енум!!!
+    final Horse horse;
+    public enum HorseAnimationState {  //вынести в отдельный енум!!!
         IDLE,
         RUNNING,
         JUMP,
@@ -23,37 +25,37 @@ public class WolfAnimation implements PlayingInterface {
         DEAD,
         SLEEP;
 
-        public static WolfAnimationState animationState = IDLE;
+        public static HorseAnimationState animationState = IDLE;
     }
     private int aniTick, aniIndex;
     private int flipW = 1;
     private int flipX = 0;
     private boolean dead;
 
-    protected WolfAnimation(Wolf wolf){
-        this.wolf = wolf;
+    protected HorseAnimation(Horse horse){
+        this.horse = horse;
         loadImages();
     }
 
     private void loadImages() {
-        BufferedImage image = LoadSave.getSpireAtlas(WOLF_LOCATION_TEXTURES, WOLF_SPRITES);
-        animations = new BufferedImage[7][5];
+        BufferedImage image = LoadSave.getSpireAtlas(ENTITY_LOCATION_TEXTURES, HORSE_SPRITE_PNG);
+        animations = new BufferedImage[7][6];
         for (int j = 0; j < animations.length; j++) {
             for (int i = 0; i < animations[j].length; i++) {
-                animations[j][i] = image.getSubimage(i * 83, j * 53, 83, 53);
+                animations[j][i] = image.getSubimage(i * 108, j * 73, 108, 73);
             }
         }
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        BufferedImage bufferedImage = animations[WolfAnimationState.animationState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
-                (int) ((wolf.getWolfEntity().getHitBox().x - 18 - x + flipX) * scale),
-                (int) ((wolf.getWolfEntity().getHitBox().y - 10 - y) * scale),          //сравнить с wolfAnimation
-                (int) (wolf.getWolfEntity().getHitBox().width * flipW * scale * 1.25), //не менять scale!!!
-                (int) (wolf.getWolfEntity().getHitBox().height * scale * 1.25),
+                (int) ((horse.getHitBox().x - x + flipX) * scale),
+                (int) ((horse.getHitBox().y + 5 - y) * scale),          //сравнить с wolfAnimation
+                (int) (horse.getHitBox().width * flipW * scale), //не менять scale!!!
+                (int) (horse.getHitBox().height * scale),
                 null);
-        wolf.getWolfEntity().drawHitBox(g, scale, x, y);
+        horse.drawHitBox(g, scale, x, y);
     }
 
     @Override
@@ -62,8 +64,8 @@ public class WolfAnimation implements PlayingInterface {
         updateAnimationTick();
     }
     private void updateAnimationBox() {
-        boolean right = wolf.getWolfMove().isRight();
-        boolean left = wolf.getWolfMove().isLeft();
+        boolean right = horse.getHorseMove().isRight();
+        boolean left = horse.getHorseMove().isLeft();
         BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         if (left) {
             flipW = 1;
@@ -75,12 +77,12 @@ public class WolfAnimation implements PlayingInterface {
     }
     private void updateAnimationTick() {
         aniTick++;
-        if (aniTick >= ANI_SPEED_ENEMY_WOLF) {
+        if (aniTick >= ANI_SPEED_ENEMY_HORSE) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
                 if (animationState == DEAD) {
-                    wolf.getWolfEntity().setActive(false);
+                    horse.setActive(false);
                 }
 
                 animationState = IDLE;
@@ -88,7 +90,7 @@ public class WolfAnimation implements PlayingInterface {
             }
         }
     }
-    public void setAnimationState(WolfAnimationState state) {
+    public void setAnimationState(HorseAnimationState state) {
         if (dead) {
             return;
         }
@@ -104,19 +106,18 @@ public class WolfAnimation implements PlayingInterface {
         switch (animationState) {
             case IDLE:
                 return 4;
-            case DEAD:
-                return 3;
             case RUNNING:
-            case EAT:
             case JUMP:
+            case DEAD:
+            case EAT:
             case SLEEP:
             case FALLING:
             default:
-                return 5;
+                return 6;
         }
     }
 
-    public WolfAnimationState getAnimationState() {
+    public HorseAnimationState getAnimationState() {
         return animationState;
     }
 }

@@ -2,10 +2,12 @@ package playing.entities.statics;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 public abstract class Entity {
     protected Rectangle2D.Double hitBox;
     protected Rectangle2D.Double hitBoxTexture;
+
 
     public Entity(double x, double y){
         hitBox = new Rectangle2D.Double(x, y, 0, 0);

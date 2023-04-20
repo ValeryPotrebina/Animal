@@ -1,8 +1,13 @@
 package playing.entities.statics;
 
+import Constants.Constants;
 import playing.PlayingGame;
+import playing.entities.dynamics.animal.Animal;
 
 import java.awt.geom.Rectangle2D;
+import java.util.HashSet;
+import java.util.Set;
+
 import static Constants.Constants.GameWindowConstants.*;
 public class EntityIslandManager {
     private PlayingGame playingGame;
@@ -64,18 +69,53 @@ public class EntityIslandManager {
         int value = lvlData[yTile][xTile];
         return value != 11; //11 - пустота
     }
-    public boolean canSeePlayer(Rectangle2D.Double hitBox, float range) {
-        int[][] lvlData = playingGame.getLevelManager().getIslandData();
-        Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
-        int playerTileY = (int) (playerHitBox.y / TILE_SIZE_DEFAULT);
-        int enemyTileY = (int) (hitBox.y / TILE_SIZE_DEFAULT);
 
-        if (playerTileY == enemyTileY) {
-            if (isPlayerInRange(hitBox, range)) {
-                if (IsSightClear(lvlData, hitBox, playerHitBox, enemyTileY))
-                    return true;
+    public boolean canSeePlayer(Animal animal) { //хитбокс и зрение и кучу методов для проверки
+        Rectangle2D.Double hitBox = animal.getHitBox();
+        int range = animal.getStateAnimal().getRange();
+        int[][] lvlData = playingGame.getLevelManager().getIslandData();
+        Set<Animal> animals = playingGame.getIsland().getAnimals();
+        for (Animal otherAnimal : animals) {
+            if (!animal.isSameAnimal(otherAnimal)){
+                Rectangle2D.Double playerHitBox = otherAnimal.getHitBox();
+                int playerTileY = (int) (playerHitBox.y / TILE_SIZE_DEFAULT);
+                int enemyTileY = (int) (hitBox.y / TILE_SIZE_DEFAULT);
+                if (playerTileY == enemyTileY) {
+                    if (isPlayerInRange(hitBox, range)) {
+                        if (IsSightClear(lvlData, hitBox, playerHitBox, enemyTileY)) {
+                            System.out.println(animal + " see " + otherAnimal);
+                            return true;
+                        }
+                    }
+                }
             }
         }
+        return false;
+    }
+
+    public boolean canSeePlayer(Rectangle2D.Double hitBox, float range) {
+        int[][] lvlData = playingGame.getLevelManager().getIslandData();
+        Set<Animal> animals = playingGame.getIsland().getAnimals();
+        Set<Rectangle2D.Double> hitBoxes = new HashSet<>();
+        for (Animal animal: animals) {
+            hitBoxes.add(animal.getHitBox());
+        }
+        //Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
+        //тут нужны все животные, которые есть на карте и проверка видно ли кого-нибудь
+        //как тут получить всех животных <----
+        //
+        for (Rectangle2D.Double playerHitBox: hitBoxes) { //
+            int playerTileY = (int) (playerHitBox.y / TILE_SIZE_DEFAULT);
+            int enemyTileY = (int) (hitBox.y / TILE_SIZE_DEFAULT);
+
+            if (playerTileY == enemyTileY) {
+                if (isPlayerInRange(hitBox, range)) {
+                    if (IsSightClear(lvlData, hitBox, playerHitBox, enemyTileY))
+                        return true;
+                }
+            }
+        }
+
 
         return false;
     }
