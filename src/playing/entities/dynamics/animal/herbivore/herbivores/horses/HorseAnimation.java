@@ -2,35 +2,20 @@ package playing.entities.dynamics.animal.herbivore.herbivores.horses;
 
 import Constants.LoadSave;
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
-import playing.entities.dynamics.animal.predator.predators.wolf.WolfAnimation;
+import playing.entities.dynamics.animal.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_HORSE;
 import static Constants.Constants.TextureConstants.Entity.*;
-import static playing.entities.dynamics.animal.herbivore.herbivores.horses.HorseAnimation.HorseAnimationState.*;
+import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.*;
 
-
-public class HorseAnimation implements PlayingInterface {
-    private BufferedImage[][] animations;
+//todo вернуть нормального коня!!
+public class HorseAnimation extends AnimalAnimation implements PlayingInterface {
     final Horse horse;
-    public enum HorseAnimationState {  //вынести в отдельный енум!!!
-        IDLE,
-        RUNNING,
-        JUMP,
-        FALLING,
-        EAT,
-        DEAD,
-        SLEEP;
+    private AnimationState horseAnimalState = IDLE;
 
-        public static HorseAnimationState animationState = IDLE;
-    }
-    private int aniTick, aniIndex;
-    private int flipW = 1;
-    private int flipX = 0;
-    private boolean dead;
 
     protected HorseAnimation(Horse horse){
         this.horse = horse;
@@ -48,10 +33,10 @@ public class HorseAnimation implements PlayingInterface {
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[horseAnimalState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
                 (int) ((horse.getHitBox().x - x + flipX) * scale),
-                (int) ((horse.getHitBox().y + 5 - y) * scale),          //сравнить с wolfAnimation
+                (int) ((horse.getHitBox().y + 10 - y) * scale),          //сравнить с wolfAnimation
                 (int) (horse.getHitBox().width * flipW * scale), //не менять scale!!!
                 (int) (horse.getHitBox().height * scale),
                 null);
@@ -66,7 +51,7 @@ public class HorseAnimation implements PlayingInterface {
     private void updateAnimationBox() {
         boolean right = horse.getHorseMove().isRight();
         boolean left = horse.getHorseMove().isLeft();
-        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[horseAnimalState.ordinal()][aniIndex];
         if (left) {
             flipW = 1;
             flipX = 0;
@@ -81,43 +66,43 @@ public class HorseAnimation implements PlayingInterface {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-                if (animationState == DEAD) {
+                if (horseAnimalState == DEAD) {
                     horse.setActive(false);
                 }
 
-                animationState = IDLE;
+                horseAnimalState = IDLE;
                 aniIndex = 0;
             }
         }
     }
-    public void setAnimationState(HorseAnimationState state) {
+    public void setAnimationState(AnimationState state) {
         if (dead) {
             return;
         }
         if (state == DEAD) {
             dead = true;
         }
-        animationState = state;
+        horseAnimalState = state;
         aniIndex = 0;
     }
 
 
-    private static int getSpriteAmount() {
-        switch (animationState) {
+    private int getSpriteAmount() {
+        switch (horseAnimalState) {
             case IDLE:
                 return 4;
+            case FALLING:
             case RUNNING:
             case JUMP:
             case DEAD:
             case EAT:
             case SLEEP:
-            case FALLING:
             default:
                 return 6;
         }
     }
 
-    public HorseAnimationState getAnimationState() {
-        return animationState;
+    public AnimationState getAnimationState() {
+        return horseAnimalState;
     }
 }

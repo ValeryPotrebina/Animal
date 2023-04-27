@@ -1,12 +1,14 @@
 package playing.entities.dynamics.animal.herbivore.herbivores.rabbits;
 
 import playing.PlayingInterface;
+import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import static Constants.Constants.GameConstants.GRAVITY;
-import static Constants.Constants.TextureConstants.Entity.RABBIT.RABBIT_VIEW_RANGE;
 
 public class RabbitMove implements PlayingInterface {
     final Rabbit rabbit;
@@ -46,17 +48,17 @@ public class RabbitMove implements PlayingInterface {
             if (rabbit.canMoveHere(newHitBox)){
                 updateYPos(ySpeed);
                 if (ySpeed > 0) {
-                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.FALLING);
+                    rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
                 } else if (ySpeed < 0) {
-                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.JUMP);
+                    rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
                 } else {
-                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.IDLE);
+                    rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed += GRAVITY;
             } else {
                 if (ySpeed > 0){
                     onFloor = true;
-                    rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.IDLE);
+                    rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed = 0;
             }
@@ -73,12 +75,12 @@ public class RabbitMove implements PlayingInterface {
             changeWalkDir();
         }
         if (xSpeed == 0){
-            if (rabbit.getRabbitAnimation().getAnimationState() == RabbitAnimation.RabbitAnimationState.RUNNING) {
-                rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.IDLE);
+            if (rabbit.getRabbitAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
+                rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
             }
         } else {
-            if (rabbit.getRabbitAnimation().getAnimationState() == RabbitAnimation.RabbitAnimationState.IDLE) {
-                rabbit.getRabbitAnimation().setAnimationState(RabbitAnimation.RabbitAnimationState.RUNNING);
+            if (rabbit.getRabbitAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
+                rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
             }
         }
         xSpeed = 0;
@@ -97,19 +99,31 @@ public class RabbitMove implements PlayingInterface {
     }
 
     private void checkEnvironment() {
-        if (rabbit.canSeePlayer(rabbit)) {
-            turnTowardsPlayer();
+        List<Animal> seenAnimals = rabbit.getSeenAnimals(rabbit);
+        if (seenAnimals != null && seenAnimals.size() != 0){
+            List<Animal> eatenAnimals = rabbit.getEatenAnimals(rabbit, seenAnimals);
+            if (eatenAnimals != null && eatenAnimals.size() != 0){
+                Animal otherAnimal = rabbit.chooseOneAnimalWhichCanEat(eatenAnimals);
+                turnTowardsPlayer(otherAnimal);
+            }
         } else if (!right && !left) {
             left = true;
+        } else {
+//            setJump(false);
         }
+//        if (rabbit.canSeeAnyone(rabbit)) {
+//            turnTowardsPlayer();
+//        } else if (!right && !left) {
+//            left = true;
+//        }
     }
 
-    private void turnTowardsPlayer() {
+    private void turnTowardsPlayer(Animal otherAnimal) {
         right = false;
         left = false;
-        if (rabbit.wherePlayerX() > 0) {
+        if (rabbit.wherePlayerX(rabbit, otherAnimal) > 0) {
             right = true;
-        } else if (rabbit.wherePlayerX() < 0) {
+        } else if (rabbit.wherePlayerX(rabbit, otherAnimal) < 0) {
             left = true;
         }
     }

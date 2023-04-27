@@ -35,13 +35,13 @@ public class StateAnimal {
         return range;
     }
 
-    @Override
-    public String toString() {
-        return "StateAnimal{" +
-                "weight=" + weight +
-                ", saturationKilos=" + saturationKilos +
-                ", speed=" + speed +
-                ", maxCountOnTheSameCell=" + maxCountOnTheSameCell +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "StateAnimal{" +
+//                "weight=" + weight +
+//                ", saturationKilos=" + saturationKilos +
+//                ", speed=" + speed +
+//                ", maxCountOnTheSameCell=" + maxCountOnTheSameCell +
+//                '}';
+//    }
 }

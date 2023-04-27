@@ -1,23 +1,28 @@
 package playing.entities.statics;
-
-import Constants.Constants;
 import playing.PlayingGame;
 import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.AnimalAnimation;
 
 import java.awt.geom.Rectangle2D;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static Constants.Constants.GameWindowConstants.*;
+import static java.lang.Math.abs;
+
+//todo Добавить логирование
+
 public class EntityIslandManager {
-    private PlayingGame playingGame;
-//todo разобраться с этим классом!!!!!!!!!!!!!!!!!!!!!!!!
+    private final PlayingGame playingGame;
+    AnimalAnimation animalAnimation;
+    private ArrayList<Animal> animals;
+    private volatile Animal otherAnimal;
     //TODO 1. Добавить озера
     //TODO Животное может передвигаться не только по полу
     //TODO Животное может прыгать
     //TODO Животное может определять, что за другое животное перед ним и из этого действовать
-    //TODO
-    //
+    //TODO Животное пойдет к своей добыче (нужно понимать какая вероятность у животных на поедание, чтобы идти к еде)
+    //TODO сначала увидит животное, далее анализ (можно ли есть). Если можно, то двигаться к пище (есть ее), иначе двигаться дальше
     public EntityIslandManager(PlayingGame playingGame){
         this.playingGame = playingGame;
     }
@@ -50,7 +55,6 @@ public class EntityIslandManager {
         return CanMoveHere(hitBox) && IsSolid(hitBox.x,
                 hitBox.y + hitBox.height + 1, lvlData);
     }
-
     private boolean IsSolid(double x, double y, int[][] lvlData) { //твердый ли блок (не проходимый)
         int maxWidth = lvlData[0].length * TILE_SIZE_DEFAULT;
         int maxHeight = lvlData.length * TILE_SIZE_DEFAULT;
@@ -65,26 +69,88 @@ public class EntityIslandManager {
 
         return IsTileSolid((int) xIndex, (int) yIndex, lvlData);
     }
-    private boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) { //заполненная чем-то плитка
+    private static boolean IsTileSolid(int xTile, int yTile, int[][] lvlData) { //заполненная чем-то плитка
         int value = lvlData[yTile][xTile];
         return value != 11; //11 - пустота
     }
+    private ArrayList<Animal> uploadAnimals(){
+        return playingGame.getIsland().getAnimals ();
+    }
 
-    public boolean canSeePlayer(Animal animal) { //хитбокс и зрение и кучу методов для проверки
-        Rectangle2D.Double hitBox = animal.getHitBox();
-        int range = animal.getStateAnimal().getRange();
+    public List<Animal> getSeenAnimals(Animal animal) { //хитбокс и зрение и кучу методов для проверки
+        List<Animal> seenAnimals = new ArrayList<>();
         int[][] lvlData = playingGame.getLevelManager().getIslandData();
-        Set<Animal> animals = playingGame.getIsland().getAnimals();
+        Rectangle2D.Double hitBox = animal.getHitBox();
+        ArrayList<Animal> animals = uploadAnimals();
         for (Animal otherAnimal : animals) {
             if (!animal.isSameAnimal(otherAnimal)){
                 Rectangle2D.Double playerHitBox = otherAnimal.getHitBox();
-                int playerTileY = (int) (playerHitBox.y / TILE_SIZE_DEFAULT);
+                int playerTileY = (int) (playerHitBox.y / TILE_SIZE_DEFAULT); //1 - 10, 2 - 12    Abs(2 - 1) <=2
                 int enemyTileY = (int) (hitBox.y / TILE_SIZE_DEFAULT);
-                if (playerTileY == enemyTileY) {
-                    if (isPlayerInRange(hitBox, range)) {
+                if (abs(playerTileY - enemyTileY) <= 4) { //todo добавить погрешность!!!         <<READY>>
+                    if (isPlayerInRange(animal, otherAnimal)) {
                         if (IsSightClear(lvlData, hitBox, playerHitBox, enemyTileY)) {
-                            System.out.println(animal + " see " + otherAnimal);
-                            return true;
+//                                if (canEatAnimal(animal, otherAnimal)){
+                            System.out.println(animal + " CAN SEE " + otherAnimal);
+                            seenAnimals.add(otherAnimal);
+//                            }
+                        }
+                    }
+                }
+            }
+        }
+        return seenAnimals;
+    }
+    public List<Animal> getEatenAnimals(Animal animal, List<Animal> seenAnimals){
+        List<Animal> eatenAnimals = new ArrayList<>();
+        for (Animal otherAnimal : seenAnimals) {
+            if (!animal.isSameAnimal(otherAnimal)){
+                if (animal.isEatable(otherAnimal)){
+                    eatenAnimals.add(otherAnimal);
+                }
+            }
+        }
+        return eatenAnimals;
+    }
+
+    public Animal chooseOneAnimalWhichCanEat(List<Animal> animals){
+        if (animals == null || animals.size() == 0){
+            return null;
+        }
+        return animals.get(0);
+    }
+    //canEatAnimal - определяем можно ли есть другого животного
+    public boolean canEatAnimal(Animal animal){
+        if (!animal.isSameAnimal(otherAnimal)){ //если животные разных типов
+            if (animal.isEatable(otherAnimal)){ //если вероятность поедания животного совпала
+                System.out.println(animal + " CAN EAT  " + otherAnimal);
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean canSeeAnyone(Animal animal) { //хитбокс и зрение и кучу методов для проверки
+        //todo изменить animals на private переменную
+        //волк видит кого-то         (найти кого он видит)
+        //вывод массива с животным которых он видит
+        //беру одного животного и передаю его в canEatAnimal
+        //animal.canSeePlayer(animal)
+        int[][] lvlData = playingGame.getLevelManager().getIslandData();
+        Rectangle2D.Double hitBox = animal.getHitBox();
+        animals = uploadAnimals();
+        for (Animal otherAnimal : animals) {
+            if (!animal.isSameAnimal(otherAnimal)){
+                    Rectangle2D.Double playerHitBox = otherAnimal.getHitBox();
+                    int playerTileY = (int) (playerHitBox.y / TILE_SIZE_DEFAULT); //1 - 10, 2 - 12    Abs(2 - 1) <=2
+                    int enemyTileY = (int) (hitBox.y / TILE_SIZE_DEFAULT);
+                    if (abs(playerTileY - enemyTileY) <= 4) { //todo добавить погрешность!!!         <<READY>>
+                        if (isPlayerInRange(animal, otherAnimal)) {
+                            if (IsSightClear(lvlData, hitBox, playerHitBox, enemyTileY)) {
+//                                if (canEatAnimal(animal, otherAnimal)){
+                                System.out.println(animal + " CAN SEE " + otherAnimal);
+                                this.otherAnimal = otherAnimal;
+                                return true;
+//                            }
                         }
                     }
                 }
@@ -92,44 +158,20 @@ public class EntityIslandManager {
         }
         return false;
     }
-
-    public boolean canSeePlayer(Rectangle2D.Double hitBox, float range) {
-        int[][] lvlData = playingGame.getLevelManager().getIslandData();
-        Set<Animal> animals = playingGame.getIsland().getAnimals();
-        Set<Rectangle2D.Double> hitBoxes = new HashSet<>();
-        for (Animal animal: animals) {
-            hitBoxes.add(animal.getHitBox());
-        }
-        //Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
-        //тут нужны все животные, которые есть на карте и проверка видно ли кого-нибудь
-        //как тут получить всех животных <----
-        //
-        for (Rectangle2D.Double playerHitBox: hitBoxes) { //
-            int playerTileY = (int) (playerHitBox.y / TILE_SIZE_DEFAULT);
-            int enemyTileY = (int) (hitBox.y / TILE_SIZE_DEFAULT);
-
-            if (playerTileY == enemyTileY) {
-                if (isPlayerInRange(hitBox, range)) {
-                    if (IsSightClear(lvlData, hitBox, playerHitBox, enemyTileY))
-                        return true;
-                }
-            }
-        }
-
-
-        return false;
+    public int wherePlayerX(Animal animal, Animal otherAnimal) {
+        Rectangle2D.Double animalHitBox = animal.getHitBox();
+        Rectangle2D.Double otherAnimalHitBox = otherAnimal.getHitBox();
+        System.out.println("DESTINATION BETWEEN " + animal + " AND " + otherAnimal + " = " + (int) (otherAnimalHitBox.x - animalHitBox.x));
+        return (int) (otherAnimalHitBox.x - animalHitBox.x);
     }
-
-    public int wherePlayerX(Rectangle2D.Double hitBox) {//передаем краба
-        Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
-        return (int) (playerHitBox.x - hitBox.x);
-    }
-    public boolean isPlayerInRange(Rectangle2D.Double hitBox, float range) { //зона видимости/реагирования игрока
-        Rectangle2D.Double playerHitBox = playingGame.getPlayerHitBox();
-        int absValue = (int) Math.abs(playerHitBox.x - hitBox.x);
+    public static boolean isPlayerInRange(Animal animal, Animal otherAnimal) { //зона видимости/реагирования игрока
+        Rectangle2D.Double animalHitBox = animal.getHitBox();
+        int range = animal.getStateAnimal().getRange();
+        Rectangle2D.Double otherAnimalHitBox = otherAnimal.getHitBox();
+        int absValue = (int) abs(otherAnimalHitBox.x - animalHitBox.x);
         return absValue <= range;
     }
-    private boolean IsSightClear(int[][] lvlData, Rectangle2D.Double firstHitbox, Rectangle2D.Double secondHitbox, int yTile) { //проверка может ли сущность 1 дойти дойти до сущности 2
+    public static boolean IsSightClear(int[][] lvlData, Rectangle2D.Double firstHitbox, Rectangle2D.Double secondHitbox, int yTile) { //проверка может ли сущность 1 дойти дойти до сущности 2
         int firstXTile = (int) (firstHitbox.x / TILE_SIZE_DEFAULT);
         int secondXTile = (int) (secondHitbox.x  / TILE_SIZE_DEFAULT);
 
@@ -138,7 +180,7 @@ public class EntityIslandManager {
         else
             return IsAllTilesWalkable(firstXTile, secondXTile, yTile, lvlData);
     }
-    private boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {// проверка, что между а и б пусто, а также что есть земля под ногами
+    private static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData) {// проверка, что между а и б пусто, а также что есть земля под ногами
         if (IsAllTilesClear(xStart, xEnd, y, lvlData))
             for (int i = 0; i < xEnd - xStart; i++) {
                 if (!IsTileSolid(xStart + i, y + 1, lvlData))
@@ -146,10 +188,27 @@ public class EntityIslandManager {
             }
         return true;
     }
-    private boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) { //проверка что между а и б пусто
+    private static boolean IsAllTilesClear(int xStart, int xEnd, int y, int[][] lvlData) { //проверка что между а и б пусто
         for (int i = 0; i < xEnd - xStart; i++)
             if (IsTileSolid(xStart + i, y, lvlData))
                 return false;
         return true;
     }
+    public void eatAnimal( ) {
+        //playingGame.eatAnimal();
+        //playerAnimation.setAnimationState(PlayerAnimation.AnimationState.DEAD);
+    }
+
+    public boolean checkPlayerHit(Rectangle2D.Double attackBox) {
+        Rectangle2D.Double playerHitBox = otherAnimal.getHitBox();
+        return attackBox.intersects(playerHitBox);
+    }
+    public void attackEnemy(Rectangle2D.Double attackBox) {
+        playingGame.attackEnemy(attackBox);
+    }
+
+    public Animal getOtherAnimal() {
+        return otherAnimal;
+    }
+
 }

@@ -11,13 +11,7 @@ public abstract class Predator extends Animal {
 
     @Override
     public String toString() {
-        return "Predator{" +
-                "hungerModule=" + hungerModule +
-                ", typeOfAnimal=" + typeOfAnimal +
-                ", speciesOfAnimal=" + speciesOfAnimal +
-                ", ageOfAnimal=" + ageOfAnimal +
-                ", stateAnimal=" + stateAnimal +
-                ", isHungry=" + isHungry +
-                '}';
+        return "typeOfAnimal= " + typeOfAnimal +
+                ", speciesOfAnimal=" + speciesOfAnimal;
     }
 }

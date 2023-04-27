@@ -19,7 +19,7 @@ import static Constants.Constants.IslandConstants.Entity.Enemy.*;
 import static Constants.Constants.TextureConstants.Island.*;
 
 public class Island implements PlayingInterface {
-    private Set<Animal> animals;
+    private ArrayList<Animal> animals;
     private final BufferedImage islandImg;
     private BufferedImage[] levelSprite;
     private int[][] islandData;
@@ -28,7 +28,7 @@ public class Island implements PlayingInterface {
 
     public Island(BufferedImage island){
         this.islandImg = island;
-        animals = new HashSet<>();
+        animals = new ArrayList<>();
         GetIslandData();
         loadBackGroundImages();
         calcLvlOffSet();
@@ -103,57 +103,56 @@ public class Island implements PlayingInterface {
 
     public ArrayList<Rabbit> getRabbits(){
         ArrayList<Rabbit> rabbits = new ArrayList<>();
+        int count = 0;
         for (int j = 0; j < islandImg.getHeight(); j++){
             for (int i = 0; i < islandImg.getWidth(); i++) {
                 Color color = new Color(islandImg.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == ENEMY_INDEX_RABBIT){
-                    rabbits.add(new Rabbit(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
+                    count ++;
+                    rabbits.add(new Rabbit(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT, count));
                 }
             }
         }
         animals.addAll(rabbits);
-//        System.out.println("rabbits - "  + rabbits);
-//        for (Animal animal: animals) {
-//            System.out.println(animal + " HINBOX - " +animal.getHitBox());
-//        }
 
         return rabbits;
     }
     public ArrayList<Wolf> getWolves(){
         ArrayList<Wolf> wolves = new ArrayList<>();
+        int count = 0;
         for (int j = 0; j < islandImg.getHeight(); j++){
             for (int i = 0; i < islandImg.getWidth(); i++) {
                 Color color = new Color(islandImg.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == ENEMY_INDEX_WOLF){
-                    wolves.add(new Wolf(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
+                    count++;
+                    wolves.add(new Wolf(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT, count));
                 }
             }
         }
         animals.addAll(wolves);
-//        System.out.println("wolves - "  + wolves);
-//        for (Animal animal: animals) {
-//            System.out.println(animal + " HINBOX - " +animal.getHitBox());
-//        }
+
         return wolves;
     }
 
     public ArrayList<Horse> getHorses(){
         ArrayList<Horse> horses = new ArrayList<>();
+        int count = 0;
         for (int j = 0; j < islandImg.getHeight(); j++){
             for (int i = 0; i < islandImg.getWidth(); i++) {
                 Color color = new Color(islandImg.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == ENEMY_INDEX_HORSE){
-                    horses.add(new Horse(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
+                    count++;
+                    horses.add(new Horse(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT, count));
                 }
             }
         }
         animals.addAll(horses);
         return horses;
     }
-    public Set<Animal> getAnimals() {
+    public ArrayList<Animal> getAnimals() {
         return animals;
     }
 

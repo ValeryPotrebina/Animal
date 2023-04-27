@@ -11,6 +11,7 @@ import playing.island.Island;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EnemyManager implements PlayingInterface {
     private EntityIslandManager entityIslandManager;
@@ -95,11 +96,40 @@ public class EnemyManager implements PlayingInterface {
     public boolean canMoveFloor(Rectangle2D.Double hitBox) {
         return entityIslandManager.canMoveFloor(hitBox);
     }
-    public boolean canSeePlayer(Animal animal) {
-        return entityIslandManager.canSeePlayer(animal);
+
+    public boolean canSeeAnyone(Animal animal) {
+        return entityIslandManager.canSeeAnyone(animal);
     }
-    public int wherePlayerX(Rectangle2D.Double hitBox) {
-        return entityIslandManager.wherePlayerX(hitBox);
+    public int wherePlayerX(Animal animal, Animal otherAnimal) {
+        return entityIslandManager.wherePlayerX(animal, otherAnimal);
+    }
+    public boolean canEatAnimal(Animal animal){
+        return entityIslandManager.canEatAnimal(animal);
+    }
+    public void eatAnimal() {
+        entityIslandManager.eatAnimal();
     }
 
+    public boolean checkPlayerHit(Rectangle2D.Double attackBox) {
+        return entityIslandManager.checkPlayerHit(attackBox);
+    }
+
+    public List<Animal> getSeenAnimals(Animal animal) {
+        return entityIslandManager.getSeenAnimals(animal);
+    }
+    public List<Animal> getEatenAnimals(Animal animal, List<Animal> seenAnimals) {
+        return entityIslandManager.getEatenAnimals(animal, seenAnimals);
+    }
+    public Animal chooseOneAnimalWhichCanEat(List<Animal> animals){
+        return entityIslandManager.chooseOneAnimalWhichCanEat(animals);
+    }
+    public void attackEnemy(Rectangle2D.Double attackBox) {
+        for (Wolf wolf : wolves) {
+            if (wolf.isActive()) {
+                if (attackBox.intersects(wolf.getHitBox())) {
+                    wolf.attackWolf();
+                }
+            }
+        }
+    }
 }

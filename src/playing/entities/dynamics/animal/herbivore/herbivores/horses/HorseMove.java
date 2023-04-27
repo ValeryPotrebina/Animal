@@ -1,11 +1,12 @@
 package playing.entities.dynamics.animal.herbivore.herbivores.horses;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.Rabbit;
-import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.RabbitAnimation;
+import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import static Constants.Constants.GameConstants.GRAVITY;
 
@@ -47,17 +48,17 @@ public class HorseMove implements PlayingInterface {
             if (horse.canMoveHere(newHitBox)){
                 updateYPos(ySpeed);
                 if (ySpeed > 0) {
-                    horse.getHorseAnimation().setAnimationState(HorseAnimation.HorseAnimationState.FALLING);
+                    horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
                 } else if (ySpeed < 0) {
-                    horse.getHorseAnimation().setAnimationState(HorseAnimation.HorseAnimationState.JUMP);
+                    horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
                 } else {
-                    horse.getHorseAnimation().setAnimationState(HorseAnimation.HorseAnimationState.IDLE);
+                    horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed += GRAVITY;
             } else {
                 if (ySpeed > 0){
                     onFloor = true;
-                    horse.getHorseAnimation().setAnimationState(HorseAnimation.HorseAnimationState.IDLE);
+                    horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed = 0;
             }
@@ -74,12 +75,12 @@ public class HorseMove implements PlayingInterface {
             changeWalkDir();
         }
         if (xSpeed == 0){
-            if (horse.getHorseAnimation().getAnimationState() == HorseAnimation.HorseAnimationState.RUNNING) {
-                horse.getHorseAnimation().setAnimationState(HorseAnimation.HorseAnimationState.IDLE);
+            if (horse.getHorseAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
+                horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
             }
         } else {
-            if (horse.getHorseAnimation().getAnimationState() == HorseAnimation.HorseAnimationState.IDLE) {
-                horse.getHorseAnimation().setAnimationState(HorseAnimation.HorseAnimationState.RUNNING);
+            if (horse.getHorseAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
+                horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
             }
         }
         xSpeed = 0;
@@ -98,19 +99,31 @@ public class HorseMove implements PlayingInterface {
     }
 
     private void checkEnvironment() {
-        if (horse.canSeePlayer(horse)) {
-            turnTowardsPlayer();
+        java.util.List<Animal> seenAnimals = horse.getSeenAnimals(horse);
+        if (seenAnimals != null && seenAnimals.size() != 0){
+            List<Animal> eatenAnimals = horse.getEatenAnimals(horse, seenAnimals);
+            if (eatenAnimals != null && eatenAnimals.size() != 0){
+                Animal otherAnimal = horse.chooseOneAnimalWhichCanEat(eatenAnimals);
+                turnTowardsPlayer(otherAnimal);
+            }
         } else if (!right && !left) {
             left = true;
+        } else {
+//            setJump(false);
         }
+//        if (horse.canSeeAnyone(horse)) {
+//            turnTowardsPlayer();
+//        } else if (!right && !left) {
+//            left = true;
+//        }
     }
 
-    private void turnTowardsPlayer() {
+    private void turnTowardsPlayer(Animal otherAnimal) {
         right = false;
         left = false;
-        if (horse.wherePlayerX() > 0) {
+        if (horse.wherePlayerX(horse, otherAnimal) > 0) {
             right = true;
-        } else if (horse.wherePlayerX() < 0) {
+        } else if (horse.wherePlayerX(horse, otherAnimal) < 0) {
             left = true;
         }
     }

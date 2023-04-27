@@ -4,6 +4,7 @@ import playing.entities.dynamics.animal.Animal;
 import playing.entities.statics.Entity;
 
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 public abstract class DynamicEntity extends Entity {
     private EnemyManager enemyManager;
@@ -25,13 +26,32 @@ public abstract class DynamicEntity extends Entity {
     public boolean canMoveFloor(Rectangle2D.Double hitBox) {
         return enemyManager.canMoveFloor(hitBox);
     }
-    public boolean canSeePlayer(Animal animal) {
-        return enemyManager.canSeePlayer(animal);
+    public boolean canSeeAnyone(Animal animal) {
+        return enemyManager.canSeeAnyone(animal);
     }
-    public int wherePlayerX() {
-        return enemyManager.wherePlayerX(getHitBox());
+    public int wherePlayerX(Animal animal, Animal otherAnimal) {
+        return enemyManager.wherePlayerX(animal, otherAnimal);
     }
 
+    public boolean canEatAnimal(Animal animal){
+        return enemyManager.canEatAnimal(animal);
+    }
+    public void eatAnimal() {
+        enemyManager.eatAnimal();
+    }
+
+    public boolean checkPlayerHit(Rectangle2D.Double attackBox) {
+        return enemyManager.checkPlayerHit(attackBox);
+    }
+    public List<Animal> getSeenAnimals(Animal animal) {
+        return enemyManager.getSeenAnimals(animal);
+    }
+    public List<Animal> getEatenAnimals(Animal animal, List<Animal> seenAnimals) {
+        return enemyManager.getEatenAnimals(animal, seenAnimals);
+    }
+    public Animal chooseOneAnimalWhichCanEat(List<Animal> animals){
+        return enemyManager.chooseOneAnimalWhichCanEat(animals);
+    }
     public boolean isActive(){
         return isActive;
     }

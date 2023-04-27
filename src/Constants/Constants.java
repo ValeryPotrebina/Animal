@@ -86,7 +86,7 @@ public class Constants {
         public static final class Entity{
             public static final String ENTITY_LOCATION_TEXTURES = "entity";
             public static final String RABBIT_SPRITE_PNG = "rabbit_sprite.png";
-            public static final String HORSE_SPRITE_PNG = "horse_sprite.png";
+            public static final String HORSE_SPRITE_PNG = "horse_sprite.png"; //TODO ИЗМЕНИТЬ!!!!!
 
 
             public static final class RABBIT{

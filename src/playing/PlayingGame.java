@@ -133,4 +133,10 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
         wolfManager.resetVertBooleans();
     }
 
+    public void eatAnimal(){
+
+    }
+    public void attackEnemy(Rectangle2D.Double attackBox){
+        enemyManager.attackEnemy(attackBox);
+    }
 }

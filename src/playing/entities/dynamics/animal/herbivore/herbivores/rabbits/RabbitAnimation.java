@@ -2,6 +2,7 @@ package playing.entities.dynamics.animal.herbivore.herbivores.rabbits;
 
 import Constants.LoadSave;
 import playing.PlayingInterface;
+import playing.entities.dynamics.animal.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,22 +10,14 @@ import java.awt.image.BufferedImage;
 import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_RABBIT;
 import static Constants.Constants.TextureConstants.Entity.ENTITY_LOCATION_TEXTURES;
 import static Constants.Constants.TextureConstants.Entity.RABBIT_SPRITE_PNG;
-import static playing.entities.dynamics.animal.herbivore.herbivores.rabbits.RabbitAnimation.RabbitAnimationState.*;
+import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.DEAD;
+import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.IDLE;
 
-public class RabbitAnimation implements PlayingInterface {
+public class RabbitAnimation extends AnimalAnimation implements PlayingInterface {
     private BufferedImage[][] animations;
     final Rabbit rabbit; //modificator!!!
-    public enum RabbitAnimationState {  //вынести в отдельный енум!!!
-        IDLE,
-        RUNNING,
-        JUMP,
-        FALLING,
-        EAT,
-        DEAD,
-        SLEEP;
+    private AnimationState rabbitAnimalState = IDLE;
 
-        public static RabbitAnimationState animationState = IDLE;
-    }
     private int aniTick, aniIndex;
     private int flipW = 1;
     private int flipX = 0;
@@ -45,7 +38,7 @@ public class RabbitAnimation implements PlayingInterface {
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[rabbitAnimalState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
                 (int) ((rabbit.getHitBox().x - x + flipX) * scale),
                 (int) ((rabbit.getHitBox().y - y) * scale),          //сравнить с wolfAnimation
@@ -63,7 +56,7 @@ public class RabbitAnimation implements PlayingInterface {
     private void updateAnimationBox() {
         boolean right = rabbit.getRabbitMove().isRight();
         boolean left = rabbit.getRabbitMove().isLeft();
-        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[rabbitAnimalState.ordinal()][aniIndex];
         if (left) {
             flipW = 1;
             flipX = 0;
@@ -78,35 +71,34 @@ public class RabbitAnimation implements PlayingInterface {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-                if (animationState == DEAD) {
+                if (rabbitAnimalState == DEAD) {
                     rabbit.setActive(false);
                 }
 
-                animationState = IDLE;
+                rabbitAnimalState = IDLE;
                 aniIndex = 0;
             }
         }
     }
-    public void setAnimationState(RabbitAnimationState state) {
+    public void setAnimationState(AnimationState state) {
         if (dead) {
             return;
         }
         if (state == DEAD) {
             dead = true;
         }
-        animationState = state;
+        rabbitAnimalState = state;
         aniIndex = 0;
     }
-    public RabbitAnimationState getAnimationState() {
-        return animationState;
+    public AnimationState getAnimationState() {
+        return rabbitAnimalState;
     }
     public int getAniIndex() {
         return aniIndex;
     }
 
-    private static int getSpriteAmount() {
-
-        switch (animationState) {
+    private int getSpriteAmount() {
+        switch (rabbitAnimalState) {
             case RUNNING:
                 return 4;
             case IDLE:

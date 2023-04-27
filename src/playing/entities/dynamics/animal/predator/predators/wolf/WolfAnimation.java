@@ -2,6 +2,7 @@ package playing.entities.dynamics.animal.predator.predators.wolf;
 
 import Constants.LoadSave;
 import playing.PlayingInterface;
+import playing.entities.dynamics.animal.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,26 +10,13 @@ import java.awt.image.BufferedImage;
 import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_WOLF;
 import static Constants.Constants.TextureConstants.Wolf.WOLF_LOCATION_TEXTURES;
 import static Constants.Constants.TextureConstants.Wolf.WOLF_SPRITES;
-import static playing.entities.dynamics.animal.predator.predators.wolf.WolfAnimation.WolfAnimationState.*;
+import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.DEAD;
+import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.IDLE;
 
-public class WolfAnimation implements PlayingInterface {
-    private BufferedImage[][] animations;
+//todo можно сделать абстрактный класс animation для всех животных
+public class WolfAnimation extends AnimalAnimation implements PlayingInterface {
     final Wolf wolf;
-    public enum WolfAnimationState {  //вынести в отдельный енум!!!
-        IDLE,
-        RUNNING,
-        JUMP,
-        FALLING,
-        EAT,
-        DEAD,
-        SLEEP;
-
-        public static WolfAnimationState animationState = IDLE;
-    }
-    private int aniTick, aniIndex;
-    private int flipW = 1;
-    private int flipX = 0;
-    private boolean dead;
+    private AnimationState wolfAnimalState = IDLE;
 
     protected WolfAnimation(Wolf wolf){
         this.wolf = wolf;
@@ -46,10 +34,10 @@ public class WolfAnimation implements PlayingInterface {
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        BufferedImage bufferedImage = animations[WolfAnimationState.animationState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[wolfAnimalState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
-                (int) ((wolf.getHitBox().x  - x + flipX) * scale),
-                (int) ((wolf.getHitBox().y - 10 - y) * scale),          //сравнить с wolfAnimation
+                (int) ((wolf.getHitBox().x  + 35 - x + flipX) * scale),
+                (int) ((wolf.getHitBox().y -4 - y) * scale),          //сравнить с wolfAnimation
                 (int) (wolf.getHitBox().width * flipW * scale * 1.25), //не менять scale!!!
                 (int) (wolf.getHitBox().height * scale * 1.25),
                 null);
@@ -64,7 +52,7 @@ public class WolfAnimation implements PlayingInterface {
     private void updateAnimationBox() {
         boolean right = wolf.getWolfMove().isRight();
         boolean left = wolf.getWolfMove().isLeft();
-        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[wolfAnimalState.ordinal()][aniIndex];
         if (left) {
             flipW = 1;
             flipX = 0;
@@ -79,29 +67,29 @@ public class WolfAnimation implements PlayingInterface {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-                if (animationState == DEAD) {
+                if (wolfAnimalState == DEAD) {
                     wolf.setActive(false);
                 }
 
-                animationState = IDLE;
+                wolfAnimalState = IDLE;
                 aniIndex = 0;
             }
         }
     }
-    public void setAnimationState(WolfAnimationState state) {
+    public void setAnimationState(AnimationState state) {
         if (dead) {
             return;
         }
         if (state == DEAD) {
             dead = true;
         }
-        animationState = state;
+        wolfAnimalState = state;
         aniIndex = 0;
     }
 
 
-    private static int getSpriteAmount() {
-        switch (animationState) {
+    private int getSpriteAmount() {
+        switch (wolfAnimalState) {
             case IDLE:
                 return 4;
             case DEAD:
@@ -116,7 +104,7 @@ public class WolfAnimation implements PlayingInterface {
         }
     }
 
-    public WolfAnimationState getAnimationState() {
-        return animationState;
+    public AnimationState getAnimationState() {
+        return wolfAnimalState;
     }
 }

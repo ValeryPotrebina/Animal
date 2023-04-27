@@ -1,6 +1,8 @@
 package playing.entities.dynamics.animal.herbivore.herbivores.rabbits;
 
 import playing.PlayingInterface;
+import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.ProbabilityOfEating;
 import playing.entities.dynamics.animal.animalsModules.hunger.predatorHungerModule.WolfHungerModule;
 import playing.entities.dynamics.animal.characteristics.SpeciesOfAnimal;
 import playing.entities.dynamics.animal.characteristics.StateAnimal;
@@ -9,6 +11,7 @@ import playing.entities.dynamics.animal.predator.predators.wolf.WolfAnimation;
 import playing.entities.dynamics.animal.predator.predators.wolf.WolfMove;
 
 import java.awt.*;
+import java.util.Random;
 
 import static Constants.Constants.Animal.MaxCountOnTheSameCell.RABBIT_COUNT;
 import static Constants.Constants.Animal.MaxCountOnTheSameCell.WOLF_COUNT;
@@ -21,12 +24,14 @@ import static Constants.Constants.Animal.Speed.WOLF_SPEED;
 import static Constants.Constants.Animal.Weight.RABBIT_WEIGHT;
 import static Constants.Constants.Animal.Weight.WOLF_WEIGHT;
 
-public class Rabbit extends Herbivore implements PlayingInterface {
+public class Rabbit extends Herbivore implements PlayingInterface, ProbabilityOfEating {
     private RabbitMove rabbitMove;
     private RabbitAnimation rabbitAnimation;
+    int num;
 
-    public Rabbit(double x, double y) {
+    public Rabbit(double x, double y, int num) {
         super(x, y - 50, 40, 40);
+        this.num = num;
         initModules();
     }
 
@@ -36,6 +41,24 @@ public class Rabbit extends Herbivore implements PlayingInterface {
         speciesOfAnimal = SpeciesOfAnimal.RABBIT;
         rabbitMove = new RabbitMove(this);
         rabbitAnimation = new RabbitAnimation(this);
+    }
+
+    @Override
+    public boolean isEatable(Animal animal) {
+        int random = new Random().nextInt(100);
+        int probability = this.getProbabilityOfEating(animal);
+        System.out.println("RABBIT --> \n random - " + random + "\n probability - " + probability);
+        return random < probability;
+    }
+    @Override
+    public int getProbabilityOfEating(Animal animal) {
+        switch (animal.getSpeciesOfAnimal()){
+            case HORSE:
+            case WOLF:
+            case RABBIT:
+            default:
+                return 0;
+        }
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
@@ -56,4 +79,9 @@ public class Rabbit extends Herbivore implements PlayingInterface {
         return rabbitAnimation;
     }
 
+    @Override
+    public String toString() {
+        return speciesOfAnimal +
+                " NUMBER = " + num;
+    }
 }

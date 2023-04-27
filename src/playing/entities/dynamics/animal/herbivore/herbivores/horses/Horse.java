@@ -2,28 +2,27 @@ package playing.entities.dynamics.animal.herbivore.herbivores.horses;
 
 import playing.PlayingInterface;
 import playing.entities.dynamics.animal.Animal;
-import playing.entities.dynamics.animal.ProbabilityOfEating;
 import playing.entities.dynamics.animal.characteristics.SpeciesOfAnimal;
 import playing.entities.dynamics.animal.characteristics.StateAnimal;
 import playing.entities.dynamics.animal.herbivore.Herbivore;
 
 import java.awt.*;
+import java.util.Random;
 
 import static Constants.Constants.Animal.MaxCountOnTheSameCell.HORSE_COUNT;
 import static Constants.Constants.Animal.Range.HORSE_RANGE;
 import static Constants.Constants.Animal.Speed.HORSE_SPEED;
 import static Constants.Constants.Animal.Weight.HORSE_WEIGHT;
 import static Constants.Constants.Animal.SaturationKilos.HORSE_SATURATION;
-import static Constants.Constants.Animal.Weight.HORSE_WEIGHT;
-import static Constants.Constants.Animal.Weight.HORSE_WEIGHT;
-import static Constants.Constants.Animal.Weight.HORSE_WEIGHT;
 
 
-public class Horse extends Herbivore implements PlayingInterface, ProbabilityOfEating {
+public class Horse extends Herbivore implements PlayingInterface{
     HorseAnimation horseAnimation;
     HorseMove horseMove;
-    public Horse(double x, double y) {
+    int num;
+    public Horse(double x, double y, int num) {
         super(x, y, 107, 73);
+        this.num = num;
         initModules();
     }
 
@@ -45,16 +44,34 @@ public class Horse extends Herbivore implements PlayingInterface, ProbabilityOfE
         horseAnimation.update();
     }
 
-    @Override
-    public int getProbabilityOfEating(Animal animal) {
-        return 0;
-    }
-
     public HorseAnimation getHorseAnimation() {
         return horseAnimation;
     }
 
     public HorseMove getHorseMove() {
         return horseMove;
+    }
+    @Override
+    public boolean isEatable(Animal animal) {
+        int random = new Random().nextInt(100);
+        int probability = this.getProbabilityOfEating(animal);
+        System.out.println("HORSE --> \n random - " + random + "\n probability - " + probability);
+        return random <= probability;
+    }
+    @Override
+    public int getProbabilityOfEating(Animal animal) {
+        switch (animal.getSpeciesOfAnimal()){
+            case RABBIT:
+                return 20;
+            case WOLF:
+            case HORSE:
+            default:
+                return 0;
+        }
+    }
+    @Override
+    public String toString() {
+        return speciesOfAnimal +
+                " NUMBER = " + num;
     }
 }

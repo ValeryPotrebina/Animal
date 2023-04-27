@@ -1,16 +1,20 @@
 package playing.entities.dynamics.animal.predator.predators.wolf;
 
 import playing.PlayingInterface;
+import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import static Constants.Constants.GameConstants.GRAVITY;
 import static Constants.Constants.GameConstants.TEMP_GRAVITY;
-import static Constants.Constants.TextureConstants.Entity.WOLF.WOLF_VIEW_RANGE;
 
 public class WolfMove implements PlayingInterface {
     final Wolf wolf;
+
+
     private boolean left, right, jump, fall;
     private boolean onFloor;
     private float speedJump = -2.65f + GRAVITY;
@@ -19,11 +23,13 @@ public class WolfMove implements PlayingInterface {
     private float ySpeed = 0;
     private float xSpeed = 0;
 
-    public WolfMove(Wolf wolf){
+    public WolfMove(Wolf wolf) {
         this.wolf = wolf;
     }
+
     @Override
-    public void draw(Graphics g, float scale, int x, int y) {}
+    public void draw(Graphics g, float scale, int x, int y) {
+    }
 
     @Override
     public void update() {
@@ -31,9 +37,9 @@ public class WolfMove implements PlayingInterface {
         updatePos();
     }
 
-    private void updatePos(){
-        if (jump){
-            if (onFloor){
+    private void updatePos() {
+        if (jump) {
+            if (onFloor) {
                 onFloor = false;
                 ySpeed = speedJump;
             }
@@ -44,11 +50,11 @@ public class WolfMove implements PlayingInterface {
             xSpeed += speedWalk; //ИСПРАВИТЬ
         if (right)
             xSpeed -= speedWalk; //ИСПРАВИТЬ
-        if (fall){
+        if (fall) {
             ySpeed = 1.5f;
             GRAVITY = 0.035f;
         }
-        if (onFloor){
+        if (onFloor) {
             if (!wolf.isPlayerOnFloor())
                 onFloor = false;
         } else {
@@ -59,20 +65,20 @@ public class WolfMove implements PlayingInterface {
                     oldHitBox.width,
                     oldHitBox.height
             );
-            if (wolf.canMoveHere(newHitBox)){
+            if (wolf.canMoveHere(newHitBox)) {
                 updateYPos(ySpeed);
                 if (ySpeed > 0) {
-                    wolf.getWolfAnimation().setAnimationState(WolfAnimation.WolfAnimationState.FALLING);
+                    wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
                 } else if (ySpeed < 0) {
-                    wolf.getWolfAnimation().setAnimationState(WolfAnimation.WolfAnimationState.JUMP);
+                    wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
                 } else {
-                    wolf.getWolfAnimation().setAnimationState(WolfAnimation.WolfAnimationState.IDLE);
+                    wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed += GRAVITY;
             } else {
-                if (ySpeed > 0){
+                if (ySpeed > 0) {
                     onFloor = true;
-                    wolf.getWolfAnimation().setAnimationState(WolfAnimation.WolfAnimationState.IDLE);
+                    wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed = 0;
             }
@@ -83,18 +89,18 @@ public class WolfMove implements PlayingInterface {
                 oldHitBox.x + xSpeed, oldHitBox.y,
                 oldHitBox.width, oldHitBox.height);
         //справлено!!!!!!!!!!!
-        if (wolf.canMoveHere(newHitBox)){
+        if (wolf.canMoveHere(newHitBox)) {
             updateXPos(xSpeed);
         } else {
             changeWalkDir();
         }
-        if (xSpeed == 0){
-            if (wolf.getWolfAnimation().getAnimationState() == WolfAnimation.WolfAnimationState.RUNNING) {
-                wolf.getWolfAnimation().setAnimationState(WolfAnimation.WolfAnimationState.IDLE);
+        if (xSpeed == 0) {
+            if (wolf.getWolfAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
+                wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
             }
         } else {
-            if (wolf.getWolfAnimation().getAnimationState() == WolfAnimation.WolfAnimationState.IDLE) {
-                wolf.getWolfAnimation().setAnimationState(WolfAnimation.WolfAnimationState.RUNNING);
+            if (wolf.getWolfAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
+                wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
             }
         }
         xSpeed = 0;
@@ -113,24 +119,27 @@ public class WolfMove implements PlayingInterface {
     }
 
     private void checkEnvironment() {
-        if (wolf.canSeePlayer(wolf)) {
-            setJump(true);
-            turnTowardsPlayer();
+        List<Animal> seenAnimals = wolf.getSeenAnimals(wolf);
+        if (seenAnimals != null && seenAnimals.size() != 0) {
+            List<Animal> eatenAnimals = wolf.getEatenAnimals(wolf, seenAnimals);
+            if (eatenAnimals != null && eatenAnimals.size() != 0) {
+                Animal otherAnimal = wolf.chooseOneAnimalWhichCanEat(eatenAnimals);
+                turnTowardsPlayer(otherAnimal);
+            }
         } else if (!right && !left) {
             left = true;
         } else {
-            setJump(false);
+//            setJump(false);
         }
     }
 
 
-
-    private void turnTowardsPlayer() {
+    private void turnTowardsPlayer(Animal otherAnimal) {
         right = false;
         left = false;
-        if (wolf.wherePlayerX() > 0) {
+        if (wolf.wherePlayerX(wolf, otherAnimal) > 0) {
             right = true;
-        } else if (wolf.wherePlayerX() < 0) {
+        } else if (wolf.wherePlayerX(wolf, otherAnimal) < 0) {
             left = true;
         }
     }
@@ -142,6 +151,7 @@ public class WolfMove implements PlayingInterface {
     private void updateYPos(double ySpeed) {
         wolf.setY(wolf.getY() + ySpeed);
     }
+
     public boolean isLeft() {
         return left;
     }
