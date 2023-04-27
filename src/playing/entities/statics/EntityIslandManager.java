@@ -1,7 +1,7 @@
 package playing.entities.statics;
 import playing.PlayingGame;
-import playing.entities.dynamics.animal.Animal;
-import playing.entities.dynamics.animal.AnimalAnimation;
+import playing.entities.dynamics.animal.animalModules.Animal;
+import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class EntityIslandManager {
         int value = lvlData[yTile][xTile];
         return value != 11; //11 - пустота
     }
-    private ArrayList<Animal> uploadAnimals(){
+    public ArrayList<Animal> uploadAnimals(){
         return playingGame.getIsland().getAnimals ();
     }
 
@@ -199,13 +199,23 @@ public class EntityIslandManager {
         //playerAnimation.setAnimationState(PlayerAnimation.AnimationState.DEAD);
     }
 
+
+
+
+    //////////////////////////////////////////////
+    public void eatEnemy(Rectangle2D.Double attackBox){
+
+        playingGame.eatEnemy(attackBox);
+    }
+    //////////////////////////////////////////////
+
     public boolean checkPlayerHit(Rectangle2D.Double attackBox) {
         Rectangle2D.Double playerHitBox = otherAnimal.getHitBox();
         return attackBox.intersects(playerHitBox);
     }
-    public void attackEnemy(Rectangle2D.Double attackBox) {
-        playingGame.attackEnemy(attackBox);
-    }
+//    public void attackEnemy(Rectangle2D.Double attackBox) {
+//        playingGame.attackEnemy(attackBox);
+//    }
 
     public Animal getOtherAnimal() {
         return otherAnimal;

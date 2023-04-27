@@ -2,14 +2,14 @@ package playing.entities.dynamics.animal.herbivore.herbivores.horses;
 
 import Constants.LoadSave;
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.AnimalAnimation;
+import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_HORSE;
 import static Constants.Constants.TextureConstants.Entity.*;
-import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.*;
+import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.AnimationState.*;
 
 //todo вернуть нормального коня!!
 public class HorseAnimation extends AnimalAnimation implements PlayingInterface {

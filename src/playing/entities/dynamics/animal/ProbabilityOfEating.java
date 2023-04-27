@@ -1,5 +1,7 @@
 package playing.entities.dynamics.animal;
 
+import playing.entities.dynamics.animal.animalModules.Animal;
+
 import java.util.Random;
 
 public interface ProbabilityOfEating {

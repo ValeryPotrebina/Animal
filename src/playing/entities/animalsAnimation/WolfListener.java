@@ -27,6 +27,6 @@ public class WolfListener extends WolfModule implements PlayingKeyListenerInterf
     //todo ИЗМЕНИТЬ!!!
     @Override
     public void mouseClicked(MouseEvent e) {
-        //wolfModuleManager.mouseClicked(e);
+        wolfModuleManager.getWolfAttack().mouseClicked(e);
     }
 }

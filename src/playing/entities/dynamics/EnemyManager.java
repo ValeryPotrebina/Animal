@@ -1,7 +1,7 @@
 package playing.entities.dynamics;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.herbivore.herbivores.horses.Horse;
 import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.Rabbit;
 import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
@@ -19,6 +19,7 @@ public class EnemyManager implements PlayingInterface {
     private ArrayList<Rabbit> rabbits;
     private ArrayList<Wolf> wolves;
     private ArrayList<Horse> horses;
+
 
 
     public EnemyManager(EntityIslandManager entityIslandManager, Island island) {
@@ -77,6 +78,14 @@ public class EnemyManager implements PlayingInterface {
         }
     }
 
+    private ArrayList<Animal> uploadAnimals(){ //мб надо поменять, нулпоинтерэкс
+        ArrayList<Animal> animals = new ArrayList<>();
+        animals.addAll(rabbits);
+        animals.addAll(wolves);
+        animals.addAll(horses);
+        return animals;
+    }
+
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
         drawObjects(g, scale, x, y);
@@ -123,13 +132,26 @@ public class EnemyManager implements PlayingInterface {
     public Animal chooseOneAnimalWhichCanEat(List<Animal> animals){
         return entityIslandManager.chooseOneAnimalWhichCanEat(animals);
     }
-    public void attackEnemy(Rectangle2D.Double attackBox) {
-        for (Wolf wolf : wolves) {
-            if (wolf.isActive()) {
-                if (attackBox.intersects(wolf.getHitBox())) {
-                    wolf.attackWolf();
+//    public void attackEnemy(Rectangle2D.Double attackBox) {
+//        for (Wolf wolf : wolves) {
+//            if (wolf.isActive()) {
+//                if (attackBox.intersects(wolf.getHitBox())) {
+//                    wolf.attackWolf();
+//                }
+//            }
+//        }
+//    }
+
+    /////////////////////////////
+    public void eatEnemy(Rectangle2D.Double attackBox){
+        ArrayList<Animal> animals = uploadAnimals();
+        for (Animal animal : animals){
+            if (animal.isActive()){
+                if (attackBox.intersects(animal.getHitBox())){
+                    animal.eatEnemy();
                 }
             }
         }
     }
+    /////////////////////////////
 }

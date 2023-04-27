@@ -1,6 +1,6 @@
 package playing.entities.dynamics.animal.animalsModules.hunger;
 
-import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.animalModules.Animal;
 
 public abstract class HungerModule {
     private float priorityOfHunger;

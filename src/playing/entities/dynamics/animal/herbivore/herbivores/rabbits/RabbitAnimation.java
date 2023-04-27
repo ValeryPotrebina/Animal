@@ -2,7 +2,7 @@ package playing.entities.dynamics.animal.herbivore.herbivores.rabbits;
 
 import Constants.LoadSave;
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.AnimalAnimation;
+import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_RABBIT;
 import static Constants.Constants.TextureConstants.Entity.ENTITY_LOCATION_TEXTURES;
 import static Constants.Constants.TextureConstants.Entity.RABBIT_SPRITE_PNG;
-import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.DEAD;
-import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.IDLE;
+import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.AnimationState.DEAD;
+import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.AnimationState.IDLE;
 
 public class RabbitAnimation extends AnimalAnimation implements PlayingInterface {
     private BufferedImage[][] animations;

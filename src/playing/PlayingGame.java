@@ -96,6 +96,10 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
         enemyManager.draw(g, scale, lvlOffsetX, lvlOffsetY);
     }
 
+    public void eatEnemy(Rectangle2D.Double attackBox){
+        enemyManager.eatEnemy(attackBox);
+    }
+
     public Island getIsland() {
         return island;
     }
@@ -136,7 +140,7 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
     public void eatAnimal(){
 
     }
-    public void attackEnemy(Rectangle2D.Double attackBox){
-        enemyManager.attackEnemy(attackBox);
-    }
+//    public void attackEnemy(Rectangle2D.Double attackBox){
+//        enemyManager.attackEnemy(attackBox);
+//    }
 }

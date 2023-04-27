@@ -124,10 +124,10 @@ public class WolfAnimation extends WolfModule implements PlayingInterface {
 
         switch (animationState) {
             case IDLE:
-            return 4;
+            case EAT:
+                return 4;
             case DEAD:
             case RUNNING:
-            case EAT:
             case JUMP:
             case SLEEP:
             case FALLING:

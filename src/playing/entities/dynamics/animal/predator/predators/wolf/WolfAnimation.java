@@ -1,8 +1,7 @@
 package playing.entities.dynamics.animal.predator.predators.wolf;
 
 import Constants.LoadSave;
-import playing.PlayingInterface;
-import playing.entities.dynamics.animal.AnimalAnimation;
+import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,13 +9,13 @@ import java.awt.image.BufferedImage;
 import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_WOLF;
 import static Constants.Constants.TextureConstants.Wolf.WOLF_LOCATION_TEXTURES;
 import static Constants.Constants.TextureConstants.Wolf.WOLF_SPRITES;
-import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.DEAD;
-import static playing.entities.dynamics.animal.AnimalAnimation.AnimationState.IDLE;
+import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.AnimationState.DEAD;
+import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.AnimationState.IDLE;
 
 //todo можно сделать абстрактный класс animation для всех животных
-public class WolfAnimation extends AnimalAnimation implements PlayingInterface {
+public class WolfAnimation extends AnimalAnimation{
     final Wolf wolf;
-    private AnimationState wolfAnimalState = IDLE;
+//    private AnimationState wolfAnimalState = IDLE;
 
     protected WolfAnimation(Wolf wolf){
         this.wolf = wolf;
@@ -34,7 +33,7 @@ public class WolfAnimation extends AnimalAnimation implements PlayingInterface {
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        BufferedImage bufferedImage = animations[wolfAnimalState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
                 (int) ((wolf.getHitBox().x  + 35 - x + flipX) * scale),
                 (int) ((wolf.getHitBox().y -4 - y) * scale),          //сравнить с wolfAnimation
@@ -52,7 +51,7 @@ public class WolfAnimation extends AnimalAnimation implements PlayingInterface {
     private void updateAnimationBox() {
         boolean right = wolf.getWolfMove().isRight();
         boolean left = wolf.getWolfMove().isLeft();
-        BufferedImage bufferedImage = animations[wolfAnimalState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         if (left) {
             flipW = 1;
             flipX = 0;
@@ -67,11 +66,11 @@ public class WolfAnimation extends AnimalAnimation implements PlayingInterface {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-                if (wolfAnimalState == DEAD) {
+                if (animationState == DEAD) {
                     wolf.setActive(false);
                 }
 
-                wolfAnimalState = IDLE;
+                animationState = IDLE;
                 aniIndex = 0;
             }
         }
@@ -83,19 +82,18 @@ public class WolfAnimation extends AnimalAnimation implements PlayingInterface {
         if (state == DEAD) {
             dead = true;
         }
-        wolfAnimalState = state;
+        animationState = state;
         aniIndex = 0;
     }
 
 
     private int getSpriteAmount() {
-        switch (wolfAnimalState) {
+        switch (animationState) {
             case IDLE:
+            case EAT:
                 return 4;
             case DEAD:
-                return 3;
             case RUNNING:
-            case EAT:
             case JUMP:
             case SLEEP:
             case FALLING:
@@ -104,7 +102,7 @@ public class WolfAnimation extends AnimalAnimation implements PlayingInterface {
         }
     }
 
-    public AnimationState getAnimationState() {
-        return wolfAnimalState;
-    }
+//    public AnimationState getAnimationState() {
+//        return animationState;
+//    }
 }

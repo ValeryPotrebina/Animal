@@ -1,8 +1,8 @@
 package playing.entities.dynamics.animal.herbivore.herbivores.rabbits;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.Animal;
-import playing.entities.dynamics.animal.AnimalAnimation;
+import playing.entities.dynamics.animal.animalModules.Animal;
+import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

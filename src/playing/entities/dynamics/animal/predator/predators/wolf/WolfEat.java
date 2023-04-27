@@ -1,7 +1,7 @@
 package playing.entities.dynamics.animal.predator.predators.wolf;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.AnimalAnimation;
+import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -26,7 +26,7 @@ public class WolfEat implements PlayingInterface {
 
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        drawAttackBox(g, scale, x, y);
+//        drawAttackBox(g, scale, x, y);
     }
 
     protected void drawAttackBox(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
@@ -45,7 +45,7 @@ public class WolfEat implements PlayingInterface {
     private void checkEnvironment(){
         if (wolf.canSeeAnyone(wolf)){
             if (wolf.canEatAnimal(wolf)){
-                WolfAnimation wolfAnimation = wolf.getWolfAnimation();
+                AnimalAnimation wolfAnimation = wolf.getAnimalAnimation();
                 if (wolfAnimation.getAnimationState() != AnimalAnimation.AnimationState.EAT)
                     wolfAnimation.setAnimationState(AnimalAnimation.AnimationState.EAT);
                 else if (wolfAnimation.getAnimationState() == AnimalAnimation.AnimationState.EAT) {

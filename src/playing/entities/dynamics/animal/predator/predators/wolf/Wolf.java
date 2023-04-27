@@ -1,7 +1,7 @@
 package playing.entities.dynamics.animal.predator.predators.wolf;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.animalsModules.hunger.predatorHungerModule.WolfHungerModule;
 import playing.entities.dynamics.animal.characteristics.SpeciesOfAnimal;
 import playing.entities.dynamics.animal.characteristics.StateAnimal;
@@ -18,7 +18,7 @@ import static Constants.Constants.Animal.Weight.WOLF_WEIGHT;
 
 public class Wolf extends Predator implements PlayingInterface {
     private WolfMove wolfMove;
-    private WolfAnimation wolfAnimation;
+    //private WolfAnimation wolfAnimation;
     private WolfEat wolfEat;
     private WolfHealth wolfHealth;
     int num;
@@ -34,7 +34,7 @@ public class Wolf extends Predator implements PlayingInterface {
         stateAnimal = new StateAnimal(WOLF_WEIGHT, WOLF_SATURATION, WOLF_SPEED, WOLF_COUNT, WOLF_RANGE);
         speciesOfAnimal = SpeciesOfAnimal.WOLF;
         wolfMove = new WolfMove(this);
-        wolfAnimation = new WolfAnimation(this);
+        animalAnimation = new WolfAnimation(this);
         wolfEat = new WolfEat(this);
         wolfHealth = new WolfHealth(this);
     }
@@ -64,7 +64,7 @@ public class Wolf extends Predator implements PlayingInterface {
 
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        wolfAnimation.draw(g, scale, x, y);
+        animalAnimation.draw(g, scale, x, y);
         //drawHitBox(g, scale, x, y);
         drawHitBoxTexture(g, scale, x, y);
         //wolfEat.draw(g, scale, x, y);
@@ -73,7 +73,7 @@ public class Wolf extends Predator implements PlayingInterface {
     @Override
     public void update() {
         wolfMove.update();
-        wolfAnimation.update();
+        animalAnimation.update();
         wolfEat.update();
     }
 
@@ -81,12 +81,12 @@ public class Wolf extends Predator implements PlayingInterface {
         return wolfMove;
     }
 
-    public WolfAnimation getWolfAnimation() {
-        return wolfAnimation;
-    }
-    public void attackWolf() {
-        wolfHealth.attackWolf();
-    }
+//    public WolfAnimation getWolfAnimation() {
+//        return wolfAnimation;
+//    }
+//     public void attackWolf() {
+//        wolfHealth.attackWolf();
+//    }  //Нахуй не нужен
 
     @Override
     public String toString() {

@@ -65,4 +65,8 @@ public class PlayerWolf extends Entity implements PlayingInterface, PlayingMouse
     public boolean CanMoveHere(Rectangle2D.Double hitBox) {
         return wolfManager.CanMoveHere(hitBox);
     }
+
+    public void eatEnemy(Rectangle2D.Double attackBox){
+        wolfManager.eatEnemy(attackBox);
+    }
 }

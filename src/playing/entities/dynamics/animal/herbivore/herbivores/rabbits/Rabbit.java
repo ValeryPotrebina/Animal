@@ -1,28 +1,21 @@
 package playing.entities.dynamics.animal.herbivore.herbivores.rabbits;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.ProbabilityOfEating;
 import playing.entities.dynamics.animal.animalsModules.hunger.predatorHungerModule.WolfHungerModule;
 import playing.entities.dynamics.animal.characteristics.SpeciesOfAnimal;
 import playing.entities.dynamics.animal.characteristics.StateAnimal;
 import playing.entities.dynamics.animal.herbivore.Herbivore;
-import playing.entities.dynamics.animal.predator.predators.wolf.WolfAnimation;
-import playing.entities.dynamics.animal.predator.predators.wolf.WolfMove;
 
 import java.awt.*;
 import java.util.Random;
 
 import static Constants.Constants.Animal.MaxCountOnTheSameCell.RABBIT_COUNT;
-import static Constants.Constants.Animal.MaxCountOnTheSameCell.WOLF_COUNT;
 import static Constants.Constants.Animal.Range.RABBIT_RANGE;
-import static Constants.Constants.Animal.Range.WOLF_RANGE;
 import static Constants.Constants.Animal.SaturationKilos.RABBIT_SATURATION;
-import static Constants.Constants.Animal.SaturationKilos.WOLF_SATURATION;
 import static Constants.Constants.Animal.Speed.RABBIT_SPEED;
-import static Constants.Constants.Animal.Speed.WOLF_SPEED;
 import static Constants.Constants.Animal.Weight.RABBIT_WEIGHT;
-import static Constants.Constants.Animal.Weight.WOLF_WEIGHT;
 
 public class Rabbit extends Herbivore implements PlayingInterface, ProbabilityOfEating {
     private RabbitMove rabbitMove;

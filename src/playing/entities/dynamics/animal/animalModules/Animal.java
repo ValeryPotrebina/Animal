@@ -1,6 +1,5 @@
-package playing.entities.dynamics.animal;
+package playing.entities.dynamics.animal.animalModules;
 
-import playing.PlayingGame;
 import playing.entities.dynamics.DynamicEntity;
 import playing.entities.dynamics.animal.animalsModules.hunger.HungerModule;
 import playing.entities.dynamics.animal.characteristics.AgeOfAnimal;
@@ -8,27 +7,24 @@ import playing.entities.dynamics.animal.characteristics.SpeciesOfAnimal;
 import playing.entities.dynamics.animal.characteristics.StateAnimal;
 import playing.entities.dynamics.animal.characteristics.TypeOfAnimal;
 
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import static Constants.Constants.GameWindowConstants.TILE_SIZE_DEFAULT;
 import static java.lang.Math.abs;
-import static playing.entities.statics.EntityIslandManager.IsSightClear;
-import static playing.entities.statics.EntityIslandManager.isPlayerInRange;
 
 public abstract class Animal extends DynamicEntity {
-    PlayingGame playingGame;
-    protected HungerModule hungerModule;
+    protected HungerModule hungerModule; //пока не нужен
     protected TypeOfAnimal typeOfAnimal;
     protected SpeciesOfAnimal speciesOfAnimal;
-    protected AgeOfAnimal ageOfAnimal;
+    protected AgeOfAnimal ageOfAnimal; //пока не нужен
     protected StateAnimal stateAnimal;
     protected boolean isHungry;
-
+    protected AnimalAnimation animalAnimation;
+    protected AnimalHealth animalHealth;
     public Animal(double x, double y, double width, double height) {
         super(x, y, width, height);
+        initModules();
+    }
+
+    private void initModules(){
+        animalHealth = new AnimalHealth(this);
     }
 
     public boolean isSameAnimal(Animal animal){
@@ -62,6 +58,12 @@ public abstract class Animal extends DynamicEntity {
         return isHungry;
     }
 
+    public void eatEnemy() {
+        animalHealth.eatEnemy();
+    }
 
+    public AnimalAnimation getAnimalAnimation() {
+        return animalAnimation;
+    }
 
 }

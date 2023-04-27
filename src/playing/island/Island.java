@@ -2,17 +2,14 @@ package playing.island;
 
 import Constants.LoadSave;
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.herbivore.herbivores.horses.Horse;
-import playing.entities.dynamics.animal.herbivore.herbivores.horses.HorseAnimation;
 import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.Rabbit;
 import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import static Constants.Constants.GameWindowConstants.*;
 import static Constants.Constants.IslandConstants.Entity.Enemy.*;

@@ -83,6 +83,10 @@ public class WolfManager implements PlayingInterface, PlayingKeyListenerInterfac
     public void mouseClicked(MouseEvent e) {
         playerWolf.mouseClicked(e);
     }
+
+    public void eatEnemy(Rectangle2D.Double attackBox){
+        entityIslandManager.eatEnemy(attackBox);
+    }
     public void setSpawnPlayer(int x, int y) {
         playerWolf.setX(x);
         playerWolf.setY(y);

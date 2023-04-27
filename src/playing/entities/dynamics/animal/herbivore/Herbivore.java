@@ -1,6 +1,6 @@
 package playing.entities.dynamics.animal.herbivore;
 
-import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.characteristics.TypeOfAnimal;
 
 public abstract class Herbivore extends Animal{

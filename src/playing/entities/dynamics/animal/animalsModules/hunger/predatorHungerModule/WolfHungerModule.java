@@ -1,6 +1,6 @@
 package playing.entities.dynamics.animal.animalsModules.hunger.predatorHungerModule;
 
-import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.animalsModules.hunger.HungerModule;
 
 public class WolfHungerModule extends HungerModule {

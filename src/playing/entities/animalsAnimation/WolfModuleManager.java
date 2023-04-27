@@ -16,6 +16,7 @@ public class WolfModuleManager implements PlayingInterface, PlayingKeyListenerIn
     private WolfAnimation wolfAnimation;
     private WolfMove wolfMove;
     private WolfListener wolfListener;
+    private WolfAttack wolfAttack;
 
     public WolfModuleManager(PlayerWolf playerWolf){
         this.playerWolf = playerWolf;
@@ -26,6 +27,9 @@ public class WolfModuleManager implements PlayingInterface, PlayingKeyListenerIn
         wolfListener = new WolfListener(this);
         wolfAnimation = new WolfAnimation(this);
         wolfMove = new WolfMove(this);
+        wolfAttack = new WolfAttack(this,
+                (int) (playerWolf.getHitBox().x + playerWolf.getHitBox().width) + 3,
+                (int) playerWolf.getHitBox().y, 20 ,20);
     }
 //todo что это???
     public void updateHitBoxX(double x) {
@@ -38,6 +42,7 @@ public class WolfModuleManager implements PlayingInterface, PlayingKeyListenerIn
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
         playerWolf.drawHitBox(g, scale, x, y);
+        wolfAttack.draw(g, scale, x, y);
         wolfAnimation.draw(g, scale, x, y);
 
     }
@@ -45,6 +50,7 @@ public class WolfModuleManager implements PlayingInterface, PlayingKeyListenerIn
     @Override
     public void update() {
         wolfMove.update();
+        wolfAttack.update();
         wolfAnimation.update();
     }
 
@@ -87,4 +93,11 @@ public class WolfModuleManager implements PlayingInterface, PlayingKeyListenerIn
         return playerWolf.getHitBox();
     }
 
+    public void eatEnemy(Rectangle2D.Double attackBox){
+        playerWolf.eatEnemy(attackBox);
+    }
+
+    public WolfAttack getWolfAttack() {
+        return wolfAttack;
+    }
 }

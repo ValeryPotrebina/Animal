@@ -1,8 +1,8 @@
 package playing.entities.dynamics.animal.predator.predators.wolf;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.Animal;
-import playing.entities.dynamics.animal.AnimalAnimation;
+import playing.entities.dynamics.animal.animalModules.Animal;
+import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -68,17 +68,17 @@ public class WolfMove implements PlayingInterface {
             if (wolf.canMoveHere(newHitBox)) {
                 updateYPos(ySpeed);
                 if (ySpeed > 0) {
-                    wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
+                    wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
                 } else if (ySpeed < 0) {
-                    wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
+                    wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
                 } else {
-                    wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+                    wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed += GRAVITY;
             } else {
                 if (ySpeed > 0) {
                     onFloor = true;
-                    wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+                    wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed = 0;
             }
@@ -95,12 +95,12 @@ public class WolfMove implements PlayingInterface {
             changeWalkDir();
         }
         if (xSpeed == 0) {
-            if (wolf.getWolfAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
-                wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+            if (wolf.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
+                wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
             }
         } else {
-            if (wolf.getWolfAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
-                wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
+            if (wolf.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
+                wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
             }
         }
         xSpeed = 0;

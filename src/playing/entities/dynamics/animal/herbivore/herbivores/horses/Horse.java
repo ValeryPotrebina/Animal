@@ -1,7 +1,7 @@
 package playing.entities.dynamics.animal.herbivore.herbivores.horses;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.characteristics.SpeciesOfAnimal;
 import playing.entities.dynamics.animal.characteristics.StateAnimal;
 import playing.entities.dynamics.animal.herbivore.Herbivore;

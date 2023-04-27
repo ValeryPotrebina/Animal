@@ -1,6 +1,6 @@
 package playing.entities.dynamics;
 
-import playing.entities.dynamics.animal.Animal;
+import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.statics.Entity;
 
 import java.awt.geom.Rectangle2D;
