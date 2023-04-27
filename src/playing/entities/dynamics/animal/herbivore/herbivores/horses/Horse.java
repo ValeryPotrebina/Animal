@@ -2,6 +2,7 @@ package playing.entities.dynamics.animal.herbivore.herbivores.horses;
 
 import playing.PlayingInterface;
 import playing.entities.dynamics.animal.animalModules.Animal;
+import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
 import playing.entities.dynamics.animal.characteristics.SpeciesOfAnimal;
 import playing.entities.dynamics.animal.characteristics.StateAnimal;
 import playing.entities.dynamics.animal.herbivore.Herbivore;
@@ -17,7 +18,6 @@ import static Constants.Constants.Animal.SaturationKilos.HORSE_SATURATION;
 
 
 public class Horse extends Herbivore implements PlayingInterface{
-    HorseAnimation horseAnimation;
     HorseMove horseMove;
     int num;
     public Horse(double x, double y, int num) {
@@ -31,23 +31,18 @@ public class Horse extends Herbivore implements PlayingInterface{
         stateAnimal = new StateAnimal(HORSE_WEIGHT, HORSE_SATURATION, HORSE_SPEED, HORSE_COUNT, HORSE_RANGE);
         speciesOfAnimal = SpeciesOfAnimal.HORSE;
         horseMove = new HorseMove(this);
-        horseAnimation = new HorseAnimation(this);
+        animalAnimation = new HorseAnimation(this);
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        horseAnimation.draw(g, scale, x, y);
+        animalAnimation.draw(g, scale, x, y);
     }
 
     @Override
     public void update() {
         horseMove.update();
-        horseAnimation.update();
+        animalAnimation.update();
     }
-
-    public HorseAnimation getHorseAnimation() {
-        return horseAnimation;
-    }
-
     public HorseMove getHorseMove() {
         return horseMove;
     }

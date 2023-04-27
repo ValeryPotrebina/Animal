@@ -18,7 +18,6 @@ import static Constants.Constants.Animal.Weight.WOLF_WEIGHT;
 
 public class Wolf extends Predator implements PlayingInterface {
     private WolfMove wolfMove;
-    //private WolfAnimation wolfAnimation;
     private WolfEat wolfEat;
     private WolfHealth wolfHealth;
     int num;

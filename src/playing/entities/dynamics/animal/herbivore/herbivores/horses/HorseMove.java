@@ -48,17 +48,17 @@ public class HorseMove implements PlayingInterface {
             if (horse.canMoveHere(newHitBox)){
                 updateYPos(ySpeed);
                 if (ySpeed > 0) {
-                    horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
+                    horse.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
                 } else if (ySpeed < 0) {
-                    horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
+                    horse.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
                 } else {
-                    horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+                    horse.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed += GRAVITY;
             } else {
                 if (ySpeed > 0){
                     onFloor = true;
-                    horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+                    horse.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed = 0;
             }
@@ -75,12 +75,12 @@ public class HorseMove implements PlayingInterface {
             changeWalkDir();
         }
         if (xSpeed == 0){
-            if (horse.getHorseAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
-                horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+            if (horse.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
+                horse.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
             }
         } else {
-            if (horse.getHorseAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
-                horse.getHorseAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
+            if (horse.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
+                horse.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
             }
         }
         xSpeed = 0;

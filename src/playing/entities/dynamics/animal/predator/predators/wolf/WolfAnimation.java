@@ -15,7 +15,6 @@ import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.Ani
 //todo можно сделать абстрактный класс animation для всех животных
 public class WolfAnimation extends AnimalAnimation{
     final Wolf wolf;
-//    private AnimationState wolfAnimalState = IDLE;
 
     protected WolfAnimation(Wolf wolf){
         this.wolf = wolf;
@@ -75,16 +74,6 @@ public class WolfAnimation extends AnimalAnimation{
             }
         }
     }
-    public void setAnimationState(AnimationState state) {
-        if (dead) {
-            return;
-        }
-        if (state == DEAD) {
-            dead = true;
-        }
-        animationState = state;
-        aniIndex = 0;
-    }
 
 
     private int getSpriteAmount() {
@@ -102,7 +91,4 @@ public class WolfAnimation extends AnimalAnimation{
         }
     }
 
-//    public AnimationState getAnimationState() {
-//        return animationState;
-//    }
 }

@@ -48,17 +48,17 @@ public class RabbitMove implements PlayingInterface {
             if (rabbit.canMoveHere(newHitBox)){
                 updateYPos(ySpeed);
                 if (ySpeed > 0) {
-                    rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
+                    rabbit.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
                 } else if (ySpeed < 0) {
-                    rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
+                    rabbit.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
                 } else {
-                    rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+                    rabbit.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed += GRAVITY;
             } else {
                 if (ySpeed > 0){
                     onFloor = true;
-                    rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+                    rabbit.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed = 0;
             }
@@ -75,12 +75,12 @@ public class RabbitMove implements PlayingInterface {
             changeWalkDir();
         }
         if (xSpeed == 0){
-            if (rabbit.getRabbitAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
-                rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+            if (rabbit.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
+                rabbit.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
             }
         } else {
-            if (rabbit.getRabbitAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
-                rabbit.getRabbitAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
+            if (rabbit.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
+                rabbit.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
             }
         }
         xSpeed = 0;

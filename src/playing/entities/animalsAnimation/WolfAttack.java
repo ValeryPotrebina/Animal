@@ -5,9 +5,7 @@ import playing.PlayingMouseListenerInterface;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import static Constants.Constants.GameConstants.ANI_SPEED_ENEMY_WOLF;
 
@@ -27,7 +25,7 @@ public class WolfAttack extends WolfModule implements PlayingInterface, PlayingM
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-//        drawAttackBox(g, scale, x, y);
+        drawAttackBox(g, scale, x, y);
     }
 
     protected void drawAttackBox(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {

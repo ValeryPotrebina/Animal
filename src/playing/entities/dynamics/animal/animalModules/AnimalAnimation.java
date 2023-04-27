@@ -1,10 +1,10 @@
 package playing.entities.dynamics.animal.animalModules;
 
 import playing.PlayingInterface;
-import playing.entities.dynamics.animal.predator.predators.wolf.WolfAnimation;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.AnimationState.DEAD;
 
 public abstract class AnimalAnimation implements PlayingInterface {
     protected BufferedImage[][] animations;
@@ -33,6 +33,13 @@ public abstract class AnimalAnimation implements PlayingInterface {
     }
 
     public void setAnimationState(AnimationState animationState) {
+        if (dead) {
+            return;
+        }
+        if (animationState == DEAD) {
+            dead = true;
+        }
         this.animationState = animationState;
+        aniIndex = 0;
     }
 }

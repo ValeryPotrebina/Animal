@@ -14,14 +14,7 @@ import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.Ani
 import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.AnimationState.IDLE;
 
 public class RabbitAnimation extends AnimalAnimation implements PlayingInterface {
-    private BufferedImage[][] animations;
     final Rabbit rabbit; //modificator!!!
-    private AnimationState rabbitAnimalState = IDLE;
-
-    private int aniTick, aniIndex;
-    private int flipW = 1;
-    private int flipX = 0;
-    private boolean dead;
 
     protected RabbitAnimation(Rabbit rabbit) {
         this.rabbit = rabbit;
@@ -38,7 +31,7 @@ public class RabbitAnimation extends AnimalAnimation implements PlayingInterface
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        BufferedImage bufferedImage = animations[rabbitAnimalState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
                 (int) ((rabbit.getHitBox().x - x + flipX) * scale),
                 (int) ((rabbit.getHitBox().y - y) * scale),          //сравнить с wolfAnimation
@@ -56,7 +49,7 @@ public class RabbitAnimation extends AnimalAnimation implements PlayingInterface
     private void updateAnimationBox() {
         boolean right = rabbit.getRabbitMove().isRight();
         boolean left = rabbit.getRabbitMove().isLeft();
-        BufferedImage bufferedImage = animations[rabbitAnimalState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         if (left) {
             flipW = 1;
             flipX = 0;
@@ -71,34 +64,18 @@ public class RabbitAnimation extends AnimalAnimation implements PlayingInterface
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-                if (rabbitAnimalState == DEAD) {
+                if (animationState == DEAD) {
                     rabbit.setActive(false);
                 }
 
-                rabbitAnimalState = IDLE;
+                animationState = IDLE;
                 aniIndex = 0;
             }
         }
     }
-    public void setAnimationState(AnimationState state) {
-        if (dead) {
-            return;
-        }
-        if (state == DEAD) {
-            dead = true;
-        }
-        rabbitAnimalState = state;
-        aniIndex = 0;
-    }
-    public AnimationState getAnimationState() {
-        return rabbitAnimalState;
-    }
-    public int getAniIndex() {
-        return aniIndex;
-    }
 
     private int getSpriteAmount() {
-        switch (rabbitAnimalState) {
+        switch (animationState) {
             case RUNNING:
                 return 4;
             case IDLE:

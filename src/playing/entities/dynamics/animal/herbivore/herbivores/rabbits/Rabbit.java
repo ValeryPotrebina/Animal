@@ -19,7 +19,6 @@ import static Constants.Constants.Animal.Weight.RABBIT_WEIGHT;
 
 public class Rabbit extends Herbivore implements PlayingInterface, ProbabilityOfEating {
     private RabbitMove rabbitMove;
-    private RabbitAnimation rabbitAnimation;
     int num;
 
     public Rabbit(double x, double y, int num) {
@@ -33,7 +32,7 @@ public class Rabbit extends Herbivore implements PlayingInterface, ProbabilityOf
         stateAnimal = new StateAnimal(RABBIT_WEIGHT, RABBIT_SATURATION, RABBIT_SPEED, RABBIT_COUNT, RABBIT_RANGE);
         speciesOfAnimal = SpeciesOfAnimal.RABBIT;
         rabbitMove = new RabbitMove(this);
-        rabbitAnimation = new RabbitAnimation(this);
+        animalAnimation = new RabbitAnimation(this);
     }
 
     @Override
@@ -55,22 +54,19 @@ public class Rabbit extends Herbivore implements PlayingInterface, ProbabilityOf
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        rabbitAnimation.draw(g, scale, x, y);
+        animalAnimation.draw(g, scale, x, y);
     }
 
     @Override
     public void update() {
         rabbitMove.update();
-        rabbitAnimation.update();
+        animalAnimation.update();
     }
 
     public RabbitMove getRabbitMove() {
         return rabbitMove;
     }
 
-    public RabbitAnimation getRabbitAnimation() {
-        return rabbitAnimation;
-    }
 
     @Override
     public String toString() {

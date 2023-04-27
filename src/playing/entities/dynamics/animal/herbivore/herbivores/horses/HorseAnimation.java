@@ -14,7 +14,6 @@ import static playing.entities.dynamics.animal.animalModules.AnimalAnimation.Ani
 //todo вернуть нормального коня!!
 public class HorseAnimation extends AnimalAnimation implements PlayingInterface {
     final Horse horse;
-    private AnimationState horseAnimalState = IDLE;
 
 
     protected HorseAnimation(Horse horse){
@@ -33,7 +32,7 @@ public class HorseAnimation extends AnimalAnimation implements PlayingInterface 
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        BufferedImage bufferedImage = animations[horseAnimalState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         g.drawImage(bufferedImage,
                 (int) ((horse.getHitBox().x - x + flipX) * scale),
                 (int) ((horse.getHitBox().y + 10 - y) * scale),          //сравнить с wolfAnimation
@@ -51,7 +50,7 @@ public class HorseAnimation extends AnimalAnimation implements PlayingInterface 
     private void updateAnimationBox() {
         boolean right = horse.getHorseMove().isRight();
         boolean left = horse.getHorseMove().isLeft();
-        BufferedImage bufferedImage = animations[horseAnimalState.ordinal()][aniIndex];
+        BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         if (left) {
             flipW = 1;
             flipX = 0;
@@ -66,29 +65,17 @@ public class HorseAnimation extends AnimalAnimation implements PlayingInterface 
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= getSpriteAmount()) {
-                if (horseAnimalState == DEAD) {
+                if (animationState == DEAD) {
                     horse.setActive(false);
                 }
 
-                horseAnimalState = IDLE;
+                animationState = IDLE;
                 aniIndex = 0;
             }
         }
     }
-    public void setAnimationState(AnimationState state) {
-        if (dead) {
-            return;
-        }
-        if (state == DEAD) {
-            dead = true;
-        }
-        horseAnimalState = state;
-        aniIndex = 0;
-    }
-
-
     private int getSpriteAmount() {
-        switch (horseAnimalState) {
+        switch (animationState) {
             case IDLE:
                 return 4;
             case FALLING:
@@ -102,7 +89,4 @@ public class HorseAnimation extends AnimalAnimation implements PlayingInterface 
         }
     }
 
-    public AnimationState getAnimationState() {
-        return horseAnimalState;
-    }
 }

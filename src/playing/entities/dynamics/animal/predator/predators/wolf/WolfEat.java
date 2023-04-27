@@ -26,7 +26,7 @@ public class WolfEat implements PlayingInterface {
 
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-//        drawAttackBox(g, scale, x, y);
+        drawAttackBox(g, scale, x, y);
     }
 
     protected void drawAttackBox(Graphics g, float scale, int lvlOffsetX, int lvlOffsetY) {
