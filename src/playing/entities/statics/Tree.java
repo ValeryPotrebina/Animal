@@ -19,17 +19,21 @@ public class Tree extends ObjectEntity implements PlayingInterface {
         setHitBoxTexture(x, y - 273, 304, 312);
         loadImages();
     } //304/312
-
+    @Override
+    public void update() {
+        updateAnimationTick();
+    }
     private void loadImages(){
         BufferedImage img = LoadSave.getSpireAtlas(ENTITY_LOCATION_TEXTURES, TREE_SPRITE_PNG);
         treeAnimation = new BufferedImage[4];
         for (int i = 0; i < treeAnimation.length; i++) {
             treeAnimation[i] = img.getSubimage(i * 304, 0, 304, 312);
+            System.out.println(treeAnimation[i]);
         }
     }
     private void updateAnimationTick() {
         aniTick++;
-        if (aniTick >= ANI_SPEED_ENEMY_TREE * 2) {
+        if (aniTick >= ANI_SPEED_ENEMY_TREE) {
             aniTick = 0;
             aniIndex++;
             if (aniIndex >= treeAnimation.length) {
@@ -49,8 +53,5 @@ public class Tree extends ObjectEntity implements PlayingInterface {
         drawHitBoxTexture(g, scale, x, y);
     }
 
-    @Override
-    public void update() {
-        updateAnimationTick();
-    }
+
 }

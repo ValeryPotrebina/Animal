@@ -24,7 +24,7 @@ public class Menu extends GameState implements GamePanelInterface, GamePanelList
         calcBorder();
     }
     private void loadBackgroundImg() {
-        menuImg = LoadSave.getSpireAtlas(MENU_LOCATION_TEXTURES, MENU_ATLAS);
+        //menuImg = LoadSave.getSpireAtlas(MENU_LOCATION_TEXTURES, MENU_ATLAS);
         backgroundImg = LoadSave.getSpireAtlas(MENU_LOCATION_TEXTURES, MENU_BACKGROUND);
     }
     private void loadButtons() {
@@ -35,8 +35,8 @@ public class Menu extends GameState implements GamePanelInterface, GamePanelList
     }
 
     private void calcBorder() {
-        menuWidth = (int) (menuImg.getWidth()*1.25);
-        menuHeight = (int) (menuImg.getHeight()*1.25);
+        menuWidth = (int) (backgroundImg.getWidth()*1.25);
+        menuHeight = (int) (backgroundImg.getHeight()*1.25);
         menuX = GAME_WIDTH_DEFAULT / 2 - menuWidth / 2;
         menuY = GAME_HEIGHT_DEFAULT / 2 - menuHeight / 2;
     }

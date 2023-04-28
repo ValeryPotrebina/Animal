@@ -17,7 +17,7 @@ public class MenuButton extends Button {
     private final EnumGameState state;
     private BufferedImage[] images;
     public MenuButton(int x, int y, int typeButton, EnumGameState state) {
-        super(x - BUTTON_WIDTH_DEFAULT / 2, y, BUTTON_WIDTH_DEFAULT, BUTTON_HEIGHT_DEFAULT);
+        super(x - BUTTON_WIDTH_DEFAULT / 2 - 70, y - 44, BUTTON_WIDTH_DEFAULT * 2, BUTTON_HEIGHT_DEFAULT * 2);
         this.typeButton = typeButton;
         this.state = state;
         loadImages();
@@ -48,8 +48,8 @@ public class MenuButton extends Button {
 
     @Override
     public void draw(Graphics g, float scale) {
-        int buttonWidth = (int)(BUTTON_WIDTH_DEFAULT * scale);
-        int buttonHeight = (int)(BUTTON_HEIGHT_DEFAULT * scale);
+        int buttonWidth = (int)(BUTTON_WIDTH_DEFAULT * scale * 2);
+        int buttonHeight = (int)(BUTTON_HEIGHT_DEFAULT * scale * 2);
         int buttonX = (int)(x* scale);
         int buttonY = (int)(y * scale);
         g.drawImage(images[stateButton], buttonX, buttonY, buttonWidth, buttonHeight, null);

@@ -47,7 +47,7 @@ public class Constants {
             public static final int OPTIONS = 1;
             public static final int QUIT = 2;
             public static final int BUTTON_WIDTH_DEFAULT = 140;
-            public static final int BUTTON_HEIGHT_DEFAULT = 56;
+            public static final int BUTTON_HEIGHT_DEFAULT = 37;
         }
     }
 
@@ -68,8 +68,8 @@ public class Constants {
         public static final class Menu{
             public static final String MENU_LOCATION_TEXTURES = "menu";
             public static final String MENU_ATLAS = "menu_atlas.png";
-            public static final String MENU_BACKGROUND = "menu_background.png";
-            public static final String MENU_BUTTONS = "menu_buttons.png";
+            public static final String MENU_BACKGROUND = "menu_background_1.png";
+            public static final String MENU_BUTTONS = "menu_buttons_1.png";
 
         }
 

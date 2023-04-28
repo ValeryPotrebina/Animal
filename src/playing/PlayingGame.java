@@ -51,6 +51,7 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
         islandManager.update();
         wolfManager.update();
         enemyManager.update();
+        objectManager.update();
         checkCloseToBorder();
     }
 

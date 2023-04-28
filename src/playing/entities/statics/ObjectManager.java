@@ -1,9 +1,7 @@
 package playing.entities.statics;
 
-import Constants.Constants;
 import playing.PlayingInterface;
 import playing.island.Island;
-import playing.island.IslandManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ public class ObjectManager implements PlayingInterface {
     }
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
-        drawTrees(g, scale, x, y);
+        drawObjects(g, scale, x, y);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class ObjectManager implements PlayingInterface {
         }
     }
 
-    private void drawTrees(Graphics g, float scale, int x, int y){
+    private void drawObjects(Graphics g, float scale, int x, int y){
         for (Tree tree : trees) {
             tree.draw(g, scale, x, y);
         }

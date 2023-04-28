@@ -157,7 +157,7 @@ public class Island implements PlayingInterface {
             for (int i = 0; i < islandImg.getWidth(); i++) {
                 Color color = new Color(islandImg.getRGB(i, j));
                 int value = color.getGreen(); //todo 4
-                if (value == ENEMY_INDEX_TREE){
+                if (value == ENEMY_INDEX_TREE){ //todo OBJECT
                     trees.add(new Tree(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
                 }
             }
