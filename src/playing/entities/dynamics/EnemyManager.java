@@ -5,7 +5,7 @@ import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.herbivore.herbivores.horses.Horse;
 import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.Rabbit;
 import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
-import playing.entities.statics.EntityIslandManager;
+import playing.entities.EntityIslandManager;
 import playing.island.Island;
 
 import java.awt.*;

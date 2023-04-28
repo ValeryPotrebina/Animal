@@ -6,6 +6,7 @@ import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.herbivore.herbivores.horses.Horse;
 import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.Rabbit;
 import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
+import playing.entities.statics.Tree;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -61,7 +62,7 @@ public class Island implements PlayingInterface {
 
     private void importOutsideSprites(){
         BufferedImage image = LoadSave.getSpireAtlas(ISLAND_LOCATION_TEXTURES, LVL_TEXTURES_PNG);
-        System.out.println("sprites - " + image);
+//        System.out.println("sprites - " + image);
         levelSprite = new BufferedImage[48];
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 12; i++) {
@@ -148,6 +149,20 @@ public class Island implements PlayingInterface {
         }
         animals.addAll(horses);
         return horses;
+    }
+
+    public ArrayList<Tree> getTrees(){
+        ArrayList<Tree> trees = new ArrayList<>();
+        for (int j = 0; j < islandImg.getHeight(); j++){
+            for (int i = 0; i < islandImg.getWidth(); i++) {
+                Color color = new Color(islandImg.getRGB(i, j));
+                int value = color.getGreen(); //todo 4
+                if (value == ENEMY_INDEX_TREE){
+                    trees.add(new Tree(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
+                }
+            }
+        }
+        return trees;
     }
     public ArrayList<Animal> getAnimals() {
         return animals;

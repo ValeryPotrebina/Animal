@@ -1,4 +1,4 @@
-package playing.entities.statics;
+package playing.entities;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

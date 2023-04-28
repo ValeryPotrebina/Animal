@@ -1,6 +1,6 @@
 package playing.entities.animalsAnimation;
 
-import playing.entities.statics.Entity;
+import playing.entities.Entity;
 import playing.PlayingInterface;
 import playing.PlayingKeyListenerInterface;
 import playing.PlayingMouseListenerInterface;

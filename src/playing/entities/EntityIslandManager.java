@@ -1,4 +1,4 @@
-package playing.entities.statics;
+package playing.entities;
 import playing.PlayingGame;
 import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.animalModules.AnimalAnimation;

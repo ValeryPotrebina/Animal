@@ -1,7 +1,7 @@
 package playing.entities.dynamics;
 
 import playing.entities.dynamics.animal.animalModules.Animal;
-import playing.entities.statics.Entity;
+import playing.entities.Entity;
 
 import java.awt.geom.Rectangle2D;
 import java.util.List;

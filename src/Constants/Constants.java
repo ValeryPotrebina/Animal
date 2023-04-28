@@ -12,7 +12,7 @@ public class Constants {
         public final static int UPS_SET = 200;
         public final static int SIZE_DEFAULT = 32;
         public final static int SIZE_WIDTH = 26;
-        public final static int SIZE_HEIGHT = 14;
+        public final static int SIZE_HEIGHT = 16; //Изменено! до - 14
         public final static int TILE_SIZE_DEFAULT = 32;
         public final static int GAME_WIDTH_DEFAULT = SIZE_DEFAULT * SIZE_WIDTH;
         public final static int GAME_HEIGHT_DEFAULT = SIZE_DEFAULT * SIZE_HEIGHT;
@@ -28,6 +28,7 @@ public class Constants {
 
         public static final float ANI_SPEED_ENEMY_WOLF = 15*2;
         public static final float ANI_SPEED_ENEMY_HORSE = 23;
+        public static final float ANI_SPEED_ENEMY_TREE = 30;
 
 
         public static float GRAVITY = 0.035f; //NOT FINAL!!! Keep it this way pls.
@@ -57,6 +58,8 @@ public class Constants {
                 public static final int ENEMY_INDEX_RABBIT = 1;
                 public static final int ENEMY_INDEX_WOLF = 2;
                 public static final int ENEMY_INDEX_HORSE = 3;
+                public static final int ENEMY_INDEX_TREE = 4;
+
             }
         }
     }
@@ -88,6 +91,7 @@ public class Constants {
             public static final String RABBIT_SPRITE_PNG = "rabbit_sprite.png";
             public static final String HORSE_SPRITE_PNG = "horse_sprite.png"; //TODO ИЗМЕНИТЬ!!!!!
 
+            public static final String TREE_SPRITE_PNG = "tree_sprite.png";
 
             public static final class RABBIT{
                 public static final int RABBIT_VIEW_RANGE = TILE_SIZE_DEFAULT * 5;

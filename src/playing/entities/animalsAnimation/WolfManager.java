@@ -3,7 +3,7 @@ package playing.entities.animalsAnimation;
 import playing.PlayingInterface;
 import playing.PlayingKeyListenerInterface;
 import playing.PlayingMouseListenerInterface;
-import playing.entities.statics.EntityIslandManager;
+import playing.entities.EntityIslandManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

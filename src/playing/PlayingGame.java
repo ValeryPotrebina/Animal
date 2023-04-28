@@ -1,9 +1,10 @@
 package playing;
 
 import gamestates.GamePanelInterface;
+import playing.entities.EntityIslandManager;
 import playing.entities.animalsAnimation.WolfManager;
 import playing.entities.dynamics.EnemyManager;
-import playing.entities.statics.EntityIslandManager;
+import playing.entities.statics.ObjectManager;
 import playing.island.Island;
 import playing.island.IslandManager;
 
@@ -19,6 +20,7 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
     private WolfManager wolfManager;
     EntityIslandManager entityIslandManager;
     private Island island;
+    ObjectManager objectManager;
     EnemyManager enemyManager;
     private int lvlOffsetX, lvlOffsetY;
     private int maxLvlOffsetX, maxLvlOffsetY;
@@ -33,8 +35,11 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
         island = islandManager.getIsland();
         wolfManager = new WolfManager(entityIslandManager);
         enemyManager = new EnemyManager(entityIslandManager, island);
+        objectManager = new ObjectManager(island);
         calcLvlOffset();
     }
+
+
     private void calcLvlOffset() {
         maxLvlOffsetX = islandManager.getLvlOffSetX();
         maxLvlOffsetY = islandManager.getLvlOffSetY();
@@ -92,6 +97,7 @@ public class PlayingGame implements GamePanelInterface, PlayingMouseListenerInte
     public void draw(Graphics g, float scale) {
         this.scale = scale;
         islandManager.draw(g, scale, lvlOffsetX, lvlOffsetY);
+        objectManager.draw(g, scale, lvlOffsetX, lvlOffsetY);
         wolfManager.draw(g, scale, lvlOffsetX, lvlOffsetY);
         enemyManager.draw(g, scale, lvlOffsetX, lvlOffsetY);
     }
