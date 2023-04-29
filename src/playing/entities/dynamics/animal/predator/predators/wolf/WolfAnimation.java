@@ -48,8 +48,8 @@ public class WolfAnimation extends AnimalAnimation{
         updateAnimationTick();
     }
     private void updateAnimationBox() {
-        boolean right = wolf.getWolfMove().isRight();
-        boolean left = wolf.getWolfMove().isLeft();
+        boolean right = wolf.getAnimalMove().isRight();
+        boolean left = wolf.getAnimalMove().isLeft();
         BufferedImage bufferedImage = animations[animationState.ordinal()][aniIndex];
         if (left) {
             flipW = 1;

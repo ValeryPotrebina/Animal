@@ -1,29 +1,21 @@
 package playing.entities.dynamics.animal.predator.predators.wolf;
 
-import playing.PlayingInterface;
 import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
+import playing.entities.dynamics.animal.animalModules.AnimalMove;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
+import static Constants.Constants.Animal.Speed.WOLF_SPEED;
 import static Constants.Constants.GameConstants.GRAVITY;
 import static Constants.Constants.GameConstants.TEMP_GRAVITY;
 
-public class WolfMove implements PlayingInterface {
+public class WolfMove extends AnimalMove {
     final Wolf wolf;
-
-
-    private boolean left, right, jump, fall;
-    private boolean onFloor;
-    private float speedJump = -2.65f + GRAVITY;
-
-    private final float speedWalk = 0.5f;
-    private float ySpeed = 0;
-    private float xSpeed = 0;
-
     public WolfMove(Wolf wolf) {
+        super(WOLF_SPEED);
         this.wolf = wolf;
     }
 
@@ -38,74 +30,77 @@ public class WolfMove implements PlayingInterface {
     }
 
     private void updatePos() {
-        if (jump) {
-            if (onFloor) {
-                onFloor = false;
+        verticalMovement();
+        horizontalMovement();
+    }
+    private void verticalMovement(){
+        if (jump){ //  если игрок прыгает
+            if (onFloor){ // если он еще на полу
+                setOnFloor(false); // сделать так, что он не на полу
                 ySpeed = speedJump;
             }
-            if (TEMP_GRAVITY == 0.0f)
+            if (TEMP_GRAVITY == 0.0f){
                 GRAVITY = TEMP_GRAVITY;
+            }
         }
-        if (left)
-            xSpeed += speedWalk; //ИСПРАВИТЬ
-        if (right)
-            xSpeed -= speedWalk; //ИСПРАВИТЬ
         if (fall) {
             ySpeed = 1.5f;
             GRAVITY = 0.035f;
         }
-        if (onFloor) {
-            if (!wolf.isPlayerOnFloor())
-                onFloor = false;
-        } else {
-            Rectangle2D.Double oldHitBox = wolf.getHitBox();
-            Rectangle2D.Double newHitBox = new Rectangle2D.Double(
-                    oldHitBox.x,
-                    oldHitBox.y + ySpeed,
-                    oldHitBox.width,
-                    oldHitBox.height
-            );
-            if (wolf.canMoveHere(newHitBox)) {
-                updateYPos(ySpeed);
-                if (ySpeed > 0) {
-                    wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
-                } else if (ySpeed < 0) {
-                    wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
-                } else {
-                    wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
-                }
-                ySpeed += GRAVITY;
+
+        if (onFloor) { // если на полу
+            if (!wolf.isPlayerOnFloor()) // а на самом деле не на полу
+                setOnFloor(false); // то сделать на полу
+        } else {  // если в воздухе
+            Rectangle2D.Double newHitBox = getNewHitBoxY();
+            if (wolf.canMoveHere(getNewHitBoxY())) { //если вок может пройти здесь
+                updateYPos();
+                setWolfStateMovingVert();
+                ySpeed += GRAVITY; //гравитация, которая давит вниз
             } else {
-                if (ySpeed > 0) {
-                    onFloor = true;
+                if (ySpeed >= 0) {
+                    setOnFloor(true);
                     wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
                 }
                 ySpeed = 0;
             }
         }
-
-        Rectangle2D.Double oldHitBox = wolf.getHitBox();
-        Rectangle2D.Double newHitBox = new Rectangle2D.Double(
-                oldHitBox.x + xSpeed, oldHitBox.y,
-                oldHitBox.width, oldHitBox.height);
-        //справлено!!!!!!!!!!!
-        if (wolf.canMoveHere(newHitBox)) {
-            updateXPos(xSpeed);
+    }
+    private void horizontalMovement(){
+        if (left)
+            xSpeed += speedWalk; //ИСПРАВИТЬ
+        if (right)
+            xSpeed -= speedWalk;
+        if (wolf.canMoveHere(getNewHitBoxX())){
+            updateXPos();
         } else {
             changeWalkDir();
         }
-        if (xSpeed == 0) {
+        setWolfStateMovingHor();
+        xSpeed = 0;
+    }
+    private void setWolfStateMovingHor() {
+        if (xSpeed == 0){
             if (wolf.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.RUNNING) {
                 wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
             }
         } else {
+            if (wolf.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.DEAD){
+                speedWalk = 0;
+            }
             if (wolf.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
                 wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
             }
         }
-        xSpeed = 0;
     }
-
+    private void setWolfStateMovingVert(){
+        if (ySpeed > 0) //если двигается вниз
+            wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.FALLING);
+        else if (ySpeed < 0)
+            wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.JUMP);
+        else
+            wolf.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.IDLE);
+    }
     private void changeWalkDir() {
         if (left) {
             left = false;
@@ -141,38 +136,36 @@ public class WolfMove implements PlayingInterface {
             right = true;
         } else if (wolf.wherePlayerX(wolf, otherAnimal) < 0) {
             left = true;
+        } else {
+
         }
     }
-
-    private void updateXPos(double xSpeed) {
+    private Rectangle2D.Double getNewHitBoxY(){
+        Rectangle2D.Double oldHitBox = wolf.getHitBox();
+        return new Rectangle2D.Double(
+                oldHitBox.x,
+                oldHitBox.y + ySpeed,
+                oldHitBox.width,
+                oldHitBox.height
+        );
+    }
+    private Rectangle2D.Double getNewHitBoxX(){
+        Rectangle2D.Double oldHitBox = wolf.getHitBox();
+        return new Rectangle2D.Double(
+                oldHitBox.x + xSpeed,
+                oldHitBox.y,
+                oldHitBox.width,
+                oldHitBox.height
+        );
+    }
+    private void updateXPos() {
         wolf.setX(wolf.getX() + xSpeed);
     }
 
-    private void updateYPos(double ySpeed) {
+    private void updateYPos() {
         wolf.setY(wolf.getY() + ySpeed);
     }
 
-    public boolean isLeft() {
-        return left;
-    }
 
-    public boolean isRight() {
-        return right;
-    }
 
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
-
-    public void setRight(boolean right) {
-        this.right = right;
-    }
-
-    public void setJump(boolean jump) {
-        this.jump = jump;
-    }
-
-    public void setFall(boolean fall) {
-        this.fall = fall;
-    }
 }

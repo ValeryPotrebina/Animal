@@ -147,16 +147,16 @@ public class Constants {
         }
 
         public static final class Speed{
-            public static final int WOLF_SPEED = 3;
-            public static final int FOX_SPEED = 2;
-            public static final int BEAR_SPEED = 2;
-            public static final int EAGLE_SPEED = 3;
-            public static final int RABBIT_SPEED = 2;
-            public static final int HORSE_SPEED = 4;
-            public static final int MOUSE_SPEED = 2;
-            public static final int GOAT_SPEED = 3;
-            public static final int SHEEP_SPEED = 3;
-            public static final int DUCK_SPEED = 4;
+            public static final float WOLF_SPEED = 0.75f;
+            public static final float FOX_SPEED = 2;
+            public static final float BEAR_SPEED = 2;
+            public static final float EAGLE_SPEED = 3;
+            public static final float RABBIT_SPEED = 0.15f;
+            public static final float HORSE_SPEED = 0.65f;
+            public static final float MOUSE_SPEED = 2;
+            public static final float GOAT_SPEED = 3;
+            public static final float SHEEP_SPEED = 3;
+            public static final float DUCK_SPEED = 4;
         }
 
         public static final class SaturationKilos{

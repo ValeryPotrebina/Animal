@@ -28,7 +28,7 @@ public class Horse extends Herbivore implements PlayingInterface{
 
     private void initModules(){
         //hungerModule = new
-        stateAnimal = new StateAnimal(HORSE_WEIGHT, HORSE_SATURATION, HORSE_SPEED, HORSE_COUNT, HORSE_RANGE);
+        stateAnimal = new StateAnimal(HORSE_WEIGHT, HORSE_SATURATION, HORSE_COUNT, HORSE_RANGE);
         speciesOfAnimal = SpeciesOfAnimal.HORSE;
         horseMove = new HorseMove(this);
         animalAnimation = new HorseAnimation(this);

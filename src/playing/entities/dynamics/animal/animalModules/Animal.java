@@ -18,6 +18,7 @@ public abstract class Animal extends DynamicEntity {
     protected boolean isHungry;
     protected AnimalAnimation animalAnimation;
     protected AnimalHealth animalHealth;
+    protected AnimalMove animalMove;
     public Animal(double x, double y, double width, double height) {
         super(x, y, width, height);
         initModules();
@@ -66,4 +67,7 @@ public abstract class Animal extends DynamicEntity {
         return animalAnimation;
     }
 
+    public AnimalMove getAnimalMove() {
+        return animalMove;
+    }
 }

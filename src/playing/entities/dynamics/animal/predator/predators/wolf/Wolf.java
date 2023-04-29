@@ -17,22 +17,21 @@ import static Constants.Constants.Animal.Speed.WOLF_SPEED;
 import static Constants.Constants.Animal.Weight.WOLF_WEIGHT;
 
 public class Wolf extends Predator implements PlayingInterface {
-    private WolfMove wolfMove;
     private WolfEat wolfEat;
     private WolfHealth wolfHealth;
     int num;
     public Wolf(double x, double y, int num){
         super(x, y, 83, 53);
-        setHitBoxTexture(x - 26, y - 9, 72, 32);
+        setHitBoxTexture(x - 20, y + 10, 20, 25); //кушац
         this.num = num;
         initModules();
     }
 
     private void initModules(){
         hungerModule = new WolfHungerModule(WOLF_SATURATION, this);
-        stateAnimal = new StateAnimal(WOLF_WEIGHT, WOLF_SATURATION, WOLF_SPEED, WOLF_COUNT, WOLF_RANGE);
+        stateAnimal = new StateAnimal(WOLF_WEIGHT, WOLF_SATURATION, WOLF_COUNT, WOLF_RANGE);
         speciesOfAnimal = SpeciesOfAnimal.WOLF;
-        wolfMove = new WolfMove(this);
+        animalMove = new WolfMove(this);
         animalAnimation = new WolfAnimation(this);
         wolfEat = new WolfEat(this);
         wolfHealth = new WolfHealth(this);
@@ -71,14 +70,11 @@ public class Wolf extends Predator implements PlayingInterface {
 
     @Override
     public void update() {
-        wolfMove.update();
+        animalMove.update();
         animalAnimation.update();
         wolfEat.update();
     }
 
-    public WolfMove getWolfMove() {
-        return wolfMove;
-    }
 
 //    public WolfAnimation getWolfAnimation() {
 //        return wolfAnimation;

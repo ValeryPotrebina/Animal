@@ -29,7 +29,7 @@ public class Rabbit extends Herbivore implements PlayingInterface, ProbabilityOf
 
     private void initModules(){
         hungerModule = new WolfHungerModule(RABBIT_SATURATION, this);
-        stateAnimal = new StateAnimal(RABBIT_WEIGHT, RABBIT_SATURATION, RABBIT_SPEED, RABBIT_COUNT, RABBIT_RANGE);
+        stateAnimal = new StateAnimal(RABBIT_WEIGHT, RABBIT_SATURATION, RABBIT_COUNT, RABBIT_RANGE);
         speciesOfAnimal = SpeciesOfAnimal.RABBIT;
         rabbitMove = new RabbitMove(this);
         animalAnimation = new RabbitAnimation(this);

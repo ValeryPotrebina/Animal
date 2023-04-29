@@ -80,7 +80,7 @@ public class RabbitMove implements PlayingInterface {
             }
         } else {
             if (rabbit.getAnimalAnimation().getAnimationState() == AnimalAnimation.AnimationState.IDLE) {
-                rabbit.getAnimalAnimation().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
+                rabbit.getAnimalAnimation ().setAnimationState(AnimalAnimation.AnimationState.RUNNING);
             }
         }
         xSpeed = 0;

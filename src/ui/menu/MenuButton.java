@@ -38,7 +38,7 @@ public class MenuButton extends Button {
     @Override
     public void update() {
         stateButton = ON;
-        if (isMouseOver){
+        if (isMouseOver){ 
             stateButton = OVER;
         }
         if (isMousePressed){
