@@ -2,6 +2,8 @@ package playing.entities.dynamics.animal.animalModules;
 
 import playing.PlayingInterface;
 
+import java.awt.geom.Rectangle2D;
+
 import static Constants.Constants.GameConstants.GRAVITY;
 
 public abstract class AnimalMove implements PlayingInterface {
@@ -11,11 +13,12 @@ public abstract class AnimalMove implements PlayingInterface {
 
     protected float speedWalk;
     protected float ySpeed;
-    protected float xSpeed;
+    public float xSpeed;
 
     protected AnimalMove(float speedWalk) {
         this.speedWalk = speedWalk;
     }
+
 
     public boolean isLeft() {
         return left;

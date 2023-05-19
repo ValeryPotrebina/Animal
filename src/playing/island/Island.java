@@ -5,6 +5,7 @@ import playing.PlayingInterface;
 import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.herbivore.herbivores.horses.Horse;
 import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.Rabbit;
+import playing.entities.dynamics.animal.plant.plants.sunflower.Sunflower;
 import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
 import playing.entities.statics.Tree;
 
@@ -164,6 +165,19 @@ public class Island implements PlayingInterface {
         }
         return trees;
     }
+    public ArrayList<Sunflower> getSunflowers() {
+        ArrayList<Sunflower> sunflowers = new ArrayList<>();
+        for (int j = 0; j < islandImg.getHeight(); j++){
+            for (int i = 0; i < islandImg.getWidth(); i++) {
+                Color color = new Color(islandImg.getRGB(i, j));
+                int value = color.getGreen(); //todo 4
+                if (value == ENEMY_INDEX_SUNFLOWER){ //todo OBJECT
+                    sunflowers.add(new Sunflower(i * TILE_SIZE_DEFAULT, j * TILE_SIZE_DEFAULT));
+                }
+            }
+        }
+        return sunflowers;
+    }
     public ArrayList<Animal> getAnimals() {
         return animals;
     }
@@ -179,4 +193,6 @@ public class Island implements PlayingInterface {
     public int getMaxLvlOffsetY() {
         return maxLvlOffsetY;
     }
+
+
 }

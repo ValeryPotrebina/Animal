@@ -1,12 +1,12 @@
 package playing.entities.dynamics.animal.predator.predators.wolf;
 
-public class WolfHealth {
-    final Wolf wolf;
+import playing.entities.dynamics.animal.animalModules.Animal;
+import playing.entities.dynamics.animal.animalModules.AnimalHealth;
+
+public class WolfHealth extends AnimalHealth {
     private final int maxHealth = 100;
-    public WolfHealth(Wolf wolf){
-        this.wolf = wolf;
+
+    public WolfHealth(Animal animal) {
+        super(animal);
     }
-//    public void attackWolf(){
-//        wolf.getWolfAnimation().setAnimationState(AnimalAnimation.AnimationState.DEAD);
-//    }
 }

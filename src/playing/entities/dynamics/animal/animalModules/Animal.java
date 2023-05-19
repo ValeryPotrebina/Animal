@@ -33,7 +33,11 @@ public abstract class Animal extends DynamicEntity {
     }
 
     public abstract boolean isEatable(Animal animal);
+
     public abstract int getProbabilityOfEating(Animal animal);
+    public void eatEnemy() {
+        animalHealth.eatEnemy();
+    }
 
     public HungerModule getHungerModule() {
         return hungerModule;
@@ -59,9 +63,6 @@ public abstract class Animal extends DynamicEntity {
         return isHungry;
     }
 
-    public void eatEnemy() {
-        animalHealth.eatEnemy();
-    }
 
     public AnimalAnimation getAnimalAnimation() {
         return animalAnimation;

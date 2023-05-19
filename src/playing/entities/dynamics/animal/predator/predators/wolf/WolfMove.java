@@ -1,5 +1,6 @@
 package playing.entities.dynamics.animal.predator.predators.wolf;
 
+import playing.entities.EntityIslandManager;
 import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.animalModules.AnimalAnimation;
 import playing.entities.dynamics.animal.animalModules.AnimalMove;
@@ -52,7 +53,6 @@ public class WolfMove extends AnimalMove {
             if (!wolf.isPlayerOnFloor()) // а на самом деле не на полу
                 setOnFloor(false); // то сделать на полу
         } else {  // если в воздухе
-            Rectangle2D.Double newHitBox = getNewHitBoxY();
             if (wolf.canMoveHere(getNewHitBoxY())) { //если вок может пройти здесь
                 updateYPos();
                 setWolfStateMovingVert();
@@ -112,16 +112,19 @@ public class WolfMove extends AnimalMove {
             left = true;
         }
     }
-
+    //бежать к добыче
+    //убегать от того кто может съесть
+    //
     private void checkEnvironment() {
-        List<Animal> seenAnimals = wolf.getSeenAnimals(wolf);
-        if (seenAnimals != null && seenAnimals.size() != 0) {
-            List<Animal> eatenAnimals = wolf.getEatenAnimals(wolf, seenAnimals);
-            if (eatenAnimals != null && eatenAnimals.size() != 0) {
-                Animal otherAnimal = wolf.chooseOneAnimalWhichCanEat(eatenAnimals);
-                turnTowardsPlayer(otherAnimal);
-            }
-        } else if (!right && !left) {
+//        List<Animal> seenAnimals = wolf.getSeenAnimals(wolf);
+//        if (seenAnimals != null && seenAnimals.size() != 0) {
+//            List<Animal> eatenAnimals = wolf.getEatenAnimals(wolf, seenAnimals);
+//            if (eatenAnimals != null && eatenAnimals.size() != 0) {
+//                Animal otherAnimal = wolf.chooseOneAnimalWhichCanEat(eatenAnimals);
+//                turnTowardsPlayer(otherAnimal);
+                  //wolf.eatEnemyAnimal(wolf.getHitBoxTexture());
+//            }
+        /*} else */if (!right && !left) {
             left = true;
         } else {
 //            setJump(false);

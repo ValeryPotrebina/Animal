@@ -29,6 +29,7 @@ public class Constants {
         public static final float ANI_SPEED_ENEMY_WOLF = 15*2;
         public static final float ANI_SPEED_ENEMY_HORSE = 23;
         public static final float ANI_SPEED_ENEMY_TREE = 30;
+        public static final float ANI_SPEED_ENEMY_SUNFLOWER = 15*2;
 
 
         public static float GRAVITY = 0.035f; //NOT FINAL!!! Keep it this way pls.
@@ -59,6 +60,7 @@ public class Constants {
                 public static final int ENEMY_INDEX_WOLF = 2;
                 public static final int ENEMY_INDEX_HORSE = 3;
                 public static final int ENEMY_INDEX_TREE = 4;
+                public static final int ENEMY_INDEX_SUNFLOWER = 5;
 
             }
         }
@@ -90,8 +92,9 @@ public class Constants {
             public static final String ENTITY_LOCATION_TEXTURES = "entity";
             public static final String RABBIT_SPRITE_PNG = "rabbit_sprite.png";
             public static final String HORSE_SPRITE_PNG = "horse_sprite.png"; //TODO ИЗМЕНИТЬ!!!!!
-
             public static final String TREE_SPRITE_PNG = "tree_sprite.png";
+            public static final String SUNFLOWER_SPRITE_PNG = "sunflower_sprite.png";
+
 
             public static final class RABBIT{
                 public static final int RABBIT_VIEW_RANGE = TILE_SIZE_DEFAULT * 5;
@@ -112,6 +115,7 @@ public class Constants {
         }
         public static final class Weight{
             public static final int WOLF_WEIGHT = 50;
+            public static final float SUNFLOWER_WEIGHT = 0.5f;
             public static final int FOX_WEIGHT = 8;
             public static final int BEAR_WEIGHT = 500;
             public static final int EAGLE_WEIGHT = 6;
@@ -128,6 +132,7 @@ public class Constants {
 
         public static final class MaxCountOnTheSameCell{
             public static final int WOLF_COUNT = 5;
+            public static final int SUNFLOWER_COUNT = 10;
             public static final int FOX_COUNT = 5;
             public static final int BEAR_COUNT = 3;
             public static final int EAGLE_COUNT = 7;
@@ -140,6 +145,8 @@ public class Constants {
         }
         public static final class Range{
             public static final int WOLF_RANGE = 10 * TILE_SIZE_DEFAULT;
+            public static final int SUNFLOWER_RANGE = 10 * TILE_SIZE_DEFAULT;
+
             public static final int RABBIT_RANGE = 10 * TILE_SIZE_DEFAULT;
             public static final int HORSE_RANGE = 10 * TILE_SIZE_DEFAULT;
 
@@ -148,6 +155,7 @@ public class Constants {
 
         public static final class Speed{
             public static final float WOLF_SPEED = 0.75f;
+            public static final float SUNFLOWER_SPEED = 0;
             public static final float FOX_SPEED = 2;
             public static final float BEAR_SPEED = 2;
             public static final float EAGLE_SPEED = 3;
@@ -161,6 +169,7 @@ public class Constants {
 
         public static final class SaturationKilos{
             public static final int WOLF_SATURATION = 8;
+            public static final int SUNFLOWER_SATURATION = 0;
             public static final int FOX_SATURATION = 2;
             public static final int BEAR_SATURATION = 80;
             public static final int EAGLE_SATURATION = 1;

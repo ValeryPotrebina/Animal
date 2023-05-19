@@ -1,5 +1,5 @@
 package playing.entities.dynamics.animal.characteristics;
 
 public enum SpeciesOfAnimal {
-    WOLF, FOX, BEAR, EAGLE, RABBIT, MOUSE, HORSE
+    WOLF, FOX, BEAR, EAGLE, RABBIT, MOUSE, HORSE, SUNFLOWER
 }

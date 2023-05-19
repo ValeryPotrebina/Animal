@@ -13,12 +13,10 @@ import java.util.Random;
 import static Constants.Constants.Animal.MaxCountOnTheSameCell.WOLF_COUNT;
 import static Constants.Constants.Animal.Range.WOLF_RANGE;
 import static Constants.Constants.Animal.SaturationKilos.WOLF_SATURATION;
-import static Constants.Constants.Animal.Speed.WOLF_SPEED;
 import static Constants.Constants.Animal.Weight.WOLF_WEIGHT;
 
 public class Wolf extends Predator implements PlayingInterface {
     private WolfEat wolfEat;
-    private WolfHealth wolfHealth;
     int num;
     public Wolf(double x, double y, int num){
         super(x, y, 83, 53);
@@ -34,7 +32,7 @@ public class Wolf extends Predator implements PlayingInterface {
         animalMove = new WolfMove(this);
         animalAnimation = new WolfAnimation(this);
         wolfEat = new WolfEat(this);
-        wolfHealth = new WolfHealth(this);
+        animalHealth = new WolfHealth(this);
     }
 
 
@@ -43,15 +41,18 @@ public class Wolf extends Predator implements PlayingInterface {
         //todo if random == 0?
         int random = new Random().nextInt(100);
         int probability = this.getProbabilityOfEating(animal);
-        System.out.println(this + " CAN EAT " + animal + "--> \n random - " + random + "\n probability - " + probability);
+        System.out.println(this + " CAN EAT " + animal + " --> \n random - " + random + "\n probability - " + probability );
+        System.out.println(random < probability);
         return random < probability;
     }
     @Override
     public int getProbabilityOfEating(Animal animal) {
         switch (animal.getSpeciesOfAnimal()){
             case RABBIT:
-                return 80;
+                return 3;
             case HORSE:
+                return 3;
+            case SUNFLOWER:
                 return 20;
             case WOLF:
             default:
@@ -63,9 +64,9 @@ public class Wolf extends Predator implements PlayingInterface {
     @Override
     public void draw(Graphics g, float scale, int x, int y) {
         animalAnimation.draw(g, scale, x, y);
-        //drawHitBox(g, scale, x, y);
+        drawHitBox(g, scale, x, y);
         drawHitBoxTexture(g, scale, x, y);
-        //wolfEat.draw(g, scale, x, y);
+        wolfEat.draw(g, scale, x, y);
     }
 
     @Override
@@ -74,14 +75,6 @@ public class Wolf extends Predator implements PlayingInterface {
         animalAnimation.update();
         wolfEat.update();
     }
-
-
-//    public WolfAnimation getWolfAnimation() {
-//        return wolfAnimation;
-//    }
-//     public void attackWolf() {
-//        wolfHealth.attackWolf();
-//    }  //Нахуй не нужен
 
     @Override
     public String toString() {

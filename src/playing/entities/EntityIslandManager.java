@@ -91,7 +91,7 @@ public class EntityIslandManager {
                     if (isPlayerInRange(animal, otherAnimal)) {
                         if (IsSightClear(lvlData, hitBox, playerHitBox, enemyTileY)) {
 //                                if (canEatAnimal(animal, otherAnimal)){
-                            System.out.println(animal + " CAN SEE " + otherAnimal);
+                           // System.out.println(animal + " CAN SEE " + otherAnimal);
                             seenAnimals.add(otherAnimal);
 //                            }
                         }
@@ -120,6 +120,7 @@ public class EntityIslandManager {
         return animals.get(0);
     }
     //canEatAnimal - определяем можно ли есть другого животного
+    @Deprecated
     public boolean canEatAnimal(Animal animal){
         if (!animal.isSameAnimal(otherAnimal)){ //если животные разных типов
             if (animal.isEatable(otherAnimal)){ //если вероятность поедания животного совпала
@@ -129,6 +130,7 @@ public class EntityIslandManager {
         }
         return false;
     }
+    @Deprecated
     public boolean canSeeAnyone(Animal animal) { //хитбокс и зрение и кучу методов для проверки
         //todo изменить animals на private переменную
         //волк видит кого-то         (найти кого он видит)
@@ -161,7 +163,7 @@ public class EntityIslandManager {
     public int wherePlayerX(Animal animal, Animal otherAnimal) {
         Rectangle2D.Double animalHitBox = animal.getHitBox();
         Rectangle2D.Double otherAnimalHitBox = otherAnimal.getHitBox();
-        System.out.println("DESTINATION BETWEEN " + animal + " AND " + otherAnimal + " = " + (int) (otherAnimalHitBox.x - animalHitBox.x));
+        //System.out.println("DESTINATION BETWEEN " + animal + " AND " + otherAnimal + " = " + (int) (otherAnimalHitBox.x - animalHitBox.x));
         return (int) (otherAnimalHitBox.x - animalHitBox.x);
     }
     public static boolean isPlayerInRange(Animal animal, Animal otherAnimal) { //зона видимости/реагирования игрока
@@ -194,28 +196,21 @@ public class EntityIslandManager {
                 return false;
         return true;
     }
-    public void eatAnimal( ) {
-        //playingGame.eatAnimal();
-        //playerAnimation.setAnimationState(PlayerAnimation.AnimationState.DEAD);
-    }
 
 
 
 
-    //////////////////////////////////////////////
+
+
     public void eatEnemy(Rectangle2D.Double attackBox){
-
         playingGame.eatEnemy(attackBox);
     }
-    //////////////////////////////////////////////
 
-    public boolean checkPlayerHit(Rectangle2D.Double attackBox) {
-        Rectangle2D.Double playerHitBox = otherAnimal.getHitBox();
-        return attackBox.intersects(playerHitBox);
+
+    public boolean checkPlayerHit(Rectangle2D.Double animalAttackBox, Rectangle2D.Double otherAnimalHitBox) {
+        return animalAttackBox.intersects(otherAnimalHitBox);
     }
-//    public void attackEnemy(Rectangle2D.Double attackBox) {
-//        playingGame.attackEnemy(attackBox);
-//    }
+
 
     public Animal getOtherAnimal() {
         return otherAnimal;

@@ -4,6 +4,7 @@ import playing.PlayingInterface;
 import playing.entities.dynamics.animal.animalModules.Animal;
 import playing.entities.dynamics.animal.herbivore.herbivores.horses.Horse;
 import playing.entities.dynamics.animal.herbivore.herbivores.rabbits.Rabbit;
+import playing.entities.dynamics.animal.plant.plants.sunflower.Sunflower;
 import playing.entities.dynamics.animal.predator.predators.wolf.Wolf;
 import playing.entities.EntityIslandManager;
 import playing.island.Island;
@@ -19,8 +20,7 @@ public class EnemyManager implements PlayingInterface {
     private ArrayList<Rabbit> rabbits;
     private ArrayList<Wolf> wolves;
     private ArrayList<Horse> horses;
-
-
+    private ArrayList<Sunflower> sunflowers;
 
     public EnemyManager(EntityIslandManager entityIslandManager, Island island) {
         this.entityIslandManager = entityIslandManager;
@@ -31,6 +31,7 @@ public class EnemyManager implements PlayingInterface {
         rabbits = island.getRabbits();
         wolves = island.getWolves();
         horses = island.getHorses();
+        sunflowers = island.getSunflowers();
         for (Rabbit rabbit : rabbits){
             rabbit.setEnemyManager(this);
         }
@@ -39,6 +40,9 @@ public class EnemyManager implements PlayingInterface {
         }
         for (Horse horse : horses){
             horse.setEnemyManager(this);
+        }
+        for (Sunflower sunflower : sunflowers){
+            sunflower.setEnemyManager(this);
         }
     }
 
@@ -56,6 +60,11 @@ public class EnemyManager implements PlayingInterface {
         for (Horse horse : horses) {
             if (horse.isActive()) { //isActive ? What is that
                 horse.update();
+            }
+        }
+        for (Sunflower sunflower : sunflowers) {
+            if (sunflower.isActive()) { //isActive ? What is that
+                sunflower.update();
             }
         }
     }
@@ -76,6 +85,11 @@ public class EnemyManager implements PlayingInterface {
                 horse.draw(g, scale, lvlOffsetX, lvlOffsetY);
             }
         }
+        for (Sunflower sunflower : sunflowers) {
+            if (sunflower.isActive()) { //isActive ? What is that
+                sunflower.draw(g, scale, lvlOffsetX, lvlOffsetY);
+            }
+        }
     }
 
     private ArrayList<Animal> uploadAnimals(){ //мб надо поменять, нулпоинтерэкс
@@ -83,6 +97,7 @@ public class EnemyManager implements PlayingInterface {
         animals.addAll(rabbits);
         animals.addAll(wolves);
         animals.addAll(horses);
+        animals.addAll(sunflowers);
         return animals;
     }
 
@@ -115,12 +130,10 @@ public class EnemyManager implements PlayingInterface {
     public boolean canEatAnimal(Animal animal){
         return entityIslandManager.canEatAnimal(animal);
     }
-    public void eatAnimal() {
-        entityIslandManager.eatAnimal();
-    }
 
-    public boolean checkPlayerHit(Rectangle2D.Double attackBox) {
-        return entityIslandManager.checkPlayerHit(attackBox);
+
+    public boolean checkPlayerHit(Rectangle2D.Double animalAttackBox, Rectangle2D.Double otherAnimalHitBox) {
+        return entityIslandManager.checkPlayerHit(animalAttackBox, otherAnimalHitBox);
     }
 
     public List<Animal> getSeenAnimals(Animal animal) {
@@ -132,17 +145,7 @@ public class EnemyManager implements PlayingInterface {
     public Animal chooseOneAnimalWhichCanEat(List<Animal> animals){
         return entityIslandManager.chooseOneAnimalWhichCanEat(animals);
     }
-//    public void attackEnemy(Rectangle2D.Double attackBox) {
-//        for (Wolf wolf : wolves) {
-//            if (wolf.isActive()) {
-//                if (attackBox.intersects(wolf.getHitBox())) {
-//                    wolf.attackWolf();
-//                }
-//            }
-//        }
-//    }
 
-    /////////////////////////////
     public void eatEnemy(Rectangle2D.Double attackBox){
         ArrayList<Animal> animals = uploadAnimals();
         for (Animal animal : animals){
@@ -153,5 +156,4 @@ public class EnemyManager implements PlayingInterface {
             }
         }
     }
-    /////////////////////////////
 }

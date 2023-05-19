@@ -32,16 +32,17 @@ public abstract class DynamicEntity extends Entity {
     public int wherePlayerX(Animal animal, Animal otherAnimal) {
         return enemyManager.wherePlayerX(animal, otherAnimal);
     }
+    public void eatEnemyAnimal(Rectangle2D.Double attackBox){
+        enemyManager.eatEnemy(attackBox);
+    }
 
     public boolean canEatAnimal(Animal animal){
         return enemyManager.canEatAnimal(animal);
     }
-    public void eatAnimal() {
-        enemyManager.eatAnimal();
-    }
 
-    public boolean checkPlayerHit(Rectangle2D.Double attackBox) {
-        return enemyManager.checkPlayerHit(attackBox);
+
+    public boolean checkPlayerHit(Rectangle2D.Double animalAttackBox, Rectangle2D.Double otherAnimalHitBox) {
+        return enemyManager.checkPlayerHit(animalAttackBox, otherAnimalHitBox);
     }
     public List<Animal> getSeenAnimals(Animal animal) {
         return enemyManager.getSeenAnimals(animal);
